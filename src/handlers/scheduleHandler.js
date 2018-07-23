@@ -2,13 +2,10 @@ const axios = require('axios');
 const config = require('../../config/config.' + process.env.NODE_ENV);
 const handler = require('../handlers/handler');
 
-function loginAccount(apiToken, username, password) {
-  return axios.post('/account/login', {
-    username,
-    password
-  },{
+function getCustomerSchedules(accessToken) {
+  return axios.get('/customer/schedules', {
     headers: {
-      'api-token': apiToken
+      'access-token': accessToken
     }
   }).then(response => {
     response = handler(response);
@@ -16,5 +13,5 @@ function loginAccount(apiToken, username, password) {
   });
 }
 module.exports = {
-  loginAccount
+  getCustomerSchedules
 }

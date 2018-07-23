@@ -2,7 +2,11 @@
   <div id="app">
     <router-view/>
     apiToken : {{ apiToken }}
+    accessToken : {{ accessToken }}
     <br/>
+    <router-link to="/home">
+      home
+    </router-link>
     <br/>
     Errors : {{ errors }}
   </div>
@@ -13,6 +17,7 @@ import axios from 'axios';
 const handler = require('./handlers/handler');
 
 const accountHandler = require('./handlers/accountHandler');
+const scheduleHandler = require('./handlers/scheduleHandler');
 const tokenHandler = require('./handlers/tokenHandler');
 
 axios.defaults.baseURL = 'http://localhost:51051';
@@ -22,6 +27,7 @@ export default {
   data() {
     return {
       apiToken: '',
+      accessToken: '',
       errors: ''
     }
   },
@@ -32,6 +38,10 @@ export default {
       const username = 'hey';
       const password = 'heya';
       const loginAccount = await accountHandler.loginAccount(apiToken, username, password);
+      const accessToken = loginAccount.accessToken;
+
+      const getAllSchedules = await scheduleHandler.getCustomerSchedules(accessToken);
+      this.accessToken = accessToken;
     } catch (e) {
       this.errors = e;
     };
