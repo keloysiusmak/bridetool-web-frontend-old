@@ -1,13 +1,41 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <router-view/>
+    apiToken : {{ apiToken }}
+    <br/>
+    <br/>
+    Errors : {{ errors }}
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+const handler = require('./handlers/handler');
+
+const accountHandler = require('./handlers/accountHandler');
+const tokenHandler = require('./handlers/tokenHandler');
+
+axios.defaults.baseURL = 'http://localhost:51051';
+
 export default {
-  name: 'App'
+  name: 'App',
+  data() {
+    return {
+      apiToken: '',
+      errors: ''
+    }
+  },
+  async created() {
+    try {
+      const apiToken = await tokenHandler.getApiToken();
+      this.apiToken = apiToken;
+      const username = 'hey';
+      const password = 'heya';
+      const loginAccount = await accountHandler.loginAccount(apiToken, username, password);
+    } catch (e) {
+      this.errors = e;
+    };
+  }
 }
 </script>
 
