@@ -3,7 +3,7 @@ module.exports = (response) => {
 
   const allowedStatuses = [200, 201];
   if (!allowedStatuses.includes(data.status)) {
-    throw new {
+    throw {
       code: data.status,
       details: data.details,
     };

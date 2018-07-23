@@ -39,9 +39,12 @@ export default {
       const password = 'heya';
       const loginAccount = await accountHandler.loginAccount(apiToken, username, password);
       const accessToken = loginAccount.accessToken;
+      this.accessToken = accessToken;
+      accessToken.forEach((int) => {
+        test
+      });
 
       const getAllSchedules = await scheduleHandler.getCustomerSchedules(accessToken);
-      this.accessToken = accessToken;
     } catch (e) {
       this.errors = e;
     };

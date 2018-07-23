@@ -5,6 +5,7 @@
     "sourceType": "module"
   },
   "rules": {
-    "max-len": [2, 120, 8]
+    "max-len": [2, 120, 8],
+    "no-throw-literal": 0
   }
 }
