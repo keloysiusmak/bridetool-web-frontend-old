@@ -5,8 +5,8 @@ const handler = require('../handlers/handler');
 function getApiToken() {
   return axios.get('/auth/api/token', {
     headers: {
-      'api-key': config.developerKeys.apiKey
-    }
+      'api-key': config.developerKeys.apiKey,
+    },
   }).then(response => {
     response = handler(response);
     return response.result.apiToken;
@@ -14,5 +14,5 @@ function getApiToken() {
 }
 
 module.exports = {
-  getApiToken
+  getApiToken,
 };

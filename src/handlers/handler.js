@@ -3,11 +3,11 @@ module.exports = (response) => {
 
   const allowedStatuses = [200, 201];
   if (!allowedStatuses.includes(data.status)) {
-    throw {
+    throw new {
       code: data.status,
-      details: data.details
-    }
+      details: data.details,
+    };
   }
 
   return data;
-}
+};

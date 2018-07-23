@@ -1,22 +1,22 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from 'vue';
+import Router from 'vue-router';
 
-import Login from '@/components/Login'
-import Home from '@/components/Home'
+import Login from '@/components/Login';
+import Home from '@/components/Home';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
     },
     {
       path: '/home',
       name: 'Home',
-      component: Home
-    }
-  ]
-})
+      component: Home,
+    },
+  ],
+});
