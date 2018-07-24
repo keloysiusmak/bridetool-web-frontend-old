@@ -8,8 +8,9 @@
 
 <script>
 import axios from 'axios';
-const handler = require('./handlers/handler');
+import { mapState, mapMutations, mapGetters } from 'vuex';
 
+const handler = require('./handlers/handler');
 const scheduleHandler = require('./handlers/scheduleHandler');
 const tokenHandler = require('./handlers/tokenHandler');
 
@@ -17,9 +18,21 @@ axios.defaults.baseURL = 'http://localhost:51051';
 
 export default {
   name: 'App',
+  computed: {
+    ...mapState([
+      'safelyStoredNumber',
+      'change'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'increment',
+      'increment2'
+    ])
+  },
   data() {
     return {
-      errors: null,
+      errors: null
     }
   },
   async beforeCreate() {
@@ -32,6 +45,18 @@ export default {
     };
   },
   async created() {
+    console.log(this.safelyStoredNumber);
+    console.log(this.change);
+    const payload = {
+      safelyStoredNumber: 6
+    }
+    this.increment(payload);
+    const payload2 = {
+      change: 1
+    }
+    this.increment2(payload2);
+    console.log(this.safelyStoredNumber);
+    console.log(this.change);
     if (!localStorage.getItem('bridetoolAccessToken')) {
       this.$router.push('/login');
     }
