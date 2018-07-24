@@ -9,7 +9,7 @@ function getApiToken() {
     },
   }).then(response => {
     response = handler(response);
-    return response.result.apiToken;
+    return response.result;
   });
 }
 

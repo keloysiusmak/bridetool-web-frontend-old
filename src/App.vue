@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <router-view/>
-    apiToken : {{ apiToken }}
-    accessToken : {{ accessToken }}
-    <br/>
-    <router-link to="/home">
-      home
-    </router-link>
+    <router-view name="main"/>
     <br/>
     Errors : {{ errors }}
   </div>
@@ -16,7 +10,6 @@
 import axios from 'axios';
 const handler = require('./handlers/handler');
 
-const accountHandler = require('./handlers/accountHandler');
 const scheduleHandler = require('./handlers/scheduleHandler');
 const tokenHandler = require('./handlers/tokenHandler');
 
@@ -26,25 +19,22 @@ export default {
   name: 'App',
   data() {
     return {
-      apiToken: '',
-      accessToken: '',
-      errors: ''
+      errors: null,
     }
   },
-  async created() {
+  async beforeCreate() {
     try {
-      const apiToken = await tokenHandler.getApiToken();
-      this.apiToken = apiToken;
-      const username = 'hey';
-      const password = 'heya';
-      const loginAccount = await accountHandler.loginAccount(apiToken, username, password);
-      const accessToken = loginAccount.accessToken;
-      this.accessToken = accessToken;
-
-      const getAllSchedules = await scheduleHandler.getCustomerSchedules(accessToken);
+      const getApiToken = await tokenHandler.getApiToken();
+      localStorage.setItem('bridetoolApiToken', getApiToken.apiToken);
     } catch (e) {
+      console.log(e);
       this.errors = JSON.stringify(e);
     };
+  },
+  async created() {
+    if (!localStorage.getItem('bridetoolAccessToken')) {
+      this.$router.push('/login');
+    }
   }
 }
 </script>
