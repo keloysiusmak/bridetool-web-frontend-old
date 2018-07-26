@@ -5,30 +5,27 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 const persistedStateOptions = {
-  paths: ['safelyStoredNumber'],
+  paths: ['apiToken', 'accessToken'],
   key: 'bridetoolPersistedState'
 }
 
 export const store = new Vuex.Store({
   plugins: [createPersistedState(persistedStateOptions)],
   state: {
-    safelyStoredNumber: 0,
-    change: 1
-  },
-  getters: {
-    safelyStoredNumber: state => state.safelyStoredNumber,
-    storedNumberMatches(state) {
-      return matchNumber => {
-          return state.safelyStoredNumber === matchNumber;
-      }
-    }
+    apiToken: null,
+    accessToken: null,
   },
   mutations: {
-    increment(state, payload) {
-      state.safelyStoredNumber = payload.safelyStoredNumber;
-    },
-    increment2(state, payload) {
-      state.change += payload.change;
+    setTokens(state, payload) {
+      const payloadKeys = Object.keys(payload);
+
+
+      if (payloadKeys.includes('accessToken')) {
+        state.accessToken = payload.accessToken;
+      }
+      if (payloadKeys.includes('apiToken')) {
+        state.apiToken = payload.apiToken;
+      }
     }
   }
 });

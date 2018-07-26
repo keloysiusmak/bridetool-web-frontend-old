@@ -12,6 +12,7 @@
 
 <script>
 import router from '../router';
+import { mapState, mapMutations } from 'vuex'
 
 const accountHandler = require('../handlers/accountHandler');
 
@@ -20,16 +21,28 @@ export default {
   data () {
     return {
       username: 'hey',
-      password: 'heya',
-      apiToken: localStorage.getItem('bridetoolApiToken')
+      password: 'heya'
     }
   },
+  computed: {
+    ...mapState([
+      'apiToken',
+      'accessToken'
+    ])
+  },
   methods: {
+    ...mapMutations([
+      'setTokens'
+    ]),
     login: async function() {
       try {
         const loginAccount = await accountHandler.loginAccount(this.apiToken, this.username, this.password);
-        localStorage.setItem('bridetoolAccessToken', loginAccount.accessToken);
-        this.$router.push({ path: '/' });
+        if (loginAccount.accessToken) {
+          this.setTokens({
+            accessToken: loginAccount.accessToken
+          });
+          this.$router.push({ path: '/' });
+        }
       } catch (e) {
         console.log(e);
         this.errors = JSON.stringify(e);

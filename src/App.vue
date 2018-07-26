@@ -20,14 +20,13 @@ export default {
   name: 'App',
   computed: {
     ...mapState([
-      'safelyStoredNumber',
-      'change'
+      'apiToken',
+      'accessToken'
     ])
   },
   methods: {
     ...mapMutations([
-      'increment',
-      'increment2'
+      'setTokens'
     ])
   },
   data() {
@@ -35,31 +34,22 @@ export default {
       errors: null
     }
   },
-  async beforeCreate() {
+  async created() {
     try {
-      const getApiToken = await tokenHandler.getApiToken();
-      localStorage.setItem('bridetoolApiToken', getApiToken.apiToken);
+      if (!this.apiToken) {
+        const getApiToken = await tokenHandler.getApiToken();
+        this.setTokens({
+          apiToken: getApiToken.apiToken
+        });
+      }
+
+      if (!this.accessToken) {
+        this.$router.push('/login');
+      }
     } catch (e) {
       console.log(e);
       this.errors = JSON.stringify(e);
     };
-  },
-  async created() {
-    console.log(this.safelyStoredNumber);
-    console.log(this.change);
-    const payload = {
-      safelyStoredNumber: 6
-    }
-    this.increment(payload);
-    const payload2 = {
-      change: 1
-    }
-    this.increment2(payload2);
-    console.log(this.safelyStoredNumber);
-    console.log(this.change);
-    if (!localStorage.getItem('bridetoolAccessToken')) {
-      this.$router.push('/login');
-    }
   }
 }
 </script>
