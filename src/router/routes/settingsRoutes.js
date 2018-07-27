@@ -7,24 +7,24 @@ import MainTest from '@/components/main/Test';
 
 import NavDashboard from '@/components/nav/Dashboard';
 
-import SidebarDashboard from '@/components/sidebar/Dashboard';
+import SidebarSettings from '@/components/sidebar/Settings';
 
 export default [
   {
-    path: '/',
-    component: Layout,
+    path: '/settings',
     meta: {
       requiresAuth: true
     },
+    component: Layout,
     children: [
       {
         path: '/',
         components: {
-          main: MainDashboard,
+          main: MainTest,
           nav: NavDashboard,
-          sidebar: SidebarDashboard
+          sidebar: SidebarSettings
         }
       }
     ]
   }
-]
+];

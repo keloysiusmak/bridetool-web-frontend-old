@@ -1,9 +1,8 @@
-//layout
-import Layout from '@/components/layout/Layout'
+//Layout
+import Layout from '@/components/layout/layout'
 
 //Components
-import MainDashboard from '@/components/main/Dashboard';
-import MainTest from '@/components/main/Test';
+import MainSchedule from '@/components/main/Schedule';
 
 import NavDashboard from '@/components/nav/Dashboard';
 
@@ -11,18 +10,22 @@ import SidebarDashboard from '@/components/sidebar/Dashboard';
 
 export default [
   {
-    path: '/',
-    component: Layout,
+    path: '/schedule',
     meta: {
       requiresAuth: true
     },
+    component: Layout,
     children: [
       {
-        path: '/',
+        path: ':scheduleId',
+        name: 'getSchedule',
         components: {
-          main: MainDashboard,
+          main: MainSchedule,
           nav: NavDashboard,
           sidebar: SidebarDashboard
+        },
+        props:{
+          main: true
         }
       }
     ]

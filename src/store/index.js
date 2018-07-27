@@ -14,7 +14,8 @@ export const store = new Vuex.Store({
   state: {
     apiToken: null,
     accessToken: null,
-    account: null
+    account: null,
+    errors: null
   },
   mutations: {
     setState(state, payload) {

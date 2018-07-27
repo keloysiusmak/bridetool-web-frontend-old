@@ -1,6 +1,9 @@
 <template>
   <div id="main_login">
-    <form v-on:submit.prevent="login()">
+    <div v-if="loading">
+      Loading...
+    </div>
+    <form v-on:submit.prevent="login()" v-if="!loading">
       <input v-model="username" placeholder="username" value=""/>
       <br/>
       <input v-model="password" type="password" placeholder="password"/>
@@ -15,14 +18,16 @@ import { mapState, mapMutations } from 'vuex';
 import { mappedStates } from '../config/vuex-config';
 
 const accountHandler = require('../../handlers/accountHandler');
+const customerHandler = require('../../handlers/customerHandler');
 
 export default {
-  name: 'MainLogin',
+  name: 'Main-Login',
   computed: {
     ...mapState(mappedStates)
   },
   data () {
     return {
+      loading: false,
       username: 'hey',
       password: 'heya'
     }
@@ -33,18 +38,19 @@ export default {
     ]),
     login: async function() {
       try {
+        this.loading = true;
         const loginAccount = await accountHandler.loginAccount(this.apiToken, this.username, this.password);
-        if (loginAccount.accessToken) {
-          this.setState({
-            accessToken: loginAccount.accessToken,
-            account: loginAccount.account
-          });
-          this.$router.push({ path: '/' });
-        }
+        this.setState({
+          accessToken: loginAccount.accessToken,
+          account: loginAccount.account
+        });
+
+        this.$router.push({ path: '/' });
       } catch (e) {
-        console.log(e);
-        this.errors = JSON.stringify(e);
-      };
+        this.setState({
+          errors: e.message
+        });
+      }
     }
   }
 }

@@ -1,6 +1,8 @@
 <template>
-  <div id="nav_dashboard">
-    Welcome, {{ account.firstName }}
+  <div id="sidebar_dashboard">
+    <router-link to="/">back to home</router-link>
+    <br/>
+    <router-link to="/security/password">password</router-link>
   </div>
 </template>
 
@@ -9,11 +11,14 @@ import { mapState, mapMutations } from 'vuex';
 import { mappedStates } from '../config/vuex-config';
 
 export default {
-  name: 'Nav-Dashboard',
+  name: 'Sidebar-Settings',
   computed: {
     ...mapState(mappedStates)
   },
-  created() {
+  methods: {
+    ...mapMutations([
+      'setState'
+    ])
   }
 }
 </script>

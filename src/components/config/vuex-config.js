@@ -5,6 +5,10 @@ const mappedStates = [
   'errors'
 ];
 
+const mappedGetters = [
+]
+
 module.exports = {
-  mappedStates
+  mappedStates,
+  mappedGetters
 }

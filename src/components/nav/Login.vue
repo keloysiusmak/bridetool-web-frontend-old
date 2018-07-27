@@ -9,7 +9,7 @@ import { mapState, mapMutations } from 'vuex';
 import { mappedStates } from '../config/vuex-config';
 
 export default {
-  name: 'NavLogin',
+  name: 'Nav-Login',
   computed: {
     ...mapState(mappedStates)
   }

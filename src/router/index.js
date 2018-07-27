@@ -5,13 +5,18 @@ import { store } from '../store';
 //routes
 import mainRoutes from './routes/mainRoutes'
 import loginRoutes from './routes/loginRoutes'
+import scheduleRoutes from './routes/scheduleRoutes'
+import settingsRoutes from './routes/settingsRoutes'
 
 Vue.use(Router);
 
 const router = new Router({
+  mode: 'history',
   routes: [
     ...mainRoutes,
-    ...loginRoutes
+    ...loginRoutes,
+    ...scheduleRoutes,
+    ...settingsRoutes
   ]
 });
 

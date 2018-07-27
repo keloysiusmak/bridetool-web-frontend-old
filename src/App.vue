@@ -34,8 +34,9 @@ export default {
         });
       }
     } catch (e) {
-      console.log(e);
-      this.errors = JSON.stringify(e);
+      this.setState({
+        errors: e.message
+      })
     };
   }
 }

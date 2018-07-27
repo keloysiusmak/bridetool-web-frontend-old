@@ -19,10 +19,6 @@ export default [
         components: {
           main: MainLogin,
           nav: NavLogin
-        },
-        props: {
-          main: true,
-          nav: true
         }
       }
     ]

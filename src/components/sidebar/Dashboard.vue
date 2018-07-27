@@ -1,11 +1,8 @@
 <template>
   <div id="sidebar_dashboard">
-    wazzup! {{account.firstName}}
-    <br/>
-    <br/>
     <router-link to="/">home</router-link>
     <br/>
-    <router-link to="/security">abc</router-link>
+    <router-link to="/settings">settings</router-link>
     <br/>
     <a v-on:click="logout()">Logout</a>
   </div>
@@ -16,7 +13,7 @@ import { mapState, mapMutations } from 'vuex';
 import { mappedStates } from '../config/vuex-config';
 
 export default {
-  name: 'SidebarDashboard',
+  name: 'Sidebar-Dashboard',
   computed: {
     ...mapState(mappedStates)
   },
@@ -26,7 +23,8 @@ export default {
     ]),
     logout: async function() {
       this.setState({
-        accessToken: null
+        accessToken: null,
+        account: null
       });
       this.$router.push({ path: '/login' });
     }

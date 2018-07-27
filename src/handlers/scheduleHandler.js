@@ -1,8 +1,19 @@
 const axios = require('axios');
 const handler = require('../handlers/handler');
 
-function getCustomerSchedules(accessToken) {
-  return axios.get('/customer/schedules', {
+function getCustomerSchedules(accessToken, customerId) {
+  return axios.get('/customer/' + customerId + '/schedules', {
+    headers: {
+      'access-token': accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
+
+function getSchedule(accessToken, scheduleId) {
+  return axios.get('/schedule/' + scheduleId, {
     headers: {
       'access-token': accessToken,
     },
@@ -13,4 +24,5 @@ function getCustomerSchedules(accessToken) {
 }
 module.exports = {
   getCustomerSchedules,
+  getSchedule
 };
