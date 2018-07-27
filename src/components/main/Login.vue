@@ -1,5 +1,5 @@
 <template>
-  <div id="login">
+  <div id="main_login">
     <form v-on:submit.prevent="login()">
       <input v-model="username" placeholder="username" value=""/>
       <br/>
@@ -11,35 +11,33 @@
 </template>
 
 <script>
-import router from '../router';
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex';
+import { mappedStates } from '../config/vuex-config';
 
-const accountHandler = require('../handlers/accountHandler');
+const accountHandler = require('../../handlers/accountHandler');
 
 export default {
-  name: 'Login',
+  name: 'MainLogin',
+  computed: {
+    ...mapState(mappedStates)
+  },
   data () {
     return {
       username: 'hey',
       password: 'heya'
     }
   },
-  computed: {
-    ...mapState([
-      'apiToken',
-      'accessToken'
-    ])
-  },
   methods: {
     ...mapMutations([
-      'setTokens'
+      'setState'
     ]),
     login: async function() {
       try {
         const loginAccount = await accountHandler.loginAccount(this.apiToken, this.username, this.password);
         if (loginAccount.accessToken) {
-          this.setTokens({
-            accessToken: loginAccount.accessToken
+          this.setState({
+            accessToken: loginAccount.accessToken,
+            account: loginAccount.account
           });
           this.$router.push({ path: '/' });
         }

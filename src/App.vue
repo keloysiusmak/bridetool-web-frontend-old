@@ -1,14 +1,13 @@
 <template>
   <div id="app">
-    <router-view name="main"/>
-    <br/>
-    Errors : {{ errors }}
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mapState, mapMutations } from 'vuex';
+import { mappedStates } from './components/config/vuex-config';
 
 const handler = require('./handlers/handler');
 const scheduleHandler = require('./handlers/scheduleHandler');
@@ -19,32 +18,20 @@ axios.defaults.baseURL = 'http://localhost:51051';
 export default {
   name: 'App',
   computed: {
-    ...mapState([
-      'apiToken',
-      'accessToken'
-    ])
+    ...mapState(mappedStates)
   },
   methods: {
     ...mapMutations([
-      'setTokens'
+      'setState'
     ])
   },
-  data() {
-    return {
-      errors: null
-    }
-  },
-  async created() {
+  async beforeCreate() {
     try {
       if (!this.apiToken) {
         const getApiToken = await tokenHandler.getApiToken();
-        this.setTokens({
+        this.setState({
           apiToken: getApiToken.apiToken
         });
-      }
-
-      if (!this.accessToken) {
-        this.$router.push('/login');
       }
     } catch (e) {
       console.log(e);
@@ -59,7 +46,10 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  width:800px;
+  position:relative;
+  margin-left:-400px;
+  left:50%;
   color: #2c3e50;
   margin-top: 60px;
 }

@@ -5,7 +5,7 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 const persistedStateOptions = {
-  paths: ['apiToken', 'accessToken'],
+  paths: ['apiToken', 'accessToken', 'account'],
   key: 'bridetoolPersistedState'
 }
 
@@ -14,18 +14,18 @@ export const store = new Vuex.Store({
   state: {
     apiToken: null,
     accessToken: null,
+    account: null
   },
   mutations: {
-    setTokens(state, payload) {
+    setState(state, payload) {
       const payloadKeys = Object.keys(payload);
+      const stateKeys = Object.keys(state);
 
-
-      if (payloadKeys.includes('accessToken')) {
-        state.accessToken = payload.accessToken;
-      }
-      if (payloadKeys.includes('apiToken')) {
-        state.apiToken = payload.apiToken;
-      }
+      payloadKeys.forEach(payloadKey => {
+        if (stateKeys.includes(payloadKey)) {
+          state[payloadKey] = payload[payloadKey];
+        }
+      });
     }
   }
 });

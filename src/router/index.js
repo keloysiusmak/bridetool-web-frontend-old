@@ -1,26 +1,32 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import { store } from '../store';
 
-import Login from '@/components/Login';
-import Dashboard from '@/components/Dashboard';
+//routes
+import mainRoutes from './routes/mainRoutes'
+import loginRoutes from './routes/loginRoutes'
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
-    {
-      path: '/',
-      name: 'Dashboard',
-      components: {
-        main: Dashboard,
-      },
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      components: {
-        main: Login,
-      },
-    },
-  ],
+    ...mainRoutes,
+    ...loginRoutes
+  ]
 });
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.state.accessToken) {
+      next({
+        path: '/login'
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+});
+
+export default router;
