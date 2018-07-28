@@ -1,8 +1,8 @@
 //Layout
-import Layout from '@/components/layout/layout'
+import LoginLayout from '@/components/layout/login-layout'
 
 //Components
-import MainLogin from '@/components/main/Login';
+import MainLogin from '@/components/main/login/Login';
 
 import NavLogin from '@/components/nav/Login';
 
@@ -12,7 +12,7 @@ export default [
     meta: {
       requiresAuth: false
     },
-    component: Layout,
+    component: LoginLayout,
     children: [
       {
         path: '/',

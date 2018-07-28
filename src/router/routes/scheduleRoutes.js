@@ -1,28 +1,37 @@
 //Layout
-import Layout from '@/components/layout/layout'
+import AppLayout from '@/components/layout/app-layout'
 
 //Components
-import MainSchedule from '@/components/main/Schedule';
+import MainSchedule from '@/components/main/schedules/Schedule';
+import MainSchedules from '@/components/main/schedules/Schedules';
 
-import NavDashboard from '@/components/nav/Dashboard';
+import NavDefault from '@/components/nav/Default';
 
-import SidebarDashboard from '@/components/sidebar/Dashboard';
+import SidebarDefault from '@/components/sidebar/Default';
 
 export default [
   {
-    path: '/schedule',
+    path: '/schedules',
     meta: {
       requiresAuth: true
     },
-    component: Layout,
+    component: AppLayout,
     children: [
+      {
+        path: '',
+        components: {
+          main: MainSchedules,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        }
+      },
       {
         path: ':scheduleId',
         name: 'getSchedule',
         components: {
           main: MainSchedule,
-          nav: NavDashboard,
-          sidebar: SidebarDashboard
+          nav: NavDefault,
+          sidebar: SidebarDefault
         },
         props:{
           main: true

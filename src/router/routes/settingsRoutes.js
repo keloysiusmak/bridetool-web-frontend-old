@@ -1,11 +1,11 @@
 //layout
-import Layout from '@/components/layout/Layout'
+import AppLayout from '@/components/layout/app-layout'
 
 //Components
-import MainDashboard from '@/components/main/Dashboard';
-import MainTest from '@/components/main/Test';
+import MainProfile from '@/components/main/settings/Profile';
+import MainPassword from '@/components/main/settings/Password';
 
-import NavDashboard from '@/components/nav/Dashboard';
+import NavDefault from '@/components/nav/Default';
 
 import SidebarSettings from '@/components/sidebar/Settings';
 
@@ -15,13 +15,25 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: Layout,
+    component: AppLayout,
     children: [
       {
         path: '/',
+        redirect: 'profile'
+      },
+      {
+        path: 'profile',
         components: {
-          main: MainTest,
-          nav: NavDashboard,
+          main: MainProfile,
+          nav: NavDefault,
+          sidebar: SidebarSettings
+        }
+      },
+      {
+        path: 'password',
+        components: {
+          main: MainPassword,
+          nav: NavDefault,
           sidebar: SidebarSettings
         }
       }

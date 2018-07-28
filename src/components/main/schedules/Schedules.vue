@@ -1,5 +1,5 @@
 <template>
-  <div id="main_dashboard">
+  <div id="main_schedules">
     <div v-if="loading">
       Loading...
     </div>
@@ -11,12 +11,12 @@
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import { mappedStates, mappedGetters } from '../config/vuex-config';
+import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const scheduleHandler = require('../../handlers/scheduleHandler');
+const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
-  name: 'Main-Dashboard',
+  name: 'Main-Schedules',
   data() {
     return {
       loading: true,

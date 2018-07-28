@@ -3,10 +3,13 @@ import Router from 'vue-router';
 import { store } from '../store';
 
 //routes
-import mainRoutes from './routes/mainRoutes'
+import errorRoutes from './routes/errorRoutes'
 import loginRoutes from './routes/loginRoutes'
+import mainRoutes from './routes/mainRoutes'
 import scheduleRoutes from './routes/scheduleRoutes'
 import settingsRoutes from './routes/settingsRoutes'
+
+
 
 Vue.use(Router);
 
@@ -16,7 +19,8 @@ const router = new Router({
     ...mainRoutes,
     ...loginRoutes,
     ...scheduleRoutes,
-    ...settingsRoutes
+    ...settingsRoutes,
+    ...errorRoutes
   ]
 });
 

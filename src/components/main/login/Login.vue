@@ -15,10 +15,10 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from '../config/vuex-config';
+import { mappedStates } from '../../config/vuex-config';
 
-const accountHandler = require('../../handlers/accountHandler');
-const customerHandler = require('../../handlers/customerHandler');
+const accountHandler = require('../../../handlers/accountHandler');
+const customerHandler = require('../../../handlers/customerHandler');
 
 export default {
   name: 'Main-Login',

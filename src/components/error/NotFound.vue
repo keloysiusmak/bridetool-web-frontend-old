@@ -1,6 +1,6 @@
 <template>
-  <div id="nav_dashboard">
-    Welcome, {{ account.firstName }}
+  <div id="layout">
+    ERROR 404
   </div>
 </template>
 
@@ -9,15 +9,12 @@ import { mapState, mapMutations } from 'vuex';
 import { mappedStates } from '../config/vuex-config';
 
 export default {
-  name: 'Nav-Dashboard',
+  name: 'NotFound',
   computed: {
     ...mapState(mappedStates)
-  },
-  created() {
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

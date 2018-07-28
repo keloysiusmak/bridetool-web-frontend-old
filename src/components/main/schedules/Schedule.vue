@@ -1,21 +1,26 @@
 <template>
-  <div id="main_dashboard">
+  <div id="main_schedule">
     <div v-if="loading">
       Loading...
     </div>
-    <div v-if="schedule">
+    <div v-if="!loading">
       {{schedule.scheduleName}}
       <br/>
       {{schedule._id}}
+      <br/>
+      <br/>
+      <div v-for="activity in schedule.scheduleActivities">
+        Activity: {{activity.activityName}}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
-import { mappedStates, mappedGetters } from '../config/vuex-config';
+import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const scheduleHandler = require('../../handlers/scheduleHandler');
+const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
   name: 'Main-Schedule',
