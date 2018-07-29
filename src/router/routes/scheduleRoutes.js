@@ -3,6 +3,7 @@ import AppLayout from '@/components/layout/app-layout'
 
 //Components
 import MainSchedule from '@/components/main/schedules/Schedule';
+import MainDeletedSchedules from '@/components/main/schedules/DeletedSchedules';
 import MainSchedules from '@/components/main/schedules/Schedules';
 
 import NavDefault from '@/components/nav/Default';
@@ -21,6 +22,14 @@ export default [
         path: '',
         components: {
           main: MainSchedules,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        }
+      },
+      {
+        path: 'deleted',
+        components: {
+          main: MainDeletedSchedules,
           nav: NavDefault,
           sidebar: SidebarDefault
         }

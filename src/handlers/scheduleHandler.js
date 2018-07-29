@@ -12,6 +12,17 @@ function getCustomerSchedules(accessToken, customerId) {
   });
 }
 
+function getDeletedCustomerSchedules(accessToken, customerId) {
+  return axios.get('/customer/' + customerId + '/schedules/deleted', {
+    headers: {
+      'access-token': accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
+
 function getSchedule(accessToken, scheduleId) {
   return axios.get('/schedule/' + scheduleId, {
     headers: {
@@ -24,5 +35,6 @@ function getSchedule(accessToken, scheduleId) {
 }
 module.exports = {
   getCustomerSchedules,
+  getDeletedCustomerSchedules,
   getSchedule
 };

@@ -2,6 +2,8 @@
   <div id="app_layout">
     <router-view name="nav"/>
     <br/>
+    {{ globalErrors }}
+    <br/>
     <hr/>
     <br/>
     <div style="display:inline-table; width:200px;">

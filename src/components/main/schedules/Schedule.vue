@@ -1,16 +1,25 @@
 <template>
   <div id="main_schedule">
+    <div v-if="errors.length" v-for="error in errors">
+      {{error}}
+    </div>
     <div v-if="loading">
       Loading...
     </div>
     <div v-if="!loading">
-      {{schedule.scheduleName}}
+      {{schedule.name}}
       <br/>
       {{schedule._id}}
       <br/>
       <br/>
-      <div v-for="activity in schedule.scheduleActivities">
-        Activity: {{activity.activityName}}
+      Active:
+      <div v-for="activity in activeActivities">
+        <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">Activity: {{activity.name}}</router-link>
+      </div>
+      <br/>
+      Deleted:
+      <div v-for="activity in deletedActivities">
+        <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">Activity: {{activity.name}}</router-link>
       </div>
     </div>
   </div>
@@ -27,13 +36,24 @@ export default {
   data() {
     return {
       loading: true,
-      schedule: null
+      schedule: null,
+      errors: []
     }
   },
   props: ['scheduleId'],
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates)
+    ...mapState(mappedStates),
+    activeActivities: function() {
+      return this.schedule.scheduleActivities.filter(activity => {
+        return !activity.isDeleted;
+      });
+    },
+    deletedActivities: function() {
+      return this.schedule.scheduleActivities.filter(activity => {
+        return activity.isDeleted;
+      });
+    }
   },
   methods: {
     ...mapMutations([
@@ -46,9 +66,7 @@ export default {
       this.schedule = getSchedule.schedule;
       this.loading = false;
     } catch (e) {
-      this.setState({
-        errors: e.message
-      });
+      this.errors.push(e.details);
     }
   }
 }

@@ -39,7 +39,6 @@ export default {
   },
   data() {
     return {
-      accountFirstName: '',
       errors: []
     }
   },
@@ -91,7 +90,6 @@ export default {
         });
         console.log("SUCCESSFULLY UPDATED ACCOUNT");
       } catch (e) {
-        console.log(e);
         this.errors.push(e.details);
       }
     }

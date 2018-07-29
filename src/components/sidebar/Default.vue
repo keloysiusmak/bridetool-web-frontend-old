@@ -1,6 +1,6 @@
 <template>
   <div id="sidebar_dashboard">
-    <router-link to="/">dashboard</router-link>
+    <router-link to="/">schedules</router-link>
     <br/>
     <router-link to="/settings">settings</router-link>
     <br/>

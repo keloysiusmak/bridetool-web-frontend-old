@@ -35,7 +35,7 @@ export default {
       }
     } catch (e) {
       this.setState({
-        errors: e.message
+        globalErrors: e.message
       })
     };
   }

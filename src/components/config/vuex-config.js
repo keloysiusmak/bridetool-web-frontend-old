@@ -1,7 +1,8 @@
 const mappedStates = [
   'apiToken',
   'accessToken',
-  'account'
+  'account',
+  'globalErrors'
 ];
 
 const mappedGetters = [

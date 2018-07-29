@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import { store } from '../store';
 
 //routes
+import activityRoutes from './routes/activityRoutes'
 import errorRoutes from './routes/errorRoutes'
 import loginRoutes from './routes/loginRoutes'
 import mainRoutes from './routes/mainRoutes'
@@ -17,6 +18,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     ...mainRoutes,
+    ...activityRoutes,
     ...loginRoutes,
     ...scheduleRoutes,
     ...settingsRoutes,

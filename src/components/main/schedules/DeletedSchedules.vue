@@ -27,9 +27,9 @@ export default {
   name: 'Main-Schedules',
   data() {
     return {
-      errors: [],
       loading: true,
-      schedules: null
+      schedules: null,
+      errors: []
     }
   },
   computed: {
@@ -43,8 +43,8 @@ export default {
   },
   async created() {
     try {
-      const getCustomerSchedules = await scheduleHandler.getCustomerSchedules(this.accessToken, this.account._id);
-      this.schedules = getCustomerSchedules.schedules;
+      const getDeletedCustomerSchedules = await scheduleHandler.getDeletedCustomerSchedules(this.accessToken, this.account._id);
+      this.schedules = getDeletedCustomerSchedules.schedules;
       this.loading = false;
     } catch (e) {
       this.errors.push(e.details);

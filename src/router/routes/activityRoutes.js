@@ -1,0 +1,44 @@
+//Layout
+import AppLayout from '@/components/layout/app-layout'
+
+//Components
+import MainActivity from '@/components/main/activities/Activity';
+import MainActivityEdit from '@/components/main/activities/ActivityEdit';
+
+import NavDefault from '@/components/nav/Default';
+
+import SidebarDefault from '@/components/sidebar/Default';
+
+export default [
+  {
+    path: '/activities',
+    meta: {
+      requiresAuth: true
+    },
+    component: AppLayout,
+    children: [
+      {
+        path: ':activityId',
+        name: 'getActivity',
+        components: {
+          main: MainActivity,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        },
+        props:{
+          main: true
+        }
+      }, {
+        path: ':activityId/edit',
+        components: {
+          main: MainActivityEdit,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        },
+        props:{
+          main: true
+        }
+      }
+    ]
+  }
+]
