@@ -24,9 +24,25 @@ export default {
   methods: {
     ...mapMutations([
       'setState'
-    ])
+    ]),
+    refreshAccessToken: async function() {
+      try {
+        const checkAccessTokenExpired = await tokenHandler.checkAccessTokenExpired(this.$store, this.tokens);
+        if (checkAccessTokenExpired.expired) {
+          this.setState({
+            accessToken: checkAccessTokenExpired.accessToken,
+            storedTokensTime: checkAccessTokenExpired.storedTokensTime
+          });
+        }
+      } catch (e) {
+        this.setState({
+          globalErrors: e.message
+        })
+      }
+    }
   },
   async created() {
+    this.refreshAccessToken();
     try {
       if (!this.apiToken) {
         const getApiToken = await tokenHandler.getApiToken();
@@ -41,13 +57,7 @@ export default {
     };
   },
   async updated() {
-    const checkAccessTokenExpired = await tokenHandler.checkAccessTokenExpired(this.$store, this.tokens);
-    if (checkAccessTokenExpired.expired) {
-      this.setState({
-        accessToken: checkAccessTokenExpired.accessToken,
-        storedTokensTime: checkAccessTokenExpired.storedTokensTime
-      });
-    }
+    this.refreshAccessToken();
   }
 }
 </script>

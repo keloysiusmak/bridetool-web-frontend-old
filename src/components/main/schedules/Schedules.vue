@@ -7,10 +7,12 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <div>
-        <router-link to="/schedules">Active</router-link> / <router-link to="/schedules/deleted">Deleted</router-link>
-      </div>
-      <div v-for="schedule in schedules">
+      Active: <br/>
+      <div v-for="schedule in activeSchedules">
+        <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>
+      </div><br/>
+      Deleted: <br/>
+      <div v-for="schedule in deletedSchedules">
         <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>
       </div>
     </div>
@@ -34,7 +36,17 @@ export default {
   },
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates)
+    ...mapState(mappedStates),
+    activeSchedules: function() {
+      return this.schedules.filter(schedule => {
+        return !schedule.isDeleted;
+      });
+    },
+    deletedSchedules: function() {
+      return this.schedules.filter(schedule => {
+        return schedule.isDeleted;
+      });
+    }
   },
   methods: {
     ...mapMutations([
@@ -43,8 +55,8 @@ export default {
   },
   async created() {
     try {
-      const getCustomerSchedules = await scheduleHandler.getCustomerSchedules(this.tokens, this.account._id);
-      this.schedules = getCustomerSchedules.schedules;
+      const getSchedules = await scheduleHandler.getSchedules(this.tokens, this.account._id);
+      this.schedules = getSchedules.schedules;
       this.loading = false;
     } catch (e) {
       this.errors.push(e.details);
