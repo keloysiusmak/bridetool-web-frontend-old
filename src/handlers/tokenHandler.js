@@ -34,7 +34,7 @@ function refreshToken(tokens) {
     refreshToken: tokens.refreshToken
   }, {
     headers: {
-      'access-token': tokens.accessToken,
+      'api-token': tokens.apiToken,
     },
   }).then(response => {
     response = handler(response);
