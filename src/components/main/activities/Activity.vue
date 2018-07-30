@@ -7,7 +7,8 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">back to {{ activity.schedule.name }}</router-link>
+      <router-link v-if="!party" :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">back to {{ activity.schedule.name }}</router-link>
+      <router-link v-if="party" :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">back to {{ party.firstName + " " + party.lastName }}</router-link>
       <br/>
       <router-link :to="{ path: 'edit' }" append>edit</router-link>
       <div v-on:click="removeActivity();" v-if="!activity.isDeleted && !activity.schedule.isDeleted">delete</div>
@@ -21,8 +22,9 @@
       <br/>
       Deleted : {{activity.isDeleted}}
       <br/>
-      <div v-for="activity in activity.activityActivities">
-        Activity: {{activity.name}}
+      <br/>
+      <div v-for="party in activity.assignedParties">
+        {{party.firstName + " " + party.lastName}}
       </div>
     </div>
   </div>
@@ -43,7 +45,7 @@ export default {
       errors: []
     }
   },
-  props: ['activityId'],
+  props: ['activityId', 'party'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

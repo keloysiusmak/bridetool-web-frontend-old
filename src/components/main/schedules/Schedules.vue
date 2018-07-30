@@ -7,6 +7,8 @@
       Loading...
     </div>
     <div v-if="!loading">
+      <router-link :to="{ path: 'create' }" append>create schedule</router-link>
+      <br/>
       Active: <br/>
       <div v-for="schedule in activeSchedules">
         <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>

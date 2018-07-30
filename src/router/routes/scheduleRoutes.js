@@ -3,7 +3,8 @@ import AppLayout from '@/components/layout/app-layout'
 
 //Components
 import MainSchedule from '@/components/main/schedules/Schedule';
-import MainScheduleEdit from '@/components/main/schedules/ScheduleEdit';
+import MainScheduleModify from '@/components/main/schedules/ScheduleModify';
+import MainActivityModify from '@/components/main/activities/ActivityModify';
 import MainSchedules from '@/components/main/schedules/Schedules';
 
 import NavDefault from '@/components/nav/Default';
@@ -27,6 +28,19 @@ export default [
         }
       },
       {
+        path: 'create',
+        components: {
+          main: MainScheduleModify,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        },
+        props: {
+          main: (route) => ({
+            modifyType: 'create'
+          })
+        }
+      },
+      {
         path: ':scheduleId',
         name: 'getSchedule',
         components: {
@@ -41,12 +55,29 @@ export default [
       {
         path: ':scheduleId/edit',
         components: {
-          main: MainScheduleEdit,
+          main: MainScheduleModify,
           nav: NavDefault,
           sidebar: SidebarDefault
         },
-        props:{
-          main: true
+        props: {
+          main: (route) => ({
+            scheduleId: route.params.scheduleId,
+            modifyType: 'edit'
+          })
+        }
+      },
+      {
+        path: ':scheduleId/newactivity',
+        components: {
+          main: MainActivityModify,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        },
+        props: {
+          main: (route) => ({
+            scheduleId: route.params.scheduleId,
+            modifyType: 'create'
+          })
         }
       }
     ]

@@ -7,9 +7,15 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">back to {{ schedule.name }}</router-link>
+      <router-link v-if="modifyType === 'edit'" :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">back to {{ schedule.name }}</router-link>
+      <router-link v-if="modifyType === 'create'" to="/schedules">back to schedules</router-link>
       <br/>
-      EDITING Schedule Name : {{schedule.name}}
+      <div v-if="modifyType === 'create'">
+        CREATING Schedule
+      </div>
+      <div v-if="modifyType === 'edit'">
+        EDITING Schedule Name : {{schedule.name}}
+      </div>
       <br/>
 
       <form v-on:submit.prevent="checkForm();">
@@ -35,10 +41,11 @@ export default {
     return {
       loading: true,
       schedule: null,
-      errors: []
+      errors: [],
+      scheduleName: null
     }
   },
-  props: ['scheduleId'],
+  props: ['scheduleId', 'modifyType'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -54,7 +61,11 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.updateSchedule();
+        if (this.modifyType === 'edit') {
+          this.updateSchedule();
+        } else if (this.modifyType === 'create') {
+          this.addSchedule();
+        }
       }
     },
     updateSchedule: async function() {
@@ -70,15 +81,34 @@ export default {
         this.errors.push(e.details);
       }
     },
+    addSchedule: async function() {
+      try {
+        const fields = {
+          name: this.scheduleName
+        }
+        const addSchedule = await scheduleHandler.addSchedule(this.tokens, this.account._id, fields);
+        this.schedule = addSchedule.schedule;
+        this.populateFields();
+        console.log("SUCCESSFULLY ADDED SCHEDULE");
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    },
     populateFields: function() {
       this.scheduleName = this.schedule.name;
     }
   },
   async created() {
     try {
-      const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.scheduleId);
-      this.schedule = getSchedule.schedule;
-      this.populateFields();
+      const permittedModifyTypes = ['create', 'edit'];
+      if (!permittedModifyTypes.includes(this.modifyType)) {
+        this.$router.push('/error');
+      }
+      if (this.modifyType === 'edit') {
+        const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.scheduleId);
+        this.schedule = getSchedule.schedule;
+        this.populateFields();
+      }
       this.loading = false;
     } catch (e) {
       this.errors.push(e.details);

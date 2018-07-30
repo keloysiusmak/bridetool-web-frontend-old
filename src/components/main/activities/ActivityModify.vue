@@ -7,9 +7,15 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">back to {{ activity.name }}</router-link>
+      <router-link v-if="modifyType === 'edit'" :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">back to {{ activity.name }}</router-link>
+      <router-link v-if="modifyType === 'create'" :to="{ name: 'getSchedule', params: {scheduleId: this.scheduleId }, props: true }">back to schedule</router-link>
       <br/>
-      EDITING Activity Name : {{activity.name}}
+      <div v-if="modifyType === 'create'">
+        CREATING ACTIVITY
+      </div>
+      <div v-if="modifyType === 'edit'">
+        EDITING Activity Name : {{activity.name}}
+      </div>
       <br/>
 
       <form v-on:submit.prevent="checkForm();">
@@ -24,6 +30,10 @@
         Activity End Time:
         <br/>
         <input placeholder="Activity End Time" v-model="activityEndTime"/>
+        <br/><br/>
+        Activity Assigned Parties:
+        <br/>
+        {{activityAssignedPartiesId}}
         <br/>
         <br/>
         <input type="submit" value="Submit" />
@@ -45,10 +55,15 @@ export default {
     return {
       loading: true,
       activity: null,
-      errors: []
+      errors: [],
+      activityName: null,
+      activityStartTime: null,
+      activityEndTime: null,
+      activityAssignedParties: [],
+      activityAssignedPartiesId: []
     }
   },
-  props: ['activityId'],
+  props: ['activityId', 'modifyType', 'scheduleId'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -72,7 +87,11 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.updateActivity();
+        if (this.modifyType === 'edit') {
+          this.updateActivity();
+        } else if (this.modifyType === 'create') {
+          this.addActivity();
+        }
       }
     },
     updateActivity: async function() {
@@ -80,7 +99,8 @@ export default {
         const fields = {
           name: this.activityName,
           startTime: this.activityStartTime,
-          endTime: this.activityEndTime
+          endTime: this.activityEndTime,
+          assignedParties: this.activityAssignedPartiesId
         }
         const updateActivity = await activityHandler.updateActivity(this.tokens, this.activity._id, fields);
         this.activity = updateActivity.activity;
@@ -90,17 +110,39 @@ export default {
         this.errors.push(e.details);
       }
     },
+    addActivity: async function() {
+      try {
+        const fields = {
+          name: this.activityName,
+          startTime: this.activityStartTime,
+          endTime: this.activityEndTime,
+          assignedParties: this.activityAssignedPartiesId
+        }
+        const addActivity = await activityHandler.addActivity(this.tokens, this.scheduleId, fields);
+        this.activity = addActivity.activity;
+        this.populateFields();
+        console.log("SUCCESSFULLY ADDED ACTIVITY");
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    },
     populateFields: function() {
       this.activityName = this.activity.name;
       this.activityStartTime = this.activity.startTime;
       this.activityEndTime = this.activity.endTime;
+      this.activityAssignedPartiesId = this.activity.assignedParties.map(party => {
+        return party._id;
+      });
+      this.activityAssignedParties = this.activity.assignedParties;
     }
   },
   async created() {
     try {
-      const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
-      this.activity = getActivity.activity;
-      this.populateFields();
+      if (this.modifyType === 'edit') {
+        const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
+        this.activity = getActivity.activity;
+        this.populateFields();
+      }
       this.loading = false;
     } catch (e) {
       this.errors.push(e.details);

@@ -1,8 +1,9 @@
 const axios = require('axios');
 const handler = require('../handlers/handler');
+const tokenHandler = require('../handlers/tokenHandler');
 
-function getActivity(tokens, activityId) {
-  return axios.get('/activity/' + activityId, {
+function getWeddingParty(tokens, customerId) {
+  return axios.get('/customer/' + customerId + '/weddingparty', {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -11,8 +12,9 @@ function getActivity(tokens, activityId) {
     return response.result;
   });
 }
-function addActivity(tokens, scheduleId, fields) {
-  return axios.post('/schedule/' + scheduleId + '/activity', fields, {
+
+function getParty(tokens, partyId) {
+  return axios.get('/party/' + partyId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -21,8 +23,8 @@ function addActivity(tokens, scheduleId, fields) {
     return response.result;
   });
 }
-function updateActivity(tokens, activityId, fields) {
-  return axios.put('/activity/' + activityId, fields, {
+function updateParty(tokens, partyId, fields) {
+  return axios.put('/party/' + partyId, fields, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -31,8 +33,8 @@ function updateActivity(tokens, activityId, fields) {
     return response.result;
   });
 }
-function removeActivity(tokens, activityId) {
-  return axios.delete('/activity/' + activityId, {
+function removeParty(tokens, partyId) {
+  return axios.delete('/party/' + partyId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -41,8 +43,8 @@ function removeActivity(tokens, activityId) {
     return response.result;
   });
 }
-function restoreActivity(tokens, activityId) {
-  return axios.post('/activity/' + activityId + '/restore', {}, {
+function restoreParty(tokens, partyId) {
+  return axios.post('/party/' + partyId + '/restore', {}, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -52,9 +54,9 @@ function restoreActivity(tokens, activityId) {
   });
 }
 module.exports = {
-  getActivity,
-  addActivity,
-  updateActivity,
-  removeActivity,
-  restoreActivity
+  getWeddingParty,
+  getParty,
+  updateParty,
+  removeParty,
+  restoreParty
 };

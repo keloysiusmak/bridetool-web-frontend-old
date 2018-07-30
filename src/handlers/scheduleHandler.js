@@ -33,6 +33,16 @@ function updateSchedule(tokens, scheduleId, fields) {
     return response.result;
   });
 }
+function addSchedule(tokens, customerId, fields) {
+  return axios.post('/customer/' + customerId + '/schedules', fields, {
+    headers: {
+      'access-token': tokens.accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
 function removeSchedule(tokens, scheduleId) {
   return axios.delete('/schedule/' + scheduleId, {
     headers: {
@@ -57,6 +67,7 @@ module.exports = {
   getSchedules,
   getSchedule,
   updateSchedule,
+  addSchedule,
   removeSchedule,
   restoreSchedule
 };
