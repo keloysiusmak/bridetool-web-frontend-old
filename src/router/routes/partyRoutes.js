@@ -3,7 +3,7 @@ import AppLayout from '@/components/layout/app-layout'
 
 //Components
 import MainParty from '@/components/main/parties/Party';
-import MainPartyEdit from '@/components/main/parties/PartyEdit';
+import MainPartyModify from '@/components/main/parties/PartyModify';
 import MainWeddingParty from '@/components/main/parties/WeddingParty';
 
 import NavDefault from '@/components/nav/Default';
@@ -27,6 +27,19 @@ export default [
         }
       },
       {
+        path: 'create',
+        components: {
+          main: MainPartyModify,
+          nav: NavDefault,
+          sidebar: SidebarDefault
+        },
+        props:{
+          main: (route) => ({
+            modifyType: 'create'
+          })
+        }
+      },
+      {
         path: ':partyId',
         name: 'getParty',
         components: {
@@ -41,12 +54,15 @@ export default [
       {
         path: ':partyId/edit',
         components: {
-          main: MainPartyEdit,
+          main: MainPartyModify,
           nav: NavDefault,
           sidebar: SidebarDefault
         },
         props:{
-          main: true
+          main: (route) => ({
+            partyId: route.params.partyId,
+            modifyType: 'edit'
+          })
         }
       }
     ]

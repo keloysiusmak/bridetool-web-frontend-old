@@ -13,8 +13,32 @@ function getWeddingParty(tokens, customerId) {
   });
 }
 
+function getAvailableParties(tokens, customerId, startTime, endTime) {
+  return axios.post('/customer/' + customerId + '/available-parties', {
+    startTime,
+    endTime
+  }, {
+    headers: {
+      'access-token': tokens.accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
+
 function getParty(tokens, partyId) {
   return axios.get('/party/' + partyId, {
+    headers: {
+      'access-token': tokens.accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
+function addParty(tokens, customerId, fields) {
+  return axios.post('/customer/' + customerId + '/weddingparty', fields, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -56,6 +80,8 @@ function restoreParty(tokens, partyId) {
 module.exports = {
   getWeddingParty,
   getParty,
+  getAvailableParties,
+  addParty,
   updateParty,
   removeParty,
   restoreParty

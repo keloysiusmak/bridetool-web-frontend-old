@@ -35,7 +35,7 @@ export default [
           nav: NavDefault,
           sidebar: SidebarDefault
         },
-        props:{
+        props: {
           main: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'

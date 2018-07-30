@@ -67,7 +67,7 @@ export default [
         }
       },
       {
-        path: ':scheduleId/newactivity',
+        path: ':scheduleId/activity',
         components: {
           main: MainActivityModify,
           nav: NavDefault,

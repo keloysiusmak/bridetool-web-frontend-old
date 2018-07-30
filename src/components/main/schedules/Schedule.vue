@@ -9,7 +9,7 @@
     <div v-if="!loading">
       {{schedule.name}}
       <br/>
-      <router-link :to="{ path: 'newactivity' }" append>new activity</router-link><br/>
+      <router-link :to="{ path: 'activity' }" append>new activity</router-link><br/>
       <router-link :to="{ path: 'edit' }" append>edit</router-link><br/>
       <div v-on:click="removeSchedule();" v-if="!schedule.isDeleted">delete</div>
       <div v-on:click="restoreSchedule();" v-if="schedule.isDeleted">restore</div>

@@ -33,11 +33,18 @@
         <br/><br/>
         Activity Assigned Parties:
         <br/>
-        {{activityAssignedPartiesId}}
+        {{activityAssignedPartiesId}}<br/>
+        <input placeholder="Activity Assigned Parties" v-model="activityAssignedPartiesId"/>
         <br/>
         <br/>
         <input type="submit" value="Submit" />
       </form>
+      <br/>
+      <br/>
+      Available Parties:
+      <div v-for="party in activityAvailableParties">
+        {{ party.firstName + " " + party.lastName + " - " + party._id}}
+      </div>
     </div>
   </div>
 </template>
@@ -45,9 +52,12 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
+import _ from 'lodash'
 
 const activityHandler = require('../../../handlers/activityHandler');
+const partyHandler = require('../../../handlers/partyHandler');
 const tokenHandler = require('../../../handlers/tokenHandler');
+
 
 export default {
   name: 'Main-Activity-Edit',
@@ -60,7 +70,8 @@ export default {
       activityStartTime: null,
       activityEndTime: null,
       activityAssignedParties: [],
-      activityAssignedPartiesId: []
+      activityAssignedPartiesId: [],
+      activityAvailableParties: []
     }
   },
   props: ['activityId', 'modifyType', 'scheduleId'],
@@ -134,14 +145,38 @@ export default {
         return party._id;
       });
       this.activityAssignedParties = this.activity.assignedParties;
+    },
+    getAvailableParties: async function() {
+      this.errors = [];
+      try {
+        if (this.modifyType === 'edit') {
+          const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account._id, this.activityStartTime, this.activityEndTime);
+          this.activityAvailableParties = getAvailableParties.parties;
+        }
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    }
+  },
+  watch: {
+    // whenever question changes, this function will run
+    activityStartTime: function() {
+      this.debouncedGetAvailableParties();
+    },
+    activityEndTime: function() {
+      this.debouncedGetAvailableParties();
     }
   },
   async created() {
+    this.debouncedGetAvailableParties = _.debounce(this.getAvailableParties, 1000)
+
     try {
       if (this.modifyType === 'edit') {
         const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
         this.activity = getActivity.activity;
         this.populateFields();
+
+        this.getAvailableParties();
       }
       this.loading = false;
     } catch (e) {

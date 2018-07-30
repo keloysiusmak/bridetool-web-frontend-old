@@ -7,9 +7,15 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">back to {{ party.firstName + " " + party.lastName}}</router-link>
+      <router-link v-if="modifyType === 'edit'" :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">back to {{ party.firstName + " " + party.lastName}}</router-link>
+      <router-link v-if="modifyType === 'create'" to="/party">back to wedding party</router-link>
       <br/>
-      EDITING Party Name : {{party.firstName + " " + party.lastName}}
+      <div v-if="modifyType === 'edit'">
+        EDITING Party Name : {{party.firstName + " " + party.lastName}}
+      </div>
+      <div v-if="modifyType === 'create'">
+        Creating Party
+      </div>
       <br/>
 
       <form v-on:submit.prevent="checkForm();">
@@ -39,10 +45,12 @@ export default {
     return {
       loading: true,
       party: null,
-      errors: []
+      errors: [],
+      partyFirstName: null,
+      partyLastName: null
     }
   },
-  props: ['partyId'],
+  props: ['partyId', 'modifyType'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -62,7 +70,11 @@ export default {
       }
 
       if (!this.errors.length) {
-        this.updateParty();
+        if (this.modifyType === 'edit') {
+          this.updateParty();
+        } else {
+          this.addParty();
+        }
       }
     },
     updateParty: async function() {
@@ -79,6 +91,20 @@ export default {
         this.errors.push(e.details);
       }
     },
+    addParty: async function() {
+      try {
+        const fields = {
+          firstName: this.partyFirstName,
+          lastName: this.partyLastName
+        }
+        const addParty = await partyHandler.addParty(this.tokens, this.account._id, fields);
+        this.party = addParty.party;
+        this.populateFields();
+        console.log("SUCCESSFULLY ADDED PARTY");
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    },
     populateFields: function() {
       this.partyFirstName = this.party.firstName;
       this.partyLastName = this.party.lastName;
@@ -86,9 +112,11 @@ export default {
   },
   async created() {
     try {
-      const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-      this.party = getParty.party;
-      this.populateFields();
+      if (this.modifyType === 'edit') {
+        const getParty = await partyHandler.getParty(this.tokens, this.partyId);
+        this.party = getParty.party;
+        this.populateFields();
+      }
       this.loading = false;
     } catch (e) {
       this.errors.push(e.details);

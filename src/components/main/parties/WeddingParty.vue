@@ -7,6 +7,8 @@
       Loading...
     </div>
     <div v-if="!loading">
+      <router-link :to="{ path: 'create' }" append>new party</router-link><br/>
+      <br/>
       Active: <br/>
       <div v-for="party in activeParties">
         <router-link :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">{{ party.firstName + " " + party.lastName}}</router-link>
