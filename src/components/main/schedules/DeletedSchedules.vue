@@ -11,7 +11,7 @@
         <router-link to="/schedules">Active</router-link> / <router-link to="/schedules/deleted">Deleted</router-link>
       </div>
       <div v-for="schedule in schedules">
-        <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule._id }}</router-link>
+        <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>
       </div>
     </div>
   </div>
@@ -43,7 +43,7 @@ export default {
   },
   async created() {
     try {
-      const getDeletedCustomerSchedules = await scheduleHandler.getDeletedCustomerSchedules(this.accessToken, this.account._id);
+      const getDeletedCustomerSchedules = await scheduleHandler.getDeletedCustomerSchedules(this.tokens, this.account._id);
       this.schedules = getDeletedCustomerSchedules.schedules;
       this.loading = false;
     } catch (e) {

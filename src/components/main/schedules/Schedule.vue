@@ -9,8 +9,9 @@
     <div v-if="!loading">
       {{schedule.name}}
       <br/>
-      {{schedule._id}}
-      <br/>
+      <router-link :to="{ path: 'edit' }" append>edit</router-link>
+      <div v-on:click="removeSchedule();" v-if="!schedule.isDeleted">delete</div>
+      <div v-on:click="restoreSchedule();" v-if="schedule.isDeleted">restore</div>
       <br/>
       Active:
       <div v-for="activity in activeActivities">
@@ -59,10 +60,26 @@ export default {
     ...mapMutations([
       'setState'
     ]),
+    removeSchedule: async function() {
+      try {
+        const removeSchedule = await scheduleHandler.removeSchedule(this.tokens, this.scheduleId);
+        this.schedule = removeSchedule.schedule;
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    },
+    restoreSchedule: async function() {
+      try {
+        const restoreSchedule = await scheduleHandler.restoreSchedule(this.tokens, this.scheduleId);
+        this.schedule = restoreSchedule.schedule;
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    }
   },
   async created() {
     try {
-      const getSchedule = await scheduleHandler.getSchedule(this.accessToken, this.scheduleId);
+      const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.scheduleId);
       this.schedule = getSchedule.schedule;
       this.loading = false;
     } catch (e) {

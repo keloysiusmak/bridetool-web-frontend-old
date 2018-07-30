@@ -1,6 +1,8 @@
 <template>
   <div id="sidebar_dashboard">
-    <router-link to="/">schedules</router-link>
+    <router-link to="/schedules">schedules</router-link>
+    <br/>
+    <router-link to="/guests">guests</router-link>
     <br/>
     <router-link to="/settings">settings</router-link>
     <br/>
@@ -9,12 +11,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from '../config/vuex-config';
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
   name: 'Sidebar-Dashboard',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   },
   methods: {

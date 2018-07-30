@@ -6,8 +6,8 @@
 
 <script>
 import axios from 'axios';
-import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from './components/config/vuex-config';
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mappedStates, mappedGetters } from './components/config/vuex-config';
 
 const handler = require('./handlers/handler');
 const scheduleHandler = require('./handlers/scheduleHandler');
@@ -18,6 +18,7 @@ axios.defaults.baseURL = 'http://localhost:51051';
 export default {
   name: 'App',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   },
   methods: {
@@ -25,7 +26,7 @@ export default {
       'setState'
     ])
   },
-  async beforeCreate() {
+  async created() {
     try {
       if (!this.apiToken) {
         const getApiToken = await tokenHandler.getApiToken();
@@ -38,6 +39,15 @@ export default {
         globalErrors: e.message
       })
     };
+  },
+  async updated() {
+    const checkAccessTokenExpired = await tokenHandler.checkAccessTokenExpired(this.$store, this.tokens);
+    if (checkAccessTokenExpired.expired) {
+      this.setState({
+        accessToken: checkAccessTokenExpired.accessToken,
+        storedTokensTime: checkAccessTokenExpired.storedTokensTime
+      });
+    }
   }
 }
 </script>

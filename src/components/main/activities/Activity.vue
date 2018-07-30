@@ -7,9 +7,11 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.scheduleId }, props: true }">back to {{ activity.scheduleId }}</router-link>
+      <router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">back to {{ activity.schedule.name }}</router-link>
       <br/>
       <router-link :to="{ path: 'edit' }" append>edit</router-link>
+      <div v-on:click="removeActivity();" v-if="!activity.isDeleted && !activity.schedule.isDeleted">delete</div>
+      <div v-on:click="restoreActivity();" v-if="activity.isDeleted && !activity.schedule.isDeleted">restore</div>
       <br/>
       Activity Name : {{activity.name}}
       <br/>
@@ -50,10 +52,26 @@ export default {
     ...mapMutations([
       'setState'
     ]),
+    removeActivity: async function() {
+      try {
+        const removeActivity = await activityHandler.removeActivity(this.tokens, this.activityId);
+        this.activity = removeActivity.activity;
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    },
+    restoreActivity: async function() {
+      try {
+        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activityId);
+        this.activity = restoreActivity.activity;
+      } catch (e) {
+        this.errors.push(e.details);
+      }
+    }
   },
   async created() {
     try {
-      const getActivity = await activityHandler.getActivity(this.accessToken, this.activityId);
+      const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
       this.activity = getActivity.activity;
       this.loading = false;
     } catch (e) {

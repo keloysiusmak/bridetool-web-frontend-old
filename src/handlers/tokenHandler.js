@@ -13,6 +13,36 @@ function getApiToken() {
   });
 }
 
+async function checkAccessTokenExpired(store, tokens) {
+  const now = Math.floor(Date.now() / 1000);
+  if (now - tokens.storedTokensTime > 5) {
+    const handleRefreshToken = await refreshToken(tokens);
+    return {
+      expired: true,
+      accessToken: handleRefreshToken.accessToken,
+      storedTokensTime: now
+    }
+  } else {
+    return {
+      expired: false
+    };
+  }
+}
+
+function refreshToken(tokens) {
+  return axios.post('/auth/refresh', {
+    refreshToken: tokens.refreshToken
+  }, {
+    headers: {
+      'access-token': tokens.accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.result;
+  });
+}
+
 module.exports = {
   getApiToken,
+  checkAccessTokenExpired
 };

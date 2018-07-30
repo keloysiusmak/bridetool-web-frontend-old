@@ -27,14 +27,15 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from '../../config/vuex-config';
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const accountHandler = require('../../../handlers/accountHandler');
 
 export default {
   name: 'Main-Settings-Profile',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   },
   data() {
@@ -84,7 +85,7 @@ export default {
           lastName: this.accountLastName,
           email: this.accountEmail
         }
-        const updateAccount = await accountHandler.updateAccount(this.accessToken, this.account._id, fields);
+        const updateAccount = await accountHandler.updateAccount(this.tokens, this.account._id, fields);
         this.setState({
           account: updateAccount.account
         });

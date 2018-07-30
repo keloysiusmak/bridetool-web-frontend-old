@@ -5,12 +5,13 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from '../config/vuex-config';
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
   name: 'Nav-Login',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   }
 }

@@ -7,7 +7,7 @@
       Loading...
     </div>
     <div v-if="!loading">
-      <router-link :to="{ name: 'getActivity', params: {scheduleId: activity._id }, props: true }">back to {{ activity.name }}</router-link>
+      <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">back to {{ activity.name }}</router-link>
       <br/>
       EDITING Activity Name : {{activity.name}}
       <br/>
@@ -37,6 +37,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const activityHandler = require('../../../handlers/activityHandler');
+const tokenHandler = require('../../../handlers/tokenHandler');
 
 export default {
   name: 'Main-Activity-Edit',
@@ -81,7 +82,7 @@ export default {
           startTime: this.activityStartTime,
           endTime: this.activityEndTime
         }
-        const updateActivity = await activityHandler.updateActivity(this.accessToken, this.activity._id, fields);
+        const updateActivity = await activityHandler.updateActivity(this.tokens, this.activity._id, fields);
         this.activity = updateActivity.activity;
         this.populateFields();
         console.log("SUCCESSFULLY UPDATED ACTIVITY");
@@ -97,7 +98,7 @@ export default {
   },
   async created() {
     try {
-      const getActivity = await activityHandler.getActivity(this.accessToken, this.activityId);
+      const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
       this.activity = getActivity.activity;
       this.populateFields();
       this.loading = false;

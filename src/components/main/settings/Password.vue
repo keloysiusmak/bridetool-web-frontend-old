@@ -27,14 +27,15 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex';
-import { mappedStates } from '../../config/vuex-config';
+import { mapState, mapMutations, mapGetters } from 'vuex';
+import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const accountHandler = require('../../../handlers/accountHandler');
 
 export default {
   name: 'Main-Settings-Password',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   },
   data() {
@@ -73,7 +74,7 @@ export default {
     },
     changePassword: async function() {
       try {
-        const changePassword = await accountHandler.changePassword(this.accessToken, this.account._id, this.oldPassword, this.newPassword);
+        const changePassword = await accountHandler.changePassword(this.tokens, this.account._id, this.oldPassword, this.newPassword);
         console.log("SUCCESSFULLY CHANGED PASSWORD");
       } catch (e) {
         this.errors.push(e.details);

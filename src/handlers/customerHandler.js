@@ -1,10 +1,10 @@
 const axios = require('axios');
 const handler = require('../handlers/handler');
 
-function getCustomer(customerId, accessToken) {
+function getCustomer(tokens, customerId) {
   return axios.get('/customer/' + customerId, {
     headers: {
-      'access-token': accessToken,
+      'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
