@@ -22,6 +22,7 @@ import { mappedStates, mappedGetters } from '../config/vuex-config';
 export default {
   name: 'App-Layout',
   computed: {
+    ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
   }
 }

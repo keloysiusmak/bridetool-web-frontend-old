@@ -2,7 +2,7 @@
   <div id="sidebar_dashboard">
     <router-link to="/schedules">schedules</router-link>
     <br/>
-    <router-link to="/guests">guests</router-link>
+    <router-link to="/wedding-party">wedding party</router-link>
     <br/>
     <router-link to="/settings">settings</router-link>
     <br/>
