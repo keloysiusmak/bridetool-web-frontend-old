@@ -1,42 +1,52 @@
-//Layout
-import AppLayout from '@/components/layout/app-layout'
+//Layouts
+import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 
 //Components
-import MainActivity from '@/components/main/activities/Activity';
-import MainActivityModify from '@/components/main/activities/ActivityModify';
+import MainActivity from '@/components/panel/activities/Activity';
+import MainActivityModify from '@/components/panel/activities/ActivityModify';
 
-import NavDefault from '@/components/nav/Default';
+import NavbarDefault from '@/components/navbar/Default';
 
 import SidebarDefault from '@/components/sidebar/Default';
 
 export default [
   {
-    path: '/activities',
+    path: '/activities/:activityId',
     meta: {
       requiresAuth: true
     },
-    component: AppLayout,
+    component: LayoutLeftSidebar,
     children: [
       {
-        path: ':activityId',
+        path: '',
         name: 'getActivity',
         components: {
-          main: MainActivity,
-          nav: NavDefault,
+          panel: MainActivity,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props:{
-          main: true
+          panel: true
         }
-      }, {
-        path: ':activityId/edit',
+      }
+    ]
+  },
+  {
+    path: '/activities/:activityId/edit',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutLeftSidebar,
+    children: [
+      {
+        path: '',
         components: {
-          main: MainActivityModify,
-          nav: NavDefault,
+          panel: MainActivityModify,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props: {
-          main: (route) => ({
+          panel: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'
           })

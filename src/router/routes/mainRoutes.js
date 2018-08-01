@@ -1,10 +1,17 @@
-//layout
-import AppLayout from '@/components/layout/app-layout'
+//Layouts
+import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+
+//Components
+import MainWelcomeCustomer from '@/components/panel/default/WelcomeCustomer';
+
+import NavbarDefault from '@/components/navbar/Default';
+
+import SidebarDefault from '@/components/sidebar/Default';
 
 export default [
   {
     path: '/',
-    component: AppLayout,
+    component: LayoutLeftSidebar,
     meta: {
       requiresAuth: true
     },
@@ -12,6 +19,14 @@ export default [
       {
         path: '/',
         redirect: 'schedules'
+      },
+      {
+        path: 'welcome',
+        components: {
+          panel: MainWelcomeCustomer,
+          navbar: NavbarDefault,
+          sidebar: SidebarDefault
+        }
       }
     ]
   }

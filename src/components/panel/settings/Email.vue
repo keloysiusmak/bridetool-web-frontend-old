@@ -6,16 +6,7 @@
       {{error}}
     </div>
     <br/>
-    <br/>
     <form v-on:submit.prevent="checkForm();">
-      First Name:
-      <br/>
-      <input placeholder="First Name" v-model="accountFirstName"/>
-      <br/><br/>
-      Last Name:
-      <br/>
-      <input placeholder="Last Name" v-model="accountLastName"/>
-      <br/><br/>
       Email:
       <br/>
       <input placeholder="Email" v-model="accountEmail"/>
@@ -44,8 +35,6 @@ export default {
     }
   },
   created() {
-    this.accountFirstName = this.account.firstName;
-    this.accountLastName = this.account.lastName;
     this.accountEmail = this.account.email;
   },
   methods: {
@@ -58,13 +47,6 @@ export default {
     },
     checkForm: async function() {
       this.errors = [];
-      if (!this.accountFirstName) {
-        this.errors.push("First Name Missing");
-      }
-
-      if (!this.accountLastName) {
-        this.errors.push("Last Name Missing");
-      }
 
       if (!this.accountEmail) {
         this.errors.push("Email Missing");
@@ -81,8 +63,6 @@ export default {
     updateAccount: async function() {
       try {
         const fields = {
-          firstName: this.accountFirstName,
-          lastName: this.accountLastName,
           email: this.accountEmail
         }
         const updateAccount = await accountHandler.updateAccount(this.tokens, this.account._id, fields);

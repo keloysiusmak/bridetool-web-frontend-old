@@ -6,7 +6,7 @@
       {{error}}
     </div>
     <br/>
-    {{account.firstName + " " + account.lastName}}
+    {{activeParty.firstName + " " + activeParty.lastName}}
     <br/>
     <br/>
     <form v-on:submit.prevent="checkForm();">

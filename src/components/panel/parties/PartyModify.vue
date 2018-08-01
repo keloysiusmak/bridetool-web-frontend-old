@@ -114,6 +114,9 @@ export default {
     try {
       if (this.modifyType === 'edit') {
         const getParty = await partyHandler.getParty(this.tokens, this.partyId);
+        if (getParty.party.type === 'couple') {
+          this.$router.push('/party');
+        }
         this.party = getParty.party;
         this.populateFields();
       }

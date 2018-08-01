@@ -9,6 +9,11 @@
     <div v-if="!loading">
       <router-link :to="{ path: 'create' }" append>new party</router-link><br/>
       <br/>
+      Couple: <br/>
+      <div v-for="party in coupleParty">
+        <router-link :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">{{ party.firstName + " " + party.lastName }} (me)</router-link>
+      </div>
+      <br/>
       Active: <br/>
       <div v-for="party in activeParties">
         <router-link :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">{{ party.firstName + " " + party.lastName}}</router-link>
@@ -39,14 +44,19 @@ export default {
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
+    coupleParty: function() {
+      return this.parties.filter(party => {
+        return party.type === "couple"
+      });
+    },
     activeParties: function() {
       return this.parties.filter(party => {
-        return !party.isDeleted;
+        return !party.isDeleted && party.type !== "couple";
       });
     },
     deletedParties: function() {
       return this.parties.filter(party => {
-        return party.isDeleted;
+        return party.isDeleted && party.type !== "couple";
       });
     }
   },

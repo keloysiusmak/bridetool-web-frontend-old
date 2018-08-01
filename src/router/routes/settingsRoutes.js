@@ -1,11 +1,11 @@
-//layout
-import AppLayout from '@/components/layout/app-layout'
+//Layouts
+import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 
 //Components
-import MainProfile from '@/components/main/settings/Profile';
-import MainPassword from '@/components/main/settings/Password';
+import MainEmail from '@/components/panel/settings/Email';
+import MainPassword from '@/components/panel/settings/Password';
 
-import NavDefault from '@/components/nav/Default';
+import NavbarDefault from '@/components/navbar/Default';
 
 import SidebarSettings from '@/components/sidebar/Settings';
 
@@ -15,25 +15,25 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: AppLayout,
+    component: LayoutLeftSidebar,
     children: [
       {
         path: '/',
-        redirect: 'profile'
+        redirect: '/settings/email'
       },
       {
-        path: 'profile',
+        path: 'email',
         components: {
-          main: MainProfile,
-          nav: NavDefault,
+          panel: MainEmail,
+          navbar: NavbarDefault,
           sidebar: SidebarSettings
         }
       },
       {
         path: 'password',
         components: {
-          main: MainPassword,
-          nav: NavDefault,
+          panel: MainPassword,
+          navbar: NavbarDefault,
           sidebar: SidebarSettings
         }
       }

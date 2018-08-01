@@ -1,8 +1,8 @@
 const axios = require('axios');
 const handler = require('../handlers/handler');
 
-function getCustomer(tokens, customerId) {
-  return axios.get('/customer/' + customerId, {
+function getCouple(tokens, coupleId) {
+  return axios.get('/couple/' + coupleId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -12,5 +12,5 @@ function getCustomer(tokens, customerId) {
   });
 }
 module.exports = {
-  getCustomer,
+  getCouple,
 };

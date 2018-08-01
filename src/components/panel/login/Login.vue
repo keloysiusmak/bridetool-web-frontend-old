@@ -18,7 +18,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const accountHandler = require('../../../handlers/accountHandler');
-const customerHandler = require('../../../handlers/customerHandler');
+const coupleHandler = require('../../../handlers/coupleHandler');
 
 export default {
   name: 'Main-Login',
@@ -41,14 +41,27 @@ export default {
       try {
         this.loading = true;
         const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
+
+        const primaryParty = loginAccount.account.couple.primaryParty;
+
+        const activeParty = {
+          firstName: primaryParty.firstName,
+          lastName: primaryParty.lastName,
+          gender: primaryParty.gender,
+          id: primaryParty._id
+        }
+
         this.setState({
           accessToken: loginAccount.accessToken,
           refreshToken: loginAccount.refreshToken,
           account: loginAccount.account,
-          storedTokensTime: Math.floor(Date.now() / 1000)
+          storedTokensTime: Math.floor(Date.now() / 1000),
+          activeParty: activeParty
         });
 
-        this.$router.push({ path: '/' });
+        if (this.account.type === 'couple') {
+          this.$router.push({ path: '/welcome' });
+        }
       } catch (e) {
         this.setState({
           errors: e.message

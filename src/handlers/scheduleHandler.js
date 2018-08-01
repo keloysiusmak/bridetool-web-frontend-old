@@ -2,8 +2,8 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-function getSchedules(tokens, customerId) {
-  return axios.get('/customer/' + customerId + '/schedules', {
+function getSchedules(tokens, coupleId) {
+  return axios.get('/couple/' + coupleId + '/schedules', {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -33,8 +33,8 @@ function updateSchedule(tokens, scheduleId, fields) {
     return response.result;
   });
 }
-function addSchedule(tokens, customerId, fields) {
-  return axios.post('/customer/' + customerId + '/schedules', fields, {
+function addSchedule(tokens, coupleId, fields) {
+  return axios.post('/couple/' + coupleId + '/schedules', fields, {
     headers: {
       'access-token': tokens.accessToken,
     },

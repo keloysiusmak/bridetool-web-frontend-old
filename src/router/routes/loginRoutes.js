@@ -1,10 +1,10 @@
-//Layout
-import LoginLayout from '@/components/layout/login-layout'
+//Layouts
+import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 
 //Components
-import MainLogin from '@/components/main/login/Login';
+import MainLogin from '@/components/panel/login/Login';
 
-import NavLogin from '@/components/nav/Login';
+import NavbarLogin from '@/components/navbar/Login';
 
 export default [
   {
@@ -12,13 +12,13 @@ export default [
     meta: {
       requiresAuth: false
     },
-    component: LoginLayout,
+    component: LayoutLeftSidebar,
     children: [
       {
         path: '/',
         components: {
-          main: MainLogin,
-          nav: NavLogin
+          panel: MainLogin,
+          navbar: NavbarLogin
         }
       }
     ]

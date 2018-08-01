@@ -27,7 +27,10 @@ export default {
     logout: async function() {
       this.setState({
         accessToken: null,
-        account: null
+        account: null,
+        storedTokensTime: null,
+        refreshToken: null,
+        user: null
       });
       this.$router.push({ path: '/login' });
     }

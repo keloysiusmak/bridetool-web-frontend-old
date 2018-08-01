@@ -4,6 +4,7 @@ const mappedStates = [
   'refreshToken',
   'storedTokensTime',
   'account',
+  'activeParty',
   'globalErrors'
 ];
 

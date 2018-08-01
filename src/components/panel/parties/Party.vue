@@ -7,11 +7,16 @@
       Loading...
     </div>
     <div v-if="!loading">
-      {{party.firstName + " " + party.lastName}}
-      <br/>
-      <router-link :to="{ path: 'edit' }" append>edit</router-link>
-      <div v-on:click="removeParty();" v-if="!party.isDeleted">delete</div>
-      <div v-on:click="restoreParty();" v-if="party.isDeleted">restore</div>
+      <div v-if="party.type !== 'couple'">
+        {{party.firstName + " " + party.lastName}}
+        <br/>
+        <router-link :to="{ path: 'edit' }" append>edit</router-link>
+        <div v-on:click="removeParty();" v-if="!party.isDeleted">delete</div>
+        <div v-on:click="restoreParty();" v-if="party.isDeleted">restore</div>
+      </div>
+      <div v-if="party.type === 'couple'">
+        {{party.firstName + " " + party.lastName}} (me)
+      </div>
       <br/>
       Activities:
       <div v-for="activity in activeActivities">

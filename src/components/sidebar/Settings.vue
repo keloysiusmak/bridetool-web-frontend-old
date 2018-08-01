@@ -2,7 +2,7 @@
   <div id="sidebar_dashboard">
     <router-link to="/">back to home</router-link>
     <br/>
-    <router-link to="/settings/profile">profile</router-link>
+    <router-link to="/settings/email">email</router-link>
     <br/>
     <router-link to="/settings/password">password</router-link>
   </div>

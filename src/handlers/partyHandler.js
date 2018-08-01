@@ -2,8 +2,8 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-function getWeddingParty(tokens, customerId) {
-  return axios.get('/customer/' + customerId + '/weddingparty', {
+function getWeddingParty(tokens, coupleId) {
+  return axios.get('/couple/' + coupleId + '/weddingparty', {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -13,8 +13,8 @@ function getWeddingParty(tokens, customerId) {
   });
 }
 
-function getAvailableParties(tokens, customerId, startTime, endTime) {
-  return axios.post('/customer/' + customerId + '/available-parties', {
+function getAvailableParties(tokens, coupleId, startTime, endTime) {
+  return axios.post('/couple/' + coupleId + '/available-parties', {
     startTime,
     endTime
   }, {
@@ -37,8 +37,8 @@ function getParty(tokens, partyId) {
     return response.result;
   });
 }
-function addParty(tokens, customerId, fields) {
-  return axios.post('/customer/' + customerId + '/weddingparty', fields, {
+function addParty(tokens, coupleId, fields) {
+  return axios.post('/couple/' + coupleId + '/weddingparty', fields, {
     headers: {
       'access-token': tokens.accessToken,
     },

@@ -1,13 +1,13 @@
-//Layout
-import AppLayout from '@/components/layout/app-layout'
+//Layouts
+import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 
 //Components
-import MainSchedule from '@/components/main/schedules/Schedule';
-import MainScheduleModify from '@/components/main/schedules/ScheduleModify';
-import MainActivityModify from '@/components/main/activities/ActivityModify';
-import MainSchedules from '@/components/main/schedules/Schedules';
+import MainSchedule from '@/components/panel/schedules/Schedule';
+import MainScheduleModify from '@/components/panel/schedules/ScheduleModify';
+import MainActivityModify from '@/components/panel/activities/ActivityModify';
+import MainSchedules from '@/components/panel/schedules/Schedules';
 
-import NavDefault from '@/components/nav/Default';
+import NavbarDefault from '@/components/navbar/Default';
 
 import SidebarDefault from '@/components/sidebar/Default';
 
@@ -17,64 +17,100 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: AppLayout,
+    component: LayoutLeftSidebar,
     children: [
       {
         path: '',
         components: {
-          main: MainSchedules,
-          nav: NavDefault,
+          panel: MainSchedules,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/schedules/create',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutLeftSidebar,
+    children: [
       {
-        path: 'create',
+        path: '',
         components: {
-          main: MainScheduleModify,
-          nav: NavDefault,
+          panel: MainScheduleModify,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props: {
-          main: (route) => ({
+          panel: (route) => ({
             modifyType: 'create'
           })
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/schedules/:scheduleId',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutLeftSidebar,
+    children: [
       {
-        path: ':scheduleId',
+        path: '',
         name: 'getSchedule',
         components: {
-          main: MainSchedule,
-          nav: NavDefault,
+          panel: MainSchedule,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props:{
-          main: true
+          panel: true
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/schedules/:scheduleId/edit',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutLeftSidebar,
+    children: [
       {
-        path: ':scheduleId/edit',
+        path: '',
         components: {
-          main: MainScheduleModify,
-          nav: NavDefault,
+          panel: MainScheduleModify,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props: {
-          main: (route) => ({
+          panel: (route) => ({
             scheduleId: route.params.scheduleId,
             modifyType: 'edit'
           })
         }
-      },
+      }
+    ]
+  },
+  {
+    path: '/schedules/:scheduleId/activity',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutLeftSidebar,
+    children: [
       {
-        path: ':scheduleId/activity',
+        path: '',
         components: {
-          main: MainActivityModify,
-          nav: NavDefault,
+          panel: MainActivityModify,
+          navbar: NavbarDefault,
           sidebar: SidebarDefault
         },
         props: {
-          main: (route) => ({
+          panel: (route) => ({
             scheduleId: route.params.scheduleId,
             modifyType: 'create'
           })
