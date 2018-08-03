@@ -1,5 +1,40 @@
 <template>
   <div id="main_schedule_edit">
+    <!-- START deleteScheduleModal -->
+    <div class="modal" v-bind:class="{'is-active': deleteScheduleModal}" v-if="schedule">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="title is-4">Are you sure you want to delete '{{schedule.name}}'?</div>
+          <div class="subtitle is-6">
+            You can restore this schedule later, but the following changes cannot be restored:
+          </div>
+          <div class="is-size-6">
+            <li>All activities in this schedule will be deleted.</li>
+            <li>All parties assigned to activities in this schedule will be unassigned.</li>
+          </div>
+          <p>&nbsp;</p>
+          <a class="button is-danger" v-on:click="deleteSchedule(); deleteScheduleModal = false">Delete</a>
+          <a class="button is-white" v-on:click="deleteScheduleModal = false">Cancel</a>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    <!-- END deleteScheduleModal -->
+
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType === 'edit' && schedule">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">Edit Schedule</a></li>
+      </ul>
+    </nav>
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType === 'create'">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">Create Schedule</a></li>
+      </ul>
+    </nav>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       {{localErrors.componentError}}
@@ -21,10 +56,8 @@
         {{schedule.name}}
       </p>
     </div>
-    <br/>
-
+    <p>&nbsp;</p>
     <form v-on:submit.prevent="checkForm();">
-
       <div class="field is-horizontal">
         <div class="field-label is-normal">
           <label class="label">Name</label>
@@ -49,6 +82,8 @@
             <div class="control">
               <input class="button is-link" type="submit" value="Save" v-if="modifyType === 'edit'" />
               <input class="button is-link" type="submit" value="Create" v-if="modifyType === 'create'" />
+              <a v-if="schedule && !schedule.isDeleted" class="button is-danger" v-on:click="deleteScheduleModal = true">Delete Schedule</a>
+              <a v-on:click="restoreSchedule();" class="button is-success" v-if="schedule && schedule.isDeleted">Restore Schedule</a>
             </div>
           </div>
         </div>
@@ -68,6 +103,7 @@ export default {
   name: 'Main-Schedule-Edit',
   data() {
     return {
+      deleteScheduleModal: false,
       scheduleName: null,
       localErrors: {},
       localSuccess: ''
@@ -96,6 +132,28 @@ export default {
         } else if (this.modifyType === 'create') {
           this.addSchedule();
         }
+      }
+    },
+    deleteSchedule: async function() {
+      try {
+        const deleteSchedule = await scheduleHandler.deleteSchedule(this.tokens, this.scheduleId);
+        this.setState({
+          schedule: deleteSchedule.schedule
+        });
+        this.localSuccess = 'Successfully deleted schedule.';
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    restoreSchedule: async function() {
+      try {
+        const restoreSchedule = await scheduleHandler.restoreSchedule(this.tokens, this.scheduleId);
+        this.setState({
+          schedule: restoreSchedule.schedule
+        });
+        this.localSuccess = 'Successfully restored schedule.';
+      } catch (e) {
+        console.log(e);
       }
     },
     updateSchedule: async function() {

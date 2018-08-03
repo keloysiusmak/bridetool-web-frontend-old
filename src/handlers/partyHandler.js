@@ -57,7 +57,7 @@ function updateParty(tokens, partyId, fields) {
     return response.result;
   });
 }
-function removeParty(tokens, partyId) {
+function deleteParty(tokens, partyId) {
   return axios.delete('/party/' + partyId, {
     headers: {
       'access-token': tokens.accessToken,
@@ -83,6 +83,6 @@ module.exports = {
   getAvailableParties,
   addParty,
   updateParty,
-  removeParty,
+  deleteParty,
   restoreParty
 };

@@ -6,7 +6,7 @@ import MainParty from '@/components/panel/parties/Party';
 import MainPartyModify from '@/components/panel/parties/PartyModify';
 import MainWeddingParty from '@/components/panel/parties/WeddingParty';
 import NavbarDefault from '@/components/navbar/Default';
-import SidebarParty from '@/components/sidebar/Party';
+import SidebarParty from '@/components/sidebar/parties/Party';
 
 export default [
   {
@@ -22,41 +22,37 @@ export default [
           panel: MainWeddingParty,
           navbar: NavbarDefault,
           sidebar: SidebarParty
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'party'
+          }),
+          sidebar: (route) => ({
+            sidebarSelected: 'partyoverview'
+          })
         }
-      }
-    ]
-  },
-  {
-    path: '/party/create',
-    meta: {
-      requiresAuth: true
-    },
-    component: LayoutLeftSidebar,
-    children: [
+      },
       {
-        path: '',
+        path: 'create',
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
           sidebar: SidebarParty
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'party'
+          }),
           panel: (route) => ({
             modifyType: 'create'
+          }),
+          sidebar: (route) => ({
+            sidebarSelected: 'createparty'
           })
         }
-      }
-    ]
-  },
-  {
-    path: '/party/:partyId',
-    meta: {
-      requiresAuth: true
-    },
-    component: LayoutLeftSidebar,
-    children: [
+      },
       {
-        path: '',
+        path: ':partyId',
         name: 'getParty',
         components: {
           panel: MainParty,
@@ -64,29 +60,33 @@ export default [
           sidebar: SidebarParty
         },
         props:{
-          panel: true
+          navbar: (route) => ({
+            navbarSelected: 'party'
+          }),
+          panel: true,
+          sidebar: (route) => ({
+            sidebarSelected: 'partyoverview',
+            partyId: route.params.partyId
+          })
         }
-      }
-    ]
-  },
-  {
-    path: '/party/:partyId/edit',
-    meta: {
-      requiresAuth: true
-    },
-    component: LayoutLeftSidebar,
-    children: [
+      },
       {
-        path: '',
+        path: ':partyId/edit',
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
           sidebar: SidebarParty
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'party'
+          }),
           panel: (route) => ({
             partyId: route.params.partyId,
             modifyType: 'edit'
+          }),
+          sidebar: (route) => ({
+            sidebarSelected: 'partyoverview'
           })
         }
       }

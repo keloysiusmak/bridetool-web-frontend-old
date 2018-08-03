@@ -43,7 +43,7 @@ function addSchedule(tokens, coupleId, fields) {
     return response.result;
   });
 }
-function removeSchedule(tokens, scheduleId) {
+function deleteSchedule(tokens, scheduleId) {
   return axios.delete('/schedule/' + scheduleId, {
     headers: {
       'access-token': tokens.accessToken,
@@ -68,6 +68,6 @@ module.exports = {
   getSchedule,
   updateSchedule,
   addSchedule,
-  removeSchedule,
+  deleteSchedule,
   restoreSchedule
 };

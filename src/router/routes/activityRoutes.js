@@ -28,8 +28,14 @@ export default [
           sidebar: SidebarActivity
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'schedules'
+          }),
           panel: true,
-          sidebar: true
+          sidebar: (route) => ({
+            activityId: route.params.activityId,
+            sidebarSelected: 'activityoverview'
+          })
         }
       },
       {
@@ -40,11 +46,17 @@ export default [
           sidebar: SidebarActivity
         },
         props: {
+          navbar: (route) => ({
+            navbarSelected: 'schedules'
+          }),
           panel: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'
           }),
-          sidebar: true
+          sidebar: (route) => ({
+            activityId: route.params.activityId,
+            sidebarSelected: 'editactivity'
+          })
         }
       }
     ]

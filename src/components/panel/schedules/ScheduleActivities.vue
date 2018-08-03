@@ -1,8 +1,15 @@
 <template>
   <div id="main_schedule" v-if="schedule">
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="schedule">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">Activities</a></li>
+      </ul>
+    </nav>
+
     <p class="title is-1">{{schedule.name}}</p>
     <p class="subtitle is-4">Activities</p>
-
     <div class="tile is-ancestor">
       <div class="tile is-6 is-vertical">
         <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }" class="tile is-child notification is-link"  v-for="activity in activeActivities" :key="activity._id">

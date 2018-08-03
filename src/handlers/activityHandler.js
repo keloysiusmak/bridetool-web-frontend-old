@@ -31,7 +31,7 @@ function updateActivity(tokens, activityId, fields) {
     return response.result;
   });
 }
-function removeActivity(tokens, activityId) {
+function deleteActivity(tokens, activityId) {
   return axios.delete('/activity/' + activityId, {
     headers: {
       'access-token': tokens.accessToken,
@@ -55,6 +55,6 @@ module.exports = {
   getActivity,
   addActivity,
   updateActivity,
-  removeActivity,
+  deleteActivity,
   restoreActivity
 };

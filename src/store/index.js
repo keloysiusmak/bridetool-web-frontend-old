@@ -21,7 +21,9 @@ export const store = new Vuex.Store({
     globalErrors: null,
     schedules: null,
     schedule: null,
-    activity: null
+    activity: null,
+    parties: null,
+    party: null
   },
   getters: {
     tokens(state) {

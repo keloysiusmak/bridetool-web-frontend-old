@@ -1,5 +1,43 @@
 <template>
   <div id="main_activity_edit">
+    <!-- START deleteActivityModal -->
+    <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
+          <div class="subtitle is-6">
+            You can restore this activity later, but the following changes cannot be restored:
+          </div>
+          <div class="is-size-6">
+            <li>All parties assigned to this activity will be unassigned.</li>
+          </div>
+          <p>&nbsp;</p>
+          <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
+          <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+    <!-- END deleteActivityModal -->
+
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType == 'edit' && activity">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">{{ activity.schedule.name }}</router-link></li>
+        <li><router-link :to="{ path: '/schedules/' + activity.schedule._id + '/activities' }">Activities</router-link></li>
+        <li><router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">{{activity.name}}</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">Edit Activity</a></li>
+      </ul>
+    </nav>
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType === 'create' && schedule">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link></li>
+        <li><router-link :to="{ path: '/schedules/' + schedule._id + '/activities' }">Activities</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">Create Activity</a></li>
+      </ul>
+    </nav>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       {{localErrors.componentError}}
@@ -274,6 +312,8 @@
             <div class="control">
               <input class="button is-link" type="submit" value="Save" v-if="modifyType === 'edit'" />
               <input class="button is-link" type="submit" value="Create" v-if="modifyType === 'create'" />
+              <a v-if="activity && !activity.isDeleted" class="button is-danger" v-on:click="deleteActivityModal = true">Delete Activity</a>
+              <a v-on:click="restoreActivity();" class="button is-success" v-if="activity && activity.isDeleted">Restore Activity</a>
             </div>
           </div>
         </div>
@@ -328,7 +368,8 @@ export default {
 
       availablePartiesLoading: false,
       localErrors: {},
-      localSuccess: ''
+      localSuccess: '',
+      deleteActivityModal: false
     }
   },
   props: ['activityId', 'modifyType', 'scheduleId'],
@@ -403,28 +444,27 @@ export default {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
-    formatMoment: function(activity) {
-      const newMoment = moment();
-      newMoment.second(0);
-      newMoment.minute(activity.minute);
-      const amOrPmAdd = (activity.ampm === 'am') ? 0 : 12;
-      newMoment.hour(parseInt(activity.hour) % 12 + amOrPmAdd);
-      newMoment.date(activity.date);
-      newMoment.month(activity.month - 1);
-      newMoment.year(activity.year);
-
-      return newMoment;
+    deleteActivity: async function() {
+      try {
+        const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activityId);
+        this.setState({
+          activity: deleteActivity.activity
+        });
+        this.localSuccess = 'Successfully deleted activity.';
+      } catch (e) {
+        console.log(e);
+      }
     },
-    validateDate: function(activity) {
-      const newMoment = this.formatMoment(activity);
-      const amOrPmAdd = (activity.ampm === 'am') ? 0 : 12;
-      const valid = (newMoment.minutes() == activity.minute) && (newMoment.hours() == activity.hour % 12 + amOrPmAdd) && (newMoment.date() == activity.date) && (newMoment.month() == activity.month - 1) && (newMoment.year() == activity.year);
-
-      return valid;
-    },
-    dateElapsed: function(activity) {
-      const newMoment = this.formatMoment(activity);
-      return newMoment.format('X') < Math.floor(Date.now() / 1000);
+    restoreActivity: async function() {
+      try {
+        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activityId);
+        this.setState({
+          activity: restoreActivity.activity
+        });
+        this.localSuccess = 'Successfully restored activity.';
+      } catch (e) {
+        console.log(e);
+      }
     },
     addActivity: async function() {
       try {
@@ -449,6 +489,29 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+    },
+    formatMoment: function(activity) {
+      const newMoment = moment();
+      newMoment.second(0);
+      newMoment.minute(activity.minute);
+      const amOrPmAdd = (activity.ampm === 'am') ? 0 : 12;
+      newMoment.hour(parseInt(activity.hour) % 12 + amOrPmAdd);
+      newMoment.date(activity.date);
+      newMoment.month(activity.month - 1);
+      newMoment.year(activity.year);
+
+      return newMoment;
+    },
+    validateDate: function(activity) {
+      const newMoment = this.formatMoment(activity);
+      const amOrPmAdd = (activity.ampm === 'am') ? 0 : 12;
+      const valid = (newMoment.minutes() == activity.minute) && (newMoment.hours() == activity.hour % 12 + amOrPmAdd) && (newMoment.date() == activity.date) && (newMoment.month() == activity.month - 1) && (newMoment.year() == activity.year);
+
+      return valid;
+    },
+    dateElapsed: function(activity) {
+      const newMoment = this.formatMoment(activity);
+      return newMoment.format('X') < Math.floor(Date.now() / 1000);
     },
     populateFields: function() {
       this.activityName = this.activity.name;
@@ -484,7 +547,9 @@ export default {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
         const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
-        this.activityAvailableParties = getAvailableParties.parties;
+        this.activityAvailableParties = getAvailableParties.parties.filter(party => {
+          return !this.activityAssignedPartiesId.includes(party._id);
+        });
         this.availablePartiesLoading = false;
       } catch (e) {
       }

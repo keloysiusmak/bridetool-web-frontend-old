@@ -1,5 +1,11 @@
 <template>
   <div id="main_schedule" v-if="schedule">
+    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="schedule">
+      <ul>
+        <li><router-link to="/schedules">Schedules</router-link></li>
+        <li class="is-active"><a href="#" aria-current="page">{{schedule.name}}</a></li>
+      </ul>
+    </nav>
     <p class="title is-1">{{schedule.name}}</p>
     <p class="subtitle is-4">Overview</p>
   </div>

@@ -2,19 +2,31 @@
   <div id="main_settings_email">
     <p class="title is-1">Email Settings</p>
     <form v-on:submit.prevent="checkForm();">
-      <div class="field">
-        <label class="label">Email</label>
-        <div class="control has-icons-left">
-          <input class="input" placeholder="Email" v-model="accountEmail"/>
-          <span class="icon is-small is-left">
-            <i class="fas fa-envelope"></i>
-          </span>
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Email</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control has-icons-left">
+              <input class="input" placeholder="Email" v-model="accountEmail"/>
+              <span class="icon is-small is-left">
+                <i class="fas fa-envelope"></i>
+              </span>
+            </div>
+          </div>
         </div>
       </div>
       <p>&nbsp;</p>
-      <div class="field">
-        <div class="control">
-          <input class="button is-link" type="submit" value="Save" />
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="button is-link" type="submit" value="Save" />
+            </div>
+          </div>
         </div>
       </div>
     </form>

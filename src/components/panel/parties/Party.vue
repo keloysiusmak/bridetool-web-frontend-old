@@ -1,12 +1,6 @@
 <template>
   <div id="main_party">
-    <div v-if="errors.length" v-for="error in errors">
-      {{error}}
-    </div>
-    <div v-if="loading">
-      Loading...
-    </div>
-    <div v-if="!loading">
+    <div v-if="party">
       <div v-if="party.type !== 'couple'">
         {{party.firstName + " " + party.lastName}}
         <br/>
@@ -36,8 +30,6 @@ export default {
   name: 'Main-Party',
   data() {
     return {
-      loading: true,
-      party: null,
       errors: []
     }
   },
@@ -73,13 +65,6 @@ export default {
     }
   },
   async created() {
-    try {
-      const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-      this.party = getParty.party;
-      this.loading = false;
-    } catch (e) {
-      this.errors.push(e.details);
-    }
   }
 }
 </script>

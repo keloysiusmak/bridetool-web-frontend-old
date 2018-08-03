@@ -3,22 +3,13 @@
     <div v-if="schedules">
       <aside class="menu">
         <ul class="menu-list">
-          <li><router-link to="/schedules/create" v-bind:class="{ 'is-active': sidebarSelected === 'createschedule' }">Create Schedule</router-link></li>
           <li><router-link to="/schedules/" v-bind:class="{ 'is-active': sidebarSelected === 'schedulesoverview' }">Overview</router-link></li>
         </ul>
         <p>&nbsp;</p>
-        <p class="menu-label">My Schedules</p>
+        <p class="menu-label">Schedules</p>
         <ul class="menu-list">
-          <div v-for="schedule in activeSchedules">
-            <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>
-          </div>
-        </ul>
-        <p>&nbsp;</p>
-        <p class="menu-label">Deleted Schedules</p>
-        <ul class="menu-list">
-          <div v-for="schedule in deletedSchedules">
-            <router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link>
-          </div>
+          <li><router-link to="/schedules/create" v-bind:class="{ 'is-active': sidebarSelected === 'createschedule' }">Create Schedule</router-link></li>
+          <li v-for="schedule in activeSchedules"><router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link></li>
         </ul>
       </aside>
     </div>
@@ -55,6 +46,9 @@ export default {
     ]),
     loadSchedules: async function() {
       try {
+        this.setState({
+          schedules: null
+        })
         const getSchedules = await scheduleHandler.getSchedules(this.tokens, this.account._id);
         this.setState({
           schedules: getSchedules.schedules
