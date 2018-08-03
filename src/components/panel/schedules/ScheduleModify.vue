@@ -1,37 +1,66 @@
 <template>
   <div id="main_schedule_edit">
-    <div v-if="errors.length" v-for="error in errors">
-      {{error}}
+    <div v-if="localErrors.componentError" class="notification is-danger">
+      <button class="delete" v-on:click="localErrors.componentError = null"></button>
+      {{localErrors.componentError}}
     </div>
-    <div v-if="loading">
-      Loading...
+    <div v-if="localSuccess" class="notification is-success">
+      <button class="delete" v-on:click="localSuccess = null"></button>
+      {{localSuccess}}
     </div>
-    <div v-if="!loading">
-      <router-link v-if="modifyType === 'edit'" :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">back to {{ schedule.name }}</router-link>
-      <router-link v-if="modifyType === 'create'" to="/schedules">back to schedules</router-link>
-      <br/>
-      <div v-if="modifyType === 'create'">
-        CREATING Schedule
-      </div>
-      <div v-if="modifyType === 'edit'">
-        EDITING Schedule Name : {{schedule.name}}
-      </div>
-      <br/>
+    <div v-if="modifyType === 'create'">
+      <p class="title is-1">
+        Create Schedule
+      </p>
+    </div>
+    <div v-if="modifyType === 'edit' && schedule">
+      <p class="title is-1">
+        Edit Schedule
+      </p>
+      <p class="subtitle is-4">
+        {{schedule.name}}
+      </p>
+    </div>
+    <br/>
 
-      <form v-on:submit.prevent="checkForm();">
-        Schedule Name:
-        <br/>
-        <input placeholder="Schedule Name" v-model="scheduleName"/>
-        <br/><br/>
-        <input type="submit" value="Submit" />
-      </form>
-    </div>
+    <form v-on:submit.prevent="checkForm();">
+
+      <div class="field is-horizontal">
+        <div class="field-label is-normal">
+          <label class="label">Name</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control has-icons-left">
+              <input class="input" id="scheduleName" v-bind:class="{'is-danger': localErrors.scheduleName}" placeholder="Schedule Name" v-model="scheduleName"/>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+            </div>
+            <p class="help is-danger" v-if="localErrors.scheduleName">{{localErrors.scheduleName}}</p>
+          </div>
+        </div>
+      </div>
+      <p>&nbsp;</p>
+      <div class="field is-horizontal">
+        <div class="field-label"></div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control">
+              <input class="button is-link" type="submit" value="Save" v-if="modifyType === 'edit'" />
+              <input class="button is-link" type="submit" value="Create" v-if="modifyType === 'create'" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
+import { EventBus } from '../../../events/event-bus.js';
 
 const scheduleHandler = require('../../../handlers/scheduleHandler');
 
@@ -39,10 +68,9 @@ export default {
   name: 'Main-Schedule-Edit',
   data() {
     return {
-      loading: true,
-      schedule: null,
-      errors: [],
-      scheduleName: null
+      scheduleName: null,
+      localErrors: {},
+      localSuccess: ''
     }
   },
   props: ['scheduleId', 'modifyType'],
@@ -55,12 +83,14 @@ export default {
       'setState'
     ]),
     checkForm: async function() {
-      this.errors = [];
+      this.resetErrors();
+      let hasErrors = false;
       if (!this.scheduleName) {
-        this.errors.push("Schedule Name Missing");
+        this.localErrors.scheduleName = 'Field cannot be empty.';
+        hasErrors = true;
       }
 
-      if (!this.errors.length) {
+      if (!hasErrors) {
         if (this.modifyType === 'edit') {
           this.updateSchedule();
         } else if (this.modifyType === 'create') {
@@ -73,12 +103,14 @@ export default {
         const fields = {
           name: this.scheduleName
         }
-        const updateSchedule = await scheduleHandler.updateSchedule(this.tokens, this.schedule._id, fields);
-        this.schedule = updateSchedule.schedule;
+        const updateSchedule = await scheduleHandler.updateSchedule(this.tokens, this.scheduleId, fields);
+        this.setState({
+          schedule: updateSchedule.schedule
+        })
         this.populateFields();
-        console.log("SUCCESSFULLY UPDATED SCHEDULE");
+        this.localSuccess = "Successfully updated schedule.";
       } catch (e) {
-        this.errors.push(e.details);
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
     addSchedule: async function() {
@@ -87,31 +119,45 @@ export default {
           name: this.scheduleName
         }
         const addSchedule = await scheduleHandler.addSchedule(this.tokens, this.account._id, fields);
-        this.schedule = addSchedule.schedule;
+        this.setState({
+          schedule: addSchedule.schedule
+        })
         this.populateFields();
-        console.log("SUCCESSFULLY ADDED SCHEDULE");
+
+        EventBus.$emit('loadSchedules', {});
+
+        this.localSuccess = "Successfully added schedule.";
       } catch (e) {
-        this.errors.push(e.details);
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
     populateFields: function() {
       this.scheduleName = this.schedule.name;
+    },
+    resetErrors: function() {
+      this.localErrors = {
+        componentError: null,
+        scheduleName: null
+      }
+    }
+  },
+  watch: {
+    schedule: function() {
+      if (this.modifyType === 'edit') {
+        this.populateFields();
+      }
     }
   },
   async created() {
-    try {
-      const permittedModifyTypes = ['create', 'edit'];
-      if (!permittedModifyTypes.includes(this.modifyType)) {
-        this.$router.push('/error');
-      }
-      if (this.modifyType === 'edit') {
-        const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.scheduleId);
-        this.schedule = getSchedule.schedule;
+    this.resetErrors();
+    if (this.modifyType === 'edit') {
+      if (this.schedule) {
         this.populateFields();
       }
-      this.loading = false;
-    } catch (e) {
-      this.errors.push(e.details);
+    } else {
+      this.setState({
+        schedule: null
+      });
     }
   }
 }

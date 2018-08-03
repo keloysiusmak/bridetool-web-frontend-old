@@ -4,9 +4,6 @@
     <div class="section">
       <div class="container">
         <div class="columns">
-          <div class="column is-one-fifth">
-            <router-view name="sidebar"/>
-          </div>
           <div class="column">
             <router-view name="panel"/>
           </div>

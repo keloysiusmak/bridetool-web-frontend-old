@@ -1,29 +1,7 @@
 <template>
-  <div id="main_schedule">
-    <div v-if="errors.length" v-for="error in errors">
-      {{error}}
-    </div>
-    <div v-if="loading">
-      Loading...
-    </div>
-    <div v-if="!loading">
-      {{schedule.name}}
-      <br/>
-      <router-link :to="{ path: 'activity' }" append>new activity</router-link><br/>
-      <router-link :to="{ path: 'edit' }" append>edit</router-link><br/>
-      <div v-on:click="removeSchedule();" v-if="!schedule.isDeleted">delete</div>
-      <div v-on:click="restoreSchedule();" v-if="schedule.isDeleted">restore</div>
-      <br/>
-      Active:
-      <div v-for="activity in activeActivities">
-        <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">Activity: {{activity.name}}</router-link>
-      </div>
-      <br/>
-      Deleted:
-      <div v-for="activity in deletedActivities">
-        <router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">Activity: {{activity.name}}</router-link>
-      </div>
-    </div>
+  <div id="main_schedule" v-if="schedule">
+    <p class="title is-1">{{schedule.name}}</p>
+    <p class="subtitle is-4">Overview</p>
   </div>
 </template>
 
@@ -35,13 +13,6 @@ const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
   name: 'Main-Schedule',
-  data() {
-    return {
-      loading: true,
-      schedule: null,
-      errors: []
-    }
-  },
   props: ['scheduleId'],
   computed: {
     ...mapGetters(mappedGetters),
@@ -60,31 +31,11 @@ export default {
   methods: {
     ...mapMutations([
       'setState'
-    ]),
-    removeSchedule: async function() {
-      try {
-        const removeSchedule = await scheduleHandler.removeSchedule(this.tokens, this.scheduleId);
-        this.schedule = removeSchedule.schedule;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    },
-    restoreSchedule: async function() {
-      try {
-        const restoreSchedule = await scheduleHandler.restoreSchedule(this.tokens, this.scheduleId);
-        this.schedule = restoreSchedule.schedule;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    }
+    ])
   },
-  async created() {
-    try {
-      const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.scheduleId);
-      this.schedule = getSchedule.schedule;
-      this.loading = false;
-    } catch (e) {
-      this.errors.push(e.details);
+  watch: {
+    '$route.params.scheduleId': function () {
+      this.loadSchedule();
     }
   }
 }

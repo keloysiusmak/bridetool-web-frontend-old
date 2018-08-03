@@ -1,18 +1,22 @@
 <template>
-  <div id="main_settings_profile">
-    Profile Settings
-    <br/>
-    <div v-if="errors.length" v-for="error in errors">
-      {{error}}
-    </div>
-    <br/>
+  <div id="main_settings_email">
+    <p class="title is-1">Email Settings</p>
     <form v-on:submit.prevent="checkForm();">
-      Email:
-      <br/>
-      <input placeholder="Email" v-model="accountEmail"/>
-      <br/>
-      <br/>
-      <input type="submit" value="Submit" />
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left">
+          <input class="input" placeholder="Email" v-model="accountEmail"/>
+          <span class="icon is-small is-left">
+            <i class="fas fa-envelope"></i>
+          </span>
+        </div>
+      </div>
+      <p>&nbsp;</p>
+      <div class="field">
+        <div class="control">
+          <input class="button is-link" type="submit" value="Save" />
+        </div>
+      </div>
     </form>
   </div>
 </template>
@@ -24,7 +28,7 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 const accountHandler = require('../../../handlers/accountHandler');
 
 export default {
-  name: 'Main-Settings-Profile',
+  name: 'Main-Settings-Email',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

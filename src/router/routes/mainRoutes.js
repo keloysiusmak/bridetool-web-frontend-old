@@ -1,17 +1,14 @@
 //Layouts
-import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+import LayoutSinglePanelWithNav from '@/components/layout/SinglePanelWithNav';
 
 //Components
-import MainWelcomeCustomer from '@/components/panel/default/WelcomeCustomer';
-
+import MainWelcomeCouple from '@/components/panel/default/WelcomeCouple';
 import NavbarDefault from '@/components/navbar/Default';
-
-import SidebarDefault from '@/components/sidebar/Default';
 
 export default [
   {
     path: '/',
-    component: LayoutLeftSidebar,
+    component: LayoutSinglePanelWithNav,
     meta: {
       requiresAuth: true
     },
@@ -23,9 +20,13 @@ export default [
       {
         path: 'welcome',
         components: {
-          panel: MainWelcomeCustomer,
-          navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          panel: MainWelcomeCouple,
+          navbar: NavbarDefault
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'account'
+          }),
         }
       }
     ]

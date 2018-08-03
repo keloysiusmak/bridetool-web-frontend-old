@@ -1,9 +1,8 @@
 //Layouts
-import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+import LayoutSinglePanel from '@/components/layout/SinglePanel';
 
 //Components
 import MainLogin from '@/components/panel/login/Login';
-
 import NavbarLogin from '@/components/navbar/Login';
 
 export default [
@@ -12,13 +11,12 @@ export default [
     meta: {
       requiresAuth: false
     },
-    component: LayoutLeftSidebar,
+    component: LayoutSinglePanel,
     children: [
       {
         path: '/',
         components: {
-          panel: MainLogin,
-          navbar: NavbarLogin
+          panel: MainLogin
         }
       }
     ]

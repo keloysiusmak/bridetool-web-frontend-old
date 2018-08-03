@@ -5,10 +5,8 @@ import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 import MainParty from '@/components/panel/parties/Party';
 import MainPartyModify from '@/components/panel/parties/PartyModify';
 import MainWeddingParty from '@/components/panel/parties/WeddingParty';
-
 import NavbarDefault from '@/components/navbar/Default';
-
-import SidebarDefault from '@/components/sidebar/Default';
+import SidebarParty from '@/components/sidebar/Party';
 
 export default [
   {
@@ -23,7 +21,7 @@ export default [
         components: {
           panel: MainWeddingParty,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarParty
         }
       }
     ]
@@ -40,7 +38,7 @@ export default [
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarParty
         },
         props:{
           panel: (route) => ({
@@ -63,7 +61,7 @@ export default [
         components: {
           panel: MainParty,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarParty
         },
         props:{
           panel: true
@@ -83,7 +81,7 @@ export default [
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarParty
         },
         props:{
           panel: (route) => ({

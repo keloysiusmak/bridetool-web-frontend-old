@@ -5,7 +5,10 @@ const mappedStates = [
   'storedTokensTime',
   'account',
   'activeParty',
-  'globalErrors'
+  'globalErrors',
+  'schedules',
+  'schedule',
+  'activity'
 ];
 
 const mappedGetters = [

@@ -1,30 +1,12 @@
 <template>
   <div id="main_activity">
-    <div v-if="errors.length" v-for="error in errors">
-      {{error}}
-    </div>
-    <div v-if="loading">
-      Loading...
-    </div>
-    <div v-if="!loading">
-      <router-link v-if="!party" :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">back to {{ activity.schedule.name }}</router-link>
-      <router-link v-if="party" :to="{ name: 'getParty', params: {partyId: party._id }, props: true }">back to {{ party.firstName + " " + party.lastName }}</router-link>
-      <br/>
-      <router-link :to="{ path: 'edit' }" append>edit</router-link>
-      <div v-on:click="removeActivity();" v-if="!activity.isDeleted && !activity.schedule.isDeleted">delete</div>
-      <div v-on:click="restoreActivity();" v-if="activity.isDeleted && !activity.schedule.isDeleted">restore</div>
-      <br/>
-      Activity Name : {{activity.name}}
-      <br/>
-      Start Time : {{activity.startTime}}
-      <br/>
-      End Time : {{activity.endTime}}
-      <br/>
-      Deleted : {{activity.isDeleted}}
-      <br/>
-      <br/>
-      <div v-for="party in activity.assignedParties">
-        {{party.firstName + " " + party.lastName}}
+    <div v-if="activity">
+      <div class="content">
+        <p class="title is-1">{{activity.name}}</p>
+        <p class="subtitle is-4">{{formatActivityTime.startTime + " - " + formatActivityTime.endTime}}</p>
+        <div v-for="party in activity.assignedParties">
+          {{party.firstName + " " + party.lastName}}
+        </div>
       </div>
     </div>
   </div>
@@ -40,45 +22,30 @@ export default {
   name: 'Main-Activity',
   data() {
     return {
-      loading: true,
-      activity: null,
-      errors: []
+      loading: true
     }
   },
-  props: ['activityId', 'party'],
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates)
+    ...mapState(mappedStates),
+    formatActivityTime: function() {
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+
+      const startTime = new Date(this.activity.startTime * 1000);
+      const endTime = new Date(this.activity.endTime * 1000);
+
+      const formattedStartTime = startTime.getDate() + " " + months[startTime.getMonth()] + " " + startTime.getFullYear();
+      const formattedEndTime = endTime.getDate() + " " + months[endTime.getMonth()] + " " + endTime.getFullYear();
+      return {
+        startTime: formattedStartTime,
+        endTime: formattedEndTime
+      }
+    }
   },
   methods: {
     ...mapMutations([
       'setState'
-    ]),
-    removeActivity: async function() {
-      try {
-        const removeActivity = await activityHandler.removeActivity(this.tokens, this.activityId);
-        this.activity = removeActivity.activity;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    },
-    restoreActivity: async function() {
-      try {
-        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activityId);
-        this.activity = restoreActivity.activity;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    }
-  },
-  async created() {
-    try {
-      const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
-      this.activity = getActivity.activity;
-      this.loading = false;
-    } catch (e) {
-      this.errors.push(e.details);
-    }
+    ])
   }
 }
 </script>

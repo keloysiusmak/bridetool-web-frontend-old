@@ -62,6 +62,7 @@ export default {
 }
 </script>
 <style lang="sass">
+@import './assets/css/sass/overrides.sass'
 @import '../node_modules/bulma/bulma.sass'
-@import './assets/sass/main.sass'
+@import './assets/css/sass/main.sass'
 </style>

@@ -1,55 +1,50 @@
 //Layouts
 import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
 
-//Components
+//Panel
 import MainActivity from '@/components/panel/activities/Activity';
 import MainActivityModify from '@/components/panel/activities/ActivityModify';
 
+//Navbar
 import NavbarDefault from '@/components/navbar/Default';
 
-import SidebarDefault from '@/components/sidebar/Default';
+//Sidebar
+import SidebarActivity from '@/components/sidebar/activities/Activity';
 
 export default [
   {
-    path: '/activities/:activityId',
+    path: '/activities/',
     meta: {
       requiresAuth: true
     },
     component: LayoutLeftSidebar,
     children: [
       {
-        path: '',
+        path: ':activityId',
         name: 'getActivity',
         components: {
           panel: MainActivity,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarActivity
         },
         props:{
-          panel: true
+          panel: true,
+          sidebar: true
         }
-      }
-    ]
-  },
-  {
-    path: '/activities/:activityId/edit',
-    meta: {
-      requiresAuth: true
-    },
-    component: LayoutLeftSidebar,
-    children: [
+      },
       {
-        path: '',
+        path: ':activityId/edit',
         components: {
           panel: MainActivityModify,
           navbar: NavbarDefault,
-          sidebar: SidebarDefault
+          sidebar: SidebarActivity
         },
         props: {
           panel: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'
-          })
+          }),
+          sidebar: true
         }
       }
     ]

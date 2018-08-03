@@ -1,12 +1,10 @@
 <template>
-  <div id="sidebar_dashboard">
+  <div id="sidebar_default">
     <router-link to="/schedules">schedules</router-link>
     <br/>
     <router-link to="/party">wedding party</router-link>
     <br/>
-    <router-link to="/settings">settings</router-link>
-    <br/>
-    <a v-on:click="logout()">Logout</a>
+
   </div>
 </template>
 
@@ -15,7 +13,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
-  name: 'Sidebar-Dashboard',
+  name: 'Sidebar-Default',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -23,17 +21,7 @@ export default {
   methods: {
     ...mapMutations([
       'setState'
-    ]),
-    logout: async function() {
-      this.setState({
-        accessToken: null,
-        account: null,
-        storedTokensTime: null,
-        refreshToken: null,
-        user: null
-      });
-      this.$router.push({ path: '/login' });
-    }
+    ])
   }
 }
 </script>

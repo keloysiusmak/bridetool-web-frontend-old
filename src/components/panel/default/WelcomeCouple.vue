@@ -1,9 +1,9 @@
 <template>
   <div id="main_welcome">
-    Hello! You are currently signed in as {{activeParty.firstName + " " + activeParty.lastName}}. Is this you? If not, click below to sign in as your partner.
-    <br/>
-    <br/>
-    <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">{{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}</a>
+    <p class="title is-1">Hello {{activeParty.firstName + " " + activeParty.lastName}}!</p>
+    <p class="subtitle is-3">Welcome back.</p>
+    <p>&nbsp;</p>
+    Is this you? If not, click <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">here</a> to switch to {{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}.
   </div>
 </template>
 

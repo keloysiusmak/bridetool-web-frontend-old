@@ -1,15 +1,39 @@
 <template>
   <div id="main_login">
-    <div v-if="loading">
-      Loading...
-    </div>
-    <form v-on:submit.prevent="login()" v-if="!loading">
-      <input v-model="username" placeholder="username" value=""/>
-      <br/>
-      <input v-model="password" type="password" placeholder="password"/>
-      <br/>
-      <input type="submit" value="Submit" />
-    </form>
+    <section class="hero is-fullheight">
+      <div class="hero-body">
+        <div class="container">
+          <div class="columns is-centered is-desktop">
+            <div class="column is-one-third is-vcentered is-desktop">
+              <form v-on:submit.prevent="login()">
+                <div class="field">
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input is-medium" placeholder="Username" v-model="username"/>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-user"></i>
+                    </span>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control has-icons-left has-icons-right">
+                    <input class="input is-medium" placeholder="Password" type="password" v-model="password"/>
+                    <span class="icon is-small is-left">
+                      <i class="fas fa-key"></i>
+                    </span>
+                  </div>
+                </div>
+                <p>&nbsp;</p>
+                <div class="field">
+                  <div class="control">
+                    <input class="button is-link is-medium" type="submit" value="Login" />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -28,7 +52,6 @@ export default {
   },
   data () {
     return {
-      loading: false,
       username: 'hey',
       password: 'heya'
     }
