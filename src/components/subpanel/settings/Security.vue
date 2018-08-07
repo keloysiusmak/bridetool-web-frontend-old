@@ -1,15 +1,17 @@
 <template>
   <div id="main_settings_password">
-    <p class="title is-1">Password Settings</p>
+    <br>
+    <span class="title is-5">Manage Password</span>
+    <hr/>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">Old Password</label>
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" placeholder="Old Password" v-model="oldPassword"/>
+              <input class="input is-small" placeholder="Old Password" v-model="oldPassword"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -18,13 +20,13 @@
         </div>
       </div>
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">New Password</label>
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" placeholder="New Password" v-model="newPassword"/>
+              <input class="input is-small" placeholder="New Password" v-model="newPassword"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -33,13 +35,13 @@
         </div>
       </div>
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">Confirm New Password</label>
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" placeholder="Re-enter New Password" v-model="newPasswordConfirmation"/>
+              <input class="input is-small" placeholder="Re-enter New Password" v-model="newPasswordConfirmation"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -47,14 +49,14 @@
           </div>
         </div>
       </div>
-      <p>&nbsp;</p>
+      <hr>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link" type="submit" value="Save" />
+              <input class="button is-link is-small" type="submit" value="Save" />
             </div>
           </div>
         </div>

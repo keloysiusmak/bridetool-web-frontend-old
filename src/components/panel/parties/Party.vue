@@ -30,7 +30,8 @@ export default {
   name: 'Main-Party',
   data() {
     return {
-      errors: []
+      errors: [],
+      party: null
     }
   },
   props: ['partyId'],
@@ -62,9 +63,20 @@ export default {
       } catch (e) {
         this.errors.push(e.details);
       }
+    },
+    loadParty: async function() {
+      try {
+        if (this.partyId) {
+          const getParty = await partyHandler.getParty(this.tokens, this.partyId);
+          this.party = getParty.party;
+        }
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   async created() {
+    this.loadParty();
   }
 }
 </script>

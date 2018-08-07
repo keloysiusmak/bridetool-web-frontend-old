@@ -1,15 +1,18 @@
 //Layouts
-import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
 
 //Panel
-import MainActivity from '@/components/panel/activities/Activity';
-import MainActivityModify from '@/components/panel/activities/ActivityModify';
+import PanelSchedule from '@/components/panel/schedules/Schedule';
+
+//SubPanel
+import SubPanelActivitiesActivity from '@/components/subpanel/activities/Activity';
+import SubPanelActivitiesModify from '@/components/subpanel/activities/Modify';
+
+//Subbar
+import SubbarWeddingDay from '@/components/subbar/WeddingDay';
 
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
-
-//Sidebar
-import SidebarActivity from '@/components/sidebar/activities/Activity';
 
 export default [
   {
@@ -17,45 +20,52 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutLeftSidebar,
+    component: LayoutAppPanelSub,
     children: [
       {
         path: ':activityId',
-        name: 'getActivity',
+        name: 'Activity',
         components: {
-          panel: MainActivity,
+          panel: PanelSchedule,
+          subpanel: SubPanelActivitiesActivity,
           navbar: NavbarDefault,
-          sidebar: SidebarActivity
+          subbar: SubbarWeddingDay
         },
         props:{
           navbar: (route) => ({
-            navbarSelected: 'schedules'
+            navbarSelected: 'weddingday'
           }),
-          panel: true,
-          sidebar: (route) => ({
+          subbar: (route) => ({
+            subbarSelected: 'schedule'
+          }),
+          panel: (route) => ({
             activityId: route.params.activityId,
-            sidebarSelected: 'activityoverview'
+            panelSelected: 'activities'
           })
         }
       },
       {
         path: ':activityId/edit',
+        name: 'ActivityEdit',
         components: {
-          panel: MainActivityModify,
+          panel: PanelSchedule,
+          subpanel: SubPanelActivitiesModify,
           navbar: NavbarDefault,
-          sidebar: SidebarActivity
+          subbar: SubbarWeddingDay
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'schedules'
+            navbarSelected: 'weddingday'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'schedule'
           }),
           panel: (route) => ({
+            panelSelected: 'activities'
+          }),
+          subpanel: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'
-          }),
-          sidebar: (route) => ({
-            activityId: route.params.activityId,
-            sidebarSelected: 'editactivity'
           })
         }
       }

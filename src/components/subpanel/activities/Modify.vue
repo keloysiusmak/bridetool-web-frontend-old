@@ -1,78 +1,26 @@
 <template>
   <div id="main_activity_edit">
-    <!-- START deleteActivityModal -->
-    <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box">
-          <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
-          <div class="subtitle is-6">
-            You can restore this activity later, but the following changes cannot be restored:
-          </div>
-          <div class="is-size-6">
-            <li>All parties assigned to this activity will be unassigned.</li>
-          </div>
-          <p>&nbsp;</p>
-          <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
-          <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="close"></button>
-    </div>
-    <!-- END deleteActivityModal -->
-
-    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType == 'edit' && activity">
-      <ul>
-        <li><router-link to="/schedules">Schedules</router-link></li>
-        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">{{ activity.schedule.name }}</router-link></li>
-        <li><router-link :to="{ path: '/schedules/' + activity.schedule._id + '/activities' }">Activities</router-link></li>
-        <li><router-link :to="{ name: 'getActivity', params: {activityId: activity._id }, props: true }">{{activity.name}}</router-link></li>
-        <li class="is-active"><a href="#" aria-current="page">Edit Activity</a></li>
-      </ul>
-    </nav>
-    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="modifyType === 'create' && schedule">
-      <ul>
-        <li><router-link to="/schedules">Schedules</router-link></li>
-        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: schedule._id }, props: true }">{{ schedule.name }}</router-link></li>
-        <li><router-link :to="{ path: '/schedules/' + schedule._id + '/activities' }">Activities</router-link></li>
-        <li class="is-active"><a href="#" aria-current="page">Create Activity</a></li>
-      </ul>
-    </nav>
+    <br/>
+    <span class="title is-5" v-if="modifyType === 'edit'">Edit Activity</span>
+    <span class="title is-5" v-if="modifyType === 'create'">Create Activity</span>
+    <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       {{localErrors.componentError}}
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      {{localSuccess}}
+      <span class="is-size-7">{{localSuccess}}</span>
     </div>
-    <div v-if="modifyType === 'create' && schedule">
-      <p class="title is-1">
-        Create Activity
-      </p>
-      <p class="subtitle is-4">
-        {{schedule.name}}
-      </p>
-    </div>
-    <div v-if="modifyType === 'edit' && activity">
-      <p class="title is-1">
-        Edit Activity
-      </p>
-      <p class="subtitle is-4">
-        {{activity.name}}
-      </p>
-    </div>
-    <br/>
-
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">Name</label>
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" placeholder="Activity Name" v-model="activityName"  v-bind:class="{'is-danger': localErrors.activityName}"/>
+              <input class="input is-small" placeholder="Activity Name" v-model="activityName"  v-bind:class="{'is-danger': localErrors.activityName}"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
@@ -81,16 +29,16 @@
           </div>
         </div>
       </div>
-      <p>&nbsp;</p>
+      <br/>
       <!--START TIME-->
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">Start Time</label>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.date">
                   <option v-for="date in dates" v-bind:value="date">
                     {{ date }}
@@ -100,7 +48,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.month">
                   <option v-for="month in months" v-bind:value="month">
                     {{ monthNames[month - 1] }}
@@ -110,7 +58,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.year">
                   <option v-for="year in years" v-bind:value="year">
                     {{ year }}
@@ -122,12 +70,12 @@
         </div>
       </div>
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label">
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.hour">
                   <option v-for="hour in hours" v-bind:value="hour">
                     {{ hour }}
@@ -137,7 +85,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.minute">
                   <option v-for="minute in minutes" v-bind:value="minute">
                     {{ String(minute).padStart(2, '0') }}
@@ -147,7 +95,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.ampm">
                   <option v-for="ampm in ampms" v-bind:value="ampm">
                     {{ ampm }}
@@ -165,16 +113,16 @@
         </div>
       </div>
       <!--END START TIME-->
-      <p>&nbsp;</p>
+      <br/>
       <!--END TIME-->
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">End Time</label>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.date">
                   <option v-for="date in dates" v-bind:value="date">
                     {{ date }}
@@ -184,7 +132,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.month">
                   <option v-for="month in months" v-bind:value="month">
                     {{ monthNames[month - 1] }}
@@ -194,7 +142,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.year">
                   <option v-for="year in years" v-bind:value="year">
                     {{ year }}
@@ -211,7 +159,7 @@
         <div class="field-body">
           <div class="field has-addons has-addons-left">
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.hour">
                   <option v-for="hour in hours" v-bind:value="hour">
                     {{ hour }}
@@ -221,7 +169,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.minute">
                   <option v-for="minute in minutes" v-bind:value="minute">
                     {{ String(minute).padStart(2, '0') }}
@@ -231,7 +179,7 @@
             </p>
 
             <p class="control">
-              <span class="select" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.ampm">
                   <option v-for="ampm in ampms" v-bind:value="ampm">
                     {{ ampm }}
@@ -249,11 +197,12 @@
         </div>
       </div>
       <!--END END TIME-->
-      <p>&nbsp;</p>
       <hr/>
-      <p>&nbsp;</p>
-      <div class="field">
-        <label class="label">Assigned Parties</label>
+      <div class="field is-horizontal">
+
+        <div class="field-label is-small">
+          <label class="label">Assigned Parties</label>
+        </div>
         <div class="field-body">
           <div class="field is-grouped is-grouped-multiline">
             <div class="control" v-if="!activityAssignedParties.length">
@@ -261,23 +210,24 @@
             </div>
             <div class="control" v-if="activityAssignedParties.length" v-for="party in activityAssignedParties">
               <div class="tags has-addons">
-                <span class="tag is-medium">
+                <span class="tag is-small">
                   {{ party.firstName + " " + party.lastName }}
                 </span>
                 <label class="checkbox">
                   <input type="checkbox" class="hidden" v-bind:value="party._id" v-bind:id="'party' + party._id" v-model="activityAssignedPartiesId">
-                  <a class="tag is-medium is-danger">delete</a>
+                  <a class="tag is-small is-danger">delete</a>
                 </label>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <p>&nbsp;</p>
-      <div class="field">
-        <label class="label">Available Parties</label>
-        <p class="help">Don't see some members of your wedding party? <a>Find out why.</a></p>
-        <p>&nbsp;</p>
+      <br/>
+      <div class="field is-horizontal">
+        <div class="field-label is-small">
+          <label class="label">Available Parties</label>
+          <p class="help">Don't see some members of your wedding party? <a>Find out why.</a></p>
+        </div>
         <div class="field-body">
           <div v-if="availablePartiesLoading">
             <a class="button is-loading is-medium is-text"></a>
@@ -288,12 +238,12 @@
             </div>
             <div class="control" v-if="activityAvailableParties.length" v-for="party in activityAvailableParties">
               <div class="tags has-addons">
-                <span class="tag is-medium">
+                <span class="tag is-small">
                   {{ party.firstName + " " + party.lastName }}
                 </span>
                 <label class="checkbox">
                   <input type="checkbox" class="hidden" v-bind:value="party._id" v-bind:id="'party' + party._id" v-model="activityAssignedPartiesId">
-                  <a class="tag is-medium is-success">
+                  <a class="tag is-small is-success">
                     add
                   </a>
                 </label>
@@ -302,18 +252,14 @@
           </div>
         </div>
       </div>
-      <p>&nbsp;</p>
       <hr/>
-      <p>&nbsp;</p>
       <div class="field is-horizontal">
         <div class="field-label"></div>
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link" type="submit" value="Save" v-if="modifyType === 'edit'" />
-              <input class="button is-link" type="submit" value="Create" v-if="modifyType === 'create'" />
-              <a v-if="activity && !activity.isDeleted" class="button is-danger" v-on:click="deleteActivityModal = true">Delete Activity</a>
-              <a v-on:click="restoreActivity();" class="button is-success" v-if="activity && activity.isDeleted">Restore Activity</a>
+              <input class="button is-link is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
+              <input class="button is-link is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
             </div>
           </div>
         </div>
@@ -325,8 +271,8 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
-import { EventBus } from '../../../events/event-bus.js';
 import _ from 'lodash'
+import { EventBus } from '../../../events/event-bus.js';
 
 const activityHandler = require('../../../handlers/activityHandler');
 const partyHandler = require('../../../handlers/partyHandler');
@@ -369,10 +315,10 @@ export default {
       availablePartiesLoading: false,
       localErrors: {},
       localSuccess: '',
-      deleteActivityModal: false
+      activity: null
     }
   },
-  props: ['activityId', 'modifyType', 'scheduleId'],
+  props: ['activityId', 'modifyType'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -435,35 +381,12 @@ export default {
           assignedParties: this.activityAssignedPartiesId
         }
         const updateActivity = await activityHandler.updateActivity(this.tokens, this.activity._id, fields);
-        this.setState({
-          activity: updateActivity.activity
-        });
+        this.activity = updateActivity.activity;
         this.populateFields();
+        EventBus.$emit('loadSchedule', {});
         this.localSuccess = 'Successfully updated activity.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
-      }
-    },
-    deleteActivity: async function() {
-      try {
-        const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activityId);
-        this.setState({
-          activity: deleteActivity.activity
-        });
-        this.localSuccess = 'Successfully deleted activity.';
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    restoreActivity: async function() {
-      try {
-        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activityId);
-        this.setState({
-          activity: restoreActivity.activity
-        });
-        this.localSuccess = 'Successfully restored activity.';
-      } catch (e) {
-        console.log(e);
       }
     },
     addActivity: async function() {
@@ -478,13 +401,10 @@ export default {
           assignedParties: this.activityAssignedPartiesId
         }
         const addActivity = await activityHandler.addActivity(this.tokens, this.scheduleId, fields);
-        this.setState({
-          activity: addActivity.activity
-        });
-
-        EventBus.$emit('loadSchedule', {});
+        this.activity = addActivity.activity;
 
         this.populateFields();
+        EventBus.$emit('loadSchedule', {});
         this.localSuccess = 'Successfully added activity.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
@@ -555,11 +475,21 @@ export default {
       }
     },
     resetErrors: function() {
+      this.localSuccess = null
       this.localErrors = {
         componentError: null,
         activityName: null,
         activityStartTime: null,
         activityEndTime: null
+      }
+    },
+    loadActivity: async function() {
+      try {
+        const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
+        this.activity = getActivity.activity;
+        this.populateFields();
+      } catch (e) {
+        console.log(e);
       }
     }
   },
@@ -607,9 +537,7 @@ export default {
     this.resetErrors();
     this.debouncedGetAvailableParties = _.debounce(this.getAvailableParties, 1000);
     if (this.modifyType === 'edit') {
-      if (this.activity) {
-        this.populateFields();
-      }
+      this.loadActivity();
     } else {
       this.setState({
         activity: null

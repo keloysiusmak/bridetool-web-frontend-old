@@ -1,9 +1,7 @@
 <template>
   <div id="main_welcome">
-    <p class="title is-1">Hello {{activeParty.firstName + " " + activeParty.lastName}}!</p>
-    <p class="subtitle is-3">Welcome back.</p>
-    <p>&nbsp;</p>
-    Is this you? If not, click <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">here</a> to switch to {{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}.
+    <br/>
+    <p class="is-size-7">Are you {{activeParty.firstName + " " + activeParty.lastName}}? If not, click <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">here</a> to switch to {{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}.</p>
   </div>
 </template>
 
@@ -48,7 +46,6 @@ export default {
   data() {
     return {
       loading: true,
-      activity: null,
       errors: []
     }
   },

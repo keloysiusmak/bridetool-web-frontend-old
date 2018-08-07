@@ -1,9 +1,8 @@
 //Layouts
-import LayoutSinglePanel from '@/components/layout/SinglePanel';
+import LayoutAppClean from '@/components/layout/AppClean';
 
 //Components
 import MainLogin from '@/components/panel/login/Login';
-import NavbarLogin from '@/components/navbar/Login';
 
 export default [
   {
@@ -11,7 +10,7 @@ export default [
     meta: {
       requiresAuth: false
     },
-    component: LayoutSinglePanel,
+    component: LayoutAppClean,
     children: [
       {
         path: '/',

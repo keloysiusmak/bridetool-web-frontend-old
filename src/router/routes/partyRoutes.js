@@ -1,12 +1,16 @@
 //Layouts
-import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Components
 import MainParty from '@/components/panel/parties/Party';
 import MainPartyModify from '@/components/panel/parties/PartyModify';
 import MainWeddingParty from '@/components/panel/parties/WeddingParty';
+
+//Subbar
+import SubbarWeddingDay from '@/components/subbar/WeddingDay';
+
+//Navbar
 import NavbarDefault from '@/components/navbar/Default';
-import SidebarParty from '@/components/sidebar/parties/Party';
 
 export default [
   {
@@ -14,80 +18,72 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutLeftSidebar,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
         components: {
           panel: MainWeddingParty,
           navbar: NavbarDefault,
-          sidebar: SidebarParty
+          subbar: SubbarWeddingDay
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'party'
+            navbarSelected: 'weddingday'
           }),
-          sidebar: (route) => ({
-            sidebarSelected: 'partyoverview'
+          subbar: (route) => ({
+            subbarSelected: 'party'
           })
         }
       },
       {
         path: 'create',
+        name: 'PartyAdd',
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
-          sidebar: SidebarParty
+          subbar: SubbarWeddingDay
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'party'
+          subbar: (route) => ({
+            subbarSelected: 'party'
           }),
           panel: (route) => ({
             modifyType: 'create'
-          }),
-          sidebar: (route) => ({
-            sidebarSelected: 'createparty'
           })
         }
       },
       {
         path: ':partyId',
-        name: 'getParty',
+        name: 'PartyOverview',
         components: {
           panel: MainParty,
           navbar: NavbarDefault,
-          sidebar: SidebarParty
+          subbar: SubbarWeddingDay
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'party'
+          subbar: (route) => ({
+            subbarSelected: 'party'
           }),
-          panel: true,
-          sidebar: (route) => ({
-            sidebarSelected: 'partyoverview',
-            partyId: route.params.partyId
-          })
+          panel: true
         }
       },
       {
         path: ':partyId/edit',
+        name: 'PartyEdit',
         components: {
           panel: MainPartyModify,
           navbar: NavbarDefault,
-          sidebar: SidebarParty
+          subbar: SubbarWeddingDay
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'party'
+          subbar: (route) => ({
+            subbarSelected: 'party'
           }),
           panel: (route) => ({
             partyId: route.params.partyId,
             modifyType: 'edit'
           }),
-          sidebar: (route) => ({
-            sidebarSelected: 'partyoverview'
-          })
         }
       }
     ]

@@ -3,14 +3,13 @@ import Router from 'vue-router';
 import { store } from '../store';
 
 //routes
-import activityRoutes from './routes/activityRoutes'
 import errorRoutes from './routes/errorRoutes'
+import activityRoutes from './routes/activityRoutes'
 import loginRoutes from './routes/loginRoutes'
 import mainRoutes from './routes/mainRoutes'
 import partyRoutes from './routes/partyRoutes'
 import scheduleRoutes from './routes/scheduleRoutes'
 import settingsRoutes from './routes/settingsRoutes'
-
 
 
 Vue.use(Router);

@@ -6,11 +6,7 @@ const mappedStates = [
   'account',
   'activeParty',
   'globalErrors',
-  'schedules',
-  'schedule',
-  'activity',
-  'parties',
-  'party'
+  'schedule'
 ];
 
 const mappedGetters = [

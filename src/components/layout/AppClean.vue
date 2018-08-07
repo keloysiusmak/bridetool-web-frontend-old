@@ -1,6 +1,10 @@
 <template>
-  <div id="nav_login">
-    Main Login Screen
+  <div id="layout_app_clean">
+    <div class="section">
+      <div class="container">
+        <router-view name="panel"/>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -9,7 +13,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
-  name: 'Nav-Login',
+  name: 'Layout-App-Clean',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -17,6 +21,5 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 </style>

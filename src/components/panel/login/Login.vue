@@ -82,9 +82,7 @@ export default {
           activeParty: activeParty
         });
 
-        if (this.account.type === 'couple') {
-          this.$router.push({ path: '/welcome' });
-        }
+        this.$router.push({ path: '/' });
       } catch (e) {
         this.setState({
           errors: e.message

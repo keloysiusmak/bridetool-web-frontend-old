@@ -1,15 +1,15 @@
 <template>
-  <div id="sidebar_activity" v-if="activity">
-    <aside class="menu">
-      <span class="tag is-danger" v-if="activity.isDeleted">Deleted</span>
-      <p class="menu-label">{{activity.name}}</p>
+  <div id="sidebar_activity">
+    <aside class="menu" v-if="activity">
       <ul class="menu-list">
-        <li><router-link :to="{ name: 'getActivity', params: {activityId : activity._id}, props: true }" v-bind:class="{ 'is-active': sidebarSelected === 'activityoverview' }">Overview</router-link></li>
-      </ul>
-      <p>&nbsp;</p>
-      <p class="menu-label">Operations</p>
-      <ul class="menu-list">
-        <li><router-link :to="{ path: '/activities/' + activity._id + '/edit' }" v-bind:class="{ 'is-active': sidebarSelected === 'editactivity' }">Edit Activity</router-link></li>
+        <div class="navbar-start">
+          <router-link class="navbar-item" :to="{ name: 'getActivity', params: {activityId : activity._id}, props: true }" v-bind:class="{ 'is-active': sidebarSelected === 'activityoverview' }">Overview</router-link></li>
+        </div>
+        <div class="navbar-end">
+          <router-link class="navbar-item" :to="{ path: '/activities/' + activity._id + '/edit' }">
+            <span class="button is-link">Edit Activity</span>
+          </router-link>
+        </div>
       </ul>
     </aside>
   </div>

@@ -1,14 +1,5 @@
 <template>
   <div id="main_activity">
-    <nav class="breadcrumb" aria-label="breadcrumbs" v-if="activity">
-      <ul>
-        <li><router-link to="/schedules">Schedules</router-link></li>
-        <li><router-link :to="{ name: 'getSchedule', params: {scheduleId: activity.schedule._id }, props: true }">{{ activity.schedule.name }}</router-link></li>
-        <li><router-link :to="{ path: '/schedules/' + activity.schedule._id + '/activities' }">Activities</router-link></li>
-        <li class="is-active"><a href="#" aria-current="page">{{activity.name}}</a></li>
-      </ul>
-    </nav>
-
     <div v-if="activity">
       <p class="title is-1">{{activity.name}}</p>
       <p class="subtitle is-4">{{formatActivityTime.startTime + " - " + formatActivityTime.endTime}}</p>

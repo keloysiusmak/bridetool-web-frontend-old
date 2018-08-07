@@ -1,32 +1,17 @@
 <template>
   <div id="main_schedule" v-if="schedule">
-    <p class="title is-4">{{schedule.name}}</p>
-    <router-link :to="{ name: 'ScheduleOverview' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
+    <p class="title is-4">Profile Settings</p>
+    <router-link :to="{ path: '/settings/profile/email' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'email' }">
       <span class="icon is-small is-left">
-        <i class="fab fa-fly"></i>
+        <i class="fab fa-mail"></i>
       </span>&nbsp;
-      Overview
+      Email
     </router-link>
-
-    <router-link :to="{ name: 'ScheduleTimeline' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'timeline' }">
+    <router-link :to="{ path: '/settings/profile/switchuser' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'switchuser' }">
       <span class="icon is-small is-left">
-        <i class="fas fa-calendar-alt"></i>
+        <i class="fab fa-user"></i>
       </span>&nbsp;
-      Timeline
-    </router-link>
-
-    <router-link :to="{ name: 'ScheduleActivities' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'activities' }">
-      <span class="icon is-small is-left">
-        <i class="fas fa-th-list"></i>
-      </span>&nbsp;
-      Activities
-    </router-link>
-
-    <router-link :to="{ name: 'ScheduleManage' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
-      <span class="icon is-small is-left">
-        <i class="fas fa-wrench"></i>
-      </span>&nbsp;
-      Manage
+      Switch User
     </router-link>
   </div>
 </template>

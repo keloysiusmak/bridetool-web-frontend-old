@@ -1,15 +1,17 @@
 <template>
   <div id="main_settings_email">
-    <p class="title is-1">Email Settings</p>
+    <br/>
+    <span class="title is-5">Manage Email</span>
+    <hr/>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-normal">
+        <div class="field-label is-small">
           <label class="label">Email</label>
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input" placeholder="Email" v-model="accountEmail"/>
+              <input class="input is-small" placeholder="Email" v-model="accountEmail"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-envelope"></i>
               </span>
@@ -17,14 +19,14 @@
           </div>
         </div>
       </div>
-      <p>&nbsp;</p>
+      <hr/>
       <div class="field is-horizontal">
         <div class="field-label is-normal">
         </div>
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link" type="submit" value="Save" />
+              <input class="button is-link is-small" type="submit" value="Save" />
             </div>
           </div>
         </div>

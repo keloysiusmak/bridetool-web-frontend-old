@@ -19,9 +19,7 @@ export const store = new Vuex.Store({
     account: null,
     activeParty: null,
     globalErrors: null,
-    schedules: null,
     schedule: null,
-    activity: null,
     parties: null,
     party: null
   },

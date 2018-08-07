@@ -1,16 +1,9 @@
 <template>
-  <div id="layout_leftsidebar">
+  <div id="layout_app_splash">
     <router-view name="navbar" />
     <div class="section">
       <div class="container">
-        <div class="columns">
-          <div class="column is-one-fifth">
-            <router-view name="sidebar"/>
-          </div>
-          <div class="column">
-            <router-view name="panel"/>
-          </div>
-        </div>
+        <router-view name="panel"/>
       </div>
     </div>
   </div>
@@ -21,7 +14,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
-  name: 'Layout-LeftSidebar',
+  name: 'Layout-App-Splash',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

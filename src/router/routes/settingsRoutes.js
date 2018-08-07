@@ -1,11 +1,20 @@
 //Layouts
-import LayoutLeftSidebar from '@/components/layout/LeftSidebar';
+import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
 
-//Components
-import MainEmail from '@/components/panel/settings/Email';
-import MainPassword from '@/components/panel/settings/Password';
+//Panel
+import PanelSettingsProfile from '@/components/panel/settings/Profile';
+import PanelSettingsSecurity from '@/components/panel/settings/Security';
+
+//SubPanel
+import SubPanelSettingsProfile from '@/components/subpanel/settings/Profile';
+import SubPanelSettingsSecurity from '@/components/subpanel/settings/Security';
+import SubPanelSettingsSwitchUser from '@/components/subpanel/settings/SwitchUser';
+
+//Subbar
+import SubbarSettings from '@/components/subbar/Settings';
+
+//Navbar
 import NavbarDefault from '@/components/navbar/Default';
-import SidebarSettings from '@/components/sidebar/settings/Settings';
 
 export default [
   {
@@ -13,41 +22,77 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutLeftSidebar,
+    component: LayoutAppPanelSub,
     children: [
       {
-        path: '/',
-        redirect: '/settings/email'
+        path: '',
+        redirect: '/settings/profile/email'
       },
       {
-        path: 'email',
+        path: 'profile',
+        redirect: '/settings/profile/email'
+      },
+      {
+        path: 'security',
+        redirect: '/settings/security/password'
+      },
+      {
+        path: 'profile/email',
         components: {
-          panel: MainEmail,
+          panel: PanelSettingsProfile,
+          subpanel: SubPanelSettingsProfile,
           navbar: NavbarDefault,
-          sidebar: SidebarSettings
+          subbar: SubbarSettings
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'account'
+            navbarSelected: 'settings'
           }),
-          sidebar: (route) => ({
-            sidebarSelected: 'email'
+          subbar: (route) => ({
+            subbarSelected: 'profile'
+          }),
+          panel: (route) => ({
+            panelSelected: 'email'
           })
         }
       },
       {
-        path: 'password',
+        path: 'profile/switchuser',
         components: {
-          panel: MainPassword,
+          panel: PanelSettingsProfile,
+          subpanel: SubPanelSettingsSwitchUser,
           navbar: NavbarDefault,
-          sidebar: SidebarSettings
+          subbar: SubbarSettings
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'account'
+            navbarSelected: 'settings'
           }),
-          sidebar: (route) => ({
-            sidebarSelected: 'password'
+          subbar: (route) => ({
+            subbarSelected: 'profile'
+          }),
+          panel: (route) => ({
+            panelSelected: 'switchuser'
+          })
+        }
+      },
+      {
+        path: 'security/password',
+        components: {
+          panel: PanelSettingsSecurity,
+          subpanel: SubPanelSettingsSecurity,
+          navbar: NavbarDefault,
+          subbar: SubbarSettings
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'settings'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'security'
+          }),
+          panel: (route) => ({
+            panelSelected: 'password'
           })
         }
       }
