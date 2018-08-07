@@ -539,9 +539,7 @@ export default {
     if (this.modifyType === 'edit') {
       this.loadActivity();
     } else {
-      this.setState({
-        activity: null
-      })
+      this.activity = null;
     }
   }
 }

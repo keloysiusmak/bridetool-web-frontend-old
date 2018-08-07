@@ -1,6 +1,5 @@
 <template>
   <div id="main_schedule" v-if="schedule">
-    <p class="title is-4">{{schedule.name}}</p>
     <router-link :to="{ name: 'ScheduleOverview' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
       <span class="icon is-small is-left">
         <i class="fab fa-fly"></i>

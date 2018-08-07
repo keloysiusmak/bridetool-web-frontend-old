@@ -1,28 +1,30 @@
 <template>
-  <div id="main_party">
-    <div v-if="party">
-      <div v-if="party.type !== 'couple'">
-        {{party.firstName + " " + party.lastName}}
-        <br/>
-        <router-link :to="{ path: 'edit' }" append>edit</router-link>
-        <div v-on:click="removeParty();" v-if="!party.isDeleted">delete</div>
-        <div v-on:click="restoreParty();" v-if="party.isDeleted">restore</div>
-      </div>
-      <div v-if="party.type === 'couple'">
-        {{party.firstName + " " + party.lastName}} (me)
-      </div>
-      <br/>
-      Activities:
-      <div v-for="activity in activeActivities">
-        <router-link :to="{ name: 'getActivity', params: {activityId: activity._id, party: party}, props: true }">Activity: {{activity.name}}</router-link>
-      </div>
-    </div>
+  <div id="main_party" v-if="parties">
+    <router-link :to="{ name: 'WeddingParty' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'weddingparty' }">
+      <span class="icon is-small is-left">
+        <i class="fas fa-clipboard-list"></i>
+      </span>&nbsp;
+      Overview
+    </router-link>
+    <router-link :to="{ name: 'PartyParties' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'parties' }">
+      <span class="icon is-small is-left">
+        <i class="fas fa-clipboard-list"></i>
+      </span>&nbsp;
+      Parties
+    </router-link>
+    <router-link :to="{ name: 'PartyGroups' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
+      <span class="icon is-small is-left">
+        <i class="fas fa-stream"></i>
+      </span>&nbsp;
+      Groups
+    </router-link>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
+import { EventBus } from '../../../events/event-bus.js';
 
 const partyHandler = require('../../../handlers/partyHandler');
 
@@ -30,45 +32,25 @@ export default {
   name: 'Main-Party',
   data() {
     return {
-      errors: [],
-      party: null
+      errors: []
     }
   },
-  props: ['partyId'],
+  props: ['partyId', 'panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates),
-    activeActivities: function() {
-      return this.party.activities.filter(activity => {
-        return !activity.isDeleted;
-      });
-    }
+    ...mapState(mappedStates)
   },
   methods: {
     ...mapMutations([
       'setState'
     ]),
-    removeParty: async function() {
+    loadWeddingParty: async function() {
       try {
-        const removeParty = await partyHandler.removeParty(this.tokens, this.partyId);
-        this.party = removeParty.party;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    },
-    restoreParty: async function() {
-      try {
-        const restoreParty = await partyHandler.restoreParty(this.tokens, this.partyId);
-        this.party = restoreParty.party;
-      } catch (e) {
-        this.errors.push(e.details);
-      }
-    },
-    loadParty: async function() {
-      try {
-        if (this.partyId) {
-          const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-          this.party = getParty.party;
+        if (this.account._id) {
+          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
+          this.setState({
+            parties: getWeddingParty.weddingParty
+          })
         }
       } catch (e) {
         console.log(e);
@@ -76,7 +58,12 @@ export default {
     }
   },
   async created() {
-    this.loadParty();
+    this.loadWeddingParty();
+  },
+  async mounted() {
+    EventBus.$on('loadWeddingParty', payload => {
+      this.loadWeddingParty();
+    });
   }
 }
 </script>

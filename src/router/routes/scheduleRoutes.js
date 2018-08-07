@@ -6,6 +6,7 @@ import PanelSchedule from '@/components/panel/schedules/Schedule';
 
 //SubPanel
 import SubPanelSchedulesActivities from '@/components/subpanel/schedules/Activities';
+import SubPanelSchedulesTimeline from '@/components/subpanel/schedules/Timeline';
 import SubPanelSchedulesModify from '@/components/subpanel/schedules/Modify';
 import SubPanelActivityModify from '@/components/subpanel/activities/Modify';
 
@@ -62,6 +63,28 @@ export default [
           }),
           panel: (route) => ({
             panelSelected: 'activities'
+          }),
+          subpanel: true
+        }
+      },
+      {
+        path: 'timeline',
+        name: 'ScheduleTimeline',
+        components: {
+          panel: PanelSchedule,
+          subpanel: SubPanelSchedulesTimeline,
+          navbar: NavbarDefault,
+          subbar: SubbarWeddingDay
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'schedule'
+          }),
+          panel: (route) => ({
+            panelSelected: 'timeline'
           }),
           subpanel: true
         }

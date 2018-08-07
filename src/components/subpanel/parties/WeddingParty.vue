@@ -33,6 +33,7 @@
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
     <!-- END deletePartyModal -->
+    <br/>
     <div class="columns">
       <div class="column is-4">
         <p class="title is-4">Couple</p>
@@ -40,31 +41,27 @@
           <div class="card-content">
             <p class="title is-5">{{party.firstName + " " + party.lastName}}</p>
             <p class="subtitle is-7 is-italic has-text-grey">Couple</p>
-            <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }" class="is-size-7">See More</router-link>
+            <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }" class="is-size-7">Overview</router-link>
           </div>
         </div>
-        <hr/>
-        <p class="title is-4">Groups</p>
       </div>
       <div class="column is-8">
-        <p class="title is-4">
-          Wedding Party
-        </p>
-
-        <div v-if="localSuccess" class="notification is-success">
-          <button class="delete" v-on:click="localSuccess = null"></button>
-          <span class="is-size-7">{{localSuccess}}</span>
-        </div>
-
         <div class="columns">
           <div class="column">
-            <span class="tag is-warning">Bridesmaids</span>
+            <p class="title is-4">
+              Wedding Party
+            </p>
           </div>
           <div class="column has-text-right">
             <router-link :to="{name:'PartyAdd'}" class="button is-secondary is-small is-rounded">
               + Add New Party
             </router-link>
           </div>
+        </div>
+
+        <div v-if="localSuccess" class="notification is-success">
+          <button class="delete" v-on:click="localSuccess = null"></button>
+          <span class="is-size-7">{{localSuccess}}</span>
         </div>
         <div class="card" v-for="party in activeParties">
           <div class="card-content">
@@ -73,7 +70,6 @@
                 <p class="title is-5">{{party.firstName + " " + party.lastName}}</p>
                 <p class="subtitle is-7 is-italic has-text-grey">Wedding Party</p>
                 <div class="tags">
-                  <span class="tag is-warning">Bridesmaids</span>
                 </div>
               </div>
               <div class="column is-4 has-text-right is-size-7">
@@ -124,9 +120,8 @@ export default {
     return {
       deletePartyModal: false,
       restorePartyModal: false,
-      parties: null,
-      party: null,
-      localSuccess: null
+      localSuccess: null,
+      party: null
     }
   },
   computed: {
@@ -152,16 +147,6 @@ export default {
     ...mapMutations([
       'setState'
     ]),
-    loadWeddingParty: async function() {
-      try {
-        if (this.account._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
-          this.parties = getWeddingParty.weddingParty;
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    },
     confirmDeleteParty: function(partyId) {
       this.deletePartyModal = true;
       this.party = this.parties.find(party => {
@@ -178,7 +163,7 @@ export default {
       this.deletePartyModal = false;
       try {
         const deleteParty = await partyHandler.deleteParty(this.tokens, this.party._id);
-        this.parties = this.parties.map(party => {
+        const parties = this.parties.map(party => {
           if (party._id === this.party._id) {
             party.isDeleted = true;
             return party;
@@ -186,6 +171,9 @@ export default {
             return party;
           }
         });
+        this.setState({
+          parties: parties
+        })
         this.localSuccess = 'Successfully deleted party.';
       } catch (e) {
         console.log(e);
@@ -195,7 +183,7 @@ export default {
       this.restorePartyModal = false;
       try {
         const restoreParty = await partyHandler.restoreParty(this.tokens, this.party._id);
-        this.parties = this.parties.map(party => {
+        const parties = this.parties.map(party => {
           if (party._id === this.party._id) {
             party.isDeleted = false;
             return party;
@@ -203,14 +191,14 @@ export default {
             return party;
           }
         });
+        this.setState({
+          parties: parties
+        })
         this.localSuccess = 'Successfully restored party.';
       } catch (e) {
         console.log(e);
       }
     }
-  },
-  async created() {
-    this.loadWeddingParty();
   }
 }
 </script>

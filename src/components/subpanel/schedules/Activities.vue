@@ -51,7 +51,7 @@
         <div class="columns">
           <div class="column is-10">
             <p class="title is-5">{{activity.name}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}}</p>
+            <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
             <div class="content">
               <p class="is-size-7">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.

@@ -1,10 +1,15 @@
 //Layouts
-import LayoutAppPanel from '@/components/layout/AppPanel';
+import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
 
-//Components
-import MainParty from '@/components/panel/parties/Party';
-import MainPartyModify from '@/components/panel/parties/PartyModify';
-import MainWeddingParty from '@/components/panel/parties/WeddingParty';
+//Panel
+import PanelParty from '@/components/panel/parties/Party';
+
+//SubPanel
+import SubPanelPartyOverview from '@/components/subpanel/parties/Overview';
+import SubPanelPartyParties from '@/components/subpanel/parties/Parties';
+import SubPanelPartyGroups from '@/components/subpanel/parties/Groups';
+import SubPanelWeddingParty from '@/components/subpanel/parties/WeddingParty';
+import SubPanelPartyModify from '@/components/subpanel/parties/Modify';
 
 //Subbar
 import SubbarWeddingDay from '@/components/subbar/WeddingDay';
@@ -18,12 +23,14 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanel,
+    component: LayoutAppPanelSub,
     children: [
       {
         path: '',
+        name: 'WeddingParty',
         components: {
-          panel: MainWeddingParty,
+          panel: PanelParty,
+          subpanel: SubPanelWeddingParty,
           navbar: NavbarDefault,
           subbar: SubbarWeddingDay
         },
@@ -33,6 +40,51 @@ export default [
           }),
           subbar: (route) => ({
             subbarSelected: 'party'
+          }),
+          panel: (route) => ({
+            panelSelected: 'weddingparty'
+          })
+        }
+      },
+      {
+        path: 'parties',
+        name: 'PartyParties',
+        components: {
+          panel: PanelParty,
+          subpanel: SubPanelPartyParties,
+          navbar: NavbarDefault,
+          subbar: SubbarWeddingDay
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'party'
+          }),
+          panel: (route) => ({
+            panelSelected: 'parties'
+          })
+        }
+      },
+      {
+        path: 'groups',
+        name: 'PartyGroups',
+        components: {
+          panel: PanelParty,
+          subpanel: SubPanelPartyGroups,
+          navbar: NavbarDefault,
+          subbar: SubbarWeddingDay
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'party'
+          }),
+          panel: (route) => ({
+            panelSelected: 'groups'
           })
         }
       },
@@ -40,15 +92,22 @@ export default [
         path: 'create',
         name: 'PartyAdd',
         components: {
-          panel: MainPartyModify,
+          panel: PanelParty,
+          subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
           subbar: SubbarWeddingDay
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
           subbar: (route) => ({
             subbarSelected: 'party'
           }),
           panel: (route) => ({
+            panelSelected: 'parties'
+          }),
+          subpanel: (route) => ({
             modifyType: 'create'
           })
         }
@@ -57,33 +116,49 @@ export default [
         path: ':partyId',
         name: 'PartyOverview',
         components: {
-          panel: MainParty,
+          panel: PanelParty,
+          subpanel: SubPanelPartyOverview,
           navbar: NavbarDefault,
           subbar: SubbarWeddingDay
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
           subbar: (route) => ({
             subbarSelected: 'party'
           }),
-          panel: true
+          panel: (route) => ({
+            panelSelected: 'parties'
+          }),
+          subpanel: (route) => ({
+            partyId: route.params.partyId
+          })
         }
       },
       {
         path: ':partyId/edit',
         name: 'PartyEdit',
         components: {
-          panel: MainPartyModify,
+          panel: PanelParty,
+          subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
           subbar: SubbarWeddingDay
         },
         props:{
+          navbar: (route) => ({
+            navbarSelected: 'weddingday'
+          }),
           subbar: (route) => ({
             subbarSelected: 'party'
           }),
           panel: (route) => ({
-            partyId: route.params.partyId,
-            modifyType: 'edit'
+            panelSelected: 'parties'
           }),
+          subpanel: (route) => ({
+            modifyType: 'edit',
+            partyId: route.params.partyId
+          })
         }
       }
     ]
