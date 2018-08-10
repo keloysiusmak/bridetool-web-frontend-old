@@ -51,7 +51,7 @@ import { EventBus } from '../../../events/event-bus.js';
 const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
-  name: 'Main-Schedule-Edit',
+  name: 'Subpanel-Schedules-Modify',
   data() {
     return {
       scheduleName: null,

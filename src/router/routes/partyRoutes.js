@@ -27,24 +27,7 @@ export default [
     children: [
       {
         path: '',
-        name: 'WeddingParty',
-        components: {
-          panel: PanelParty,
-          subpanel: SubPanelWeddingParty,
-          navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
-        },
-        props: {
-          navbar: (route) => ({
-            navbarSelected: 'weddingday'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'party'
-          }),
-          panel: (route) => ({
-            panelSelected: 'weddingparty'
-          })
-        }
+        redirect: 'parties'
       },
       {
         path: 'parties',

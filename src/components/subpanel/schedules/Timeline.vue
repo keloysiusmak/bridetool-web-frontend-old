@@ -1,5 +1,5 @@
 <template>
-  <div id="main_schedule" v-if="schedule">
+  <div id="main_schedule" v-if="schedule && parsedSchedule">
     <br/>
     <div class="timeline is-centered">
       <header class="timeline-header">
@@ -7,37 +7,19 @@
       </header>
       <div class="timeline-item">
       </div>
-      <header class="timeline-header">
-        <span class="tag is-small is-secondary">17 February 2018</span>
-      </header>
-      <div class="timeline-item">
-        <div class="timeline-marker"></div>
-        <div class="timeline-content">
-          <p class="heading">11:45AM - 12:45PM</p>
-          <p>Gatecrash</p>
+      <template v-for="(activities, date) in parsedSchedule">
+        <header class="timeline-header">
+          <span class="tag is-small is-secondary">{{date}}</span>
+        </header>
+        <div class="timeline-item" v-for="activity in activities">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <p class="heading">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
+            <p class="title is-5">{{activity.name}}</p>
+            <p class="subtitle is-7">{{activity.description}}</p>
+          </div>
         </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-marker is-icon">
-          <i class="fa fa-car"></i>
-        </div>
-        <div class="timeline-content">
-          <p class="heading">12:45PM - 1:30PM</p>
-          <p>Travel to Lower Pierce</p>
-        </div>
-      </div>
-      <header class="timeline-header">
-        <span class="tag is-small is-secondary">18 February 2018</span>
-      </header>
-      <div class="timeline-item">
-        <div class="timeline-marker is-icon">
-          <i class="fa fa-flag"></i>
-        </div>
-        <div class="timeline-content">
-          <p class="heading">March 2017</p>
-          <p>Timeline content - Can include any HTML element</p>
-        </div>
-      </div>
+      </template>
       <div class="timeline-item">
         <div class="timeline-marker">
         </div>
@@ -49,6 +31,7 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
+import Modify from './Modify';
 
 const activityHandler = require('../../../handlers/activityHandler');
 const scheduleHandler = require('../../../handlers/scheduleHandler');
@@ -59,24 +42,27 @@ export default {
   props: ['scheduleId'],
   data() {
     return {
-      deleteActivityModal: false,
-      restoreActivityModal: false,
-      activity: null,
-      localSuccess: null
     }
   },
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
-    activeActivities: function() {
-      return this.schedule.scheduleActivities.filter(activity => {
+    parsedSchedule: function() {
+      let scheduleDates = {};
+      const activeActivities = this.schedule.scheduleActivities.filter(activity => {
         return !activity.isDeleted;
+      }).sort((activity1, activity2) => {
+        return activity1.startTime - activity2.startTime
+      }).forEach(activity => {
+        const formattedTime = moment.unix(activity.startTime).format('D MMMM Y');
+        if (scheduleDates[formattedTime]) {
+          scheduleDates[formattedTime].push(activity);
+        } else {
+          scheduleDates[formattedTime] = [activity];
+        }
       });
-    },
-    deletedActivities: function() {
-      return this.schedule.scheduleActivities.filter(activity => {
-        return activity.isDeleted;
-      });
+
+      return scheduleDates;
     }
   },
   methods: {
@@ -84,65 +70,9 @@ export default {
       'setState'
     ]),
     formatTime: function(activity) {
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
-      const formattedTime = moment.unix(activity).format('D MMMM Y h:mma');
+      const formattedTime = moment.unix(activity).format('h:mma');
 
       return formattedTime;
-    },
-    confirmDeleteActivity: function(activityId) {
-      this.deleteActivityModal = true;
-      this.activity = this.schedule.scheduleActivities.find(activity => {
-        return activity._id === activityId;
-      });
-    },
-    confirmRestoreActivity: function(activityId) {
-      this.restoreActivityModal = true;
-      this.activity = this.schedule.scheduleActivities.find(activity => {
-        return activity._id === activityId;
-      });
-    },
-    deleteActivity: async function(activityId) {
-      this.deleteActivityModal = false;
-      try {
-        const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activity._id);
-        const schedule = this.schedule;
-        schedule.scheduleActivities = this.schedule.scheduleActivities.map(activity => {
-          if (activity._id === this.activity._id) {
-            activity.isDeleted = true;
-            return activity;
-          } else {
-            return activity;
-          }
-        });
-        this.setState({
-          schedule: schedule
-        })
-        this.localSuccess = 'Successfully deleted activity.';
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    restoreActivity: async function(activityId) {
-      this.restoreActivityModal = false;
-      try {
-        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activity._id);
-        const schedule = this.schedule;
-        schedule.scheduleActivities = this.schedule.scheduleActivities.map(activity => {
-          if (activity._id === this.activity._id) {
-            activity.isDeleted = false;
-            return activity;
-          } else {
-            return activity;
-          }
-        });
-        this.setState({
-          schedule: schedule
-        })
-        this.localSuccess = 'Successfully restored activity.';
-      } catch (e) {
-        console.log(e);
-      }
     }
   }
 }

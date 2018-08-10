@@ -54,8 +54,7 @@
             <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
             <div class="content">
               <p class="is-size-7">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                {{activity.description}}
               </p>
             </div>
             <div class="tags">
@@ -81,8 +80,7 @@
             <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}}</p>
             <div class="content">
               <p class="is-size-7">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec iaculis mauris.
-                <a href="#">@bulmaio</a>. <a href="#">#css</a> <a href="#">#responsive</a>
+                {{activity.description}}
               </p>
             </div>
             <div class="tags">
@@ -139,8 +137,6 @@ export default {
       'setState'
     ]),
     formatTime: function(activity) {
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-
       const formattedTime = moment.unix(activity).format('D MMMM Y h:mma');
 
       return formattedTime;

@@ -30,6 +30,47 @@
         </div>
       </div>
       <br/>
+      <div class="field is-horizontal">
+        <div class="field-label is-small">
+          <label class="label">Description</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <div class="control has-icons-left">
+              <textarea class="textarea is-small" placeholder="Activity Description" v-model="activityDescription"  v-bind:class="{'is-danger': localErrors.activityDescription}"></textarea>
+              <span class="icon is-small is-left">
+                <i class="fas fa-user"></i>
+              </span>
+              <p class="help is-danger" v-if="localErrors.activityDescription">{{localErrors.activityDescription}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <div class="field is-horizontal">
+        <div class="field-label is-small">
+          <label class="label">Type</label>
+        </div>
+        <div class="field-body">
+          <div class="field">
+            <p class="control">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityType}">
+                <select v-model="activityType">
+                  <option value="travel">Travel</option>
+                  <option value="makeup">Make Up</option>
+                  <option value="banquet">Banquet</option>
+                  <option value="rest">Rest</option>
+                  <option value="photoshoot">Photoshoot</option>
+                  <option value="preparation">Preparation</option>
+                  <option value="teaceremony">Tea Ceremony</option>
+                  <option value="others">Others</option>
+                </select>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
+      <br/>
       <!--START TIME-->
       <div class="field is-horizontal">
         <div class="field-label is-small">
@@ -292,6 +333,8 @@ export default {
       ampms: ['am', 'pm'],
 
       activityName: null,
+      activityDescription: null,
+      activityType: 'others',
       activityStartTime: {
         date: 1,
         month: 1,
@@ -336,6 +379,16 @@ export default {
         hasErrors = true;
       }
 
+      if (!this.activityType) {
+        this.localErrors.activityDescription = 'Field cannot be empty.';
+        hasErrors = true;
+      }
+
+      if (!this.activityDescription) {
+        this.localErrors.activityDescription = 'Field cannot be empty.';
+        hasErrors = true;
+      }
+
       if (!this.validateDate(this.activityStartTime)) {
         this.localErrors.activityStartTime = 'You have selected an invalid time.';
         hasErrors = true;
@@ -376,6 +429,8 @@ export default {
 
         const fields = {
           name: this.activityName,
+          type: this.activityType,
+          description: this.activityDescription,
           startTime: startTime.format('X'),
           endTime: endTime.format('X'),
           assignedParties: this.activityAssignedPartiesId
@@ -396,6 +451,8 @@ export default {
 
         const fields = {
           name: this.activityName,
+          type: this.activityType,
+          description: this.activityDescription,
           startTime: startTime.format('X'),
           endTime: endTime.format('X'),
           assignedParties: this.activityAssignedPartiesId
@@ -435,6 +492,8 @@ export default {
     },
     populateFields: function() {
       this.activityName = this.activity.name;
+      this.activityType = this.activity.type;
+      this.activityDescription = this.activity.description;
 
       const startTimeMoment = moment.unix(this.activity.startTime);
       this.activityStartTime = {
@@ -479,6 +538,8 @@ export default {
       this.localErrors = {
         componentError: null,
         activityName: null,
+        activityDescription: null,
+        activityType: null,
         activityStartTime: null,
         activityEndTime: null
       }
