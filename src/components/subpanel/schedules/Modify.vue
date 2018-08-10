@@ -28,6 +28,45 @@
           </div>
         </div>
       </div>
+      <br/>
+      <div class="field is-horizontal">
+        <div class="field-label is-small">
+          <label class="label">Date</label>
+        </div>
+        <div class="field-body">
+          <div class="field has-addons has-addons-left">
+            <p class="control">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                <select v-model="scheduleDate.date">
+                  <option v-for="date in dates" v-bind:value="date">
+                    {{ date }}
+                  </option>
+                </select>
+              </span>
+            </p>
+
+            <p class="control">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                <select v-model="scheduleDate.month">
+                  <option v-for="month in months" v-bind:value="month">
+                    {{ monthNames[month - 1] }}
+                  </option>
+                </select>
+              </span>
+            </p>
+
+            <p class="control">
+              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                <select v-model="scheduleDate.year">
+                  <option v-for="year in years" v-bind:value="year">
+                    {{ year }}
+                  </option>
+                </select>
+              </span>
+            </p>
+          </div>
+        </div>
+      </div>
       <hr/>
       <div class="field is-horizontal">
         <div class="field-label"></div>
@@ -49,14 +88,24 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 import { EventBus } from '../../../events/event-bus.js';
 
 const scheduleHandler = require('../../../handlers/scheduleHandler');
+const moment = require('moment');
 
 export default {
   name: 'Subpanel-Schedules-Modify',
   data() {
     return {
       scheduleName: null,
+      scheduleDate: {
+        date: 1,
+        month: 1,
+        year: 2018
+      },
       localErrors: {},
-      localSuccess: ''
+      localSuccess: '',
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      dates: [1, 2, 3, 4, 5, 6, 7, 8, 9 ,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
+      months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      years: [2018, 2019, 2020, 2021]
     }
   },
   props: ['scheduleId'],
@@ -76,14 +125,37 @@ export default {
         hasErrors = true;
       }
 
+      if (!this.validateDate(this.scheduleDate)) {
+        this.localErrors.scheduleName = 'You have selected an invalid time.';
+        hasErrors = true;
+      }
+
       if (!hasErrors) {
         this.updateSchedule();
       }
     },
+    formatMoment: function(schedule) {
+      const newMoment = moment();
+      newMoment.date(schedule.date);
+      newMoment.month(schedule.month - 1);
+      newMoment.year(schedule.year);
+
+      return newMoment;
+    },
+    validateDate: function(schedule) {
+      const newMoment = this.formatMoment(schedule);
+      const amOrPmAdd = (schedule.ampm === 'am') ? 0 : 12;
+      const valid = (newMoment.date() == schedule.date) && (newMoment.month() == schedule.month - 1) && (newMoment.year() == schedule.year);
+
+      return valid;
+    },
     updateSchedule: async function() {
       try {
+        const date = this.formatMoment(this.scheduleDate);
+
         const fields = {
-          name: this.scheduleName
+          name: this.scheduleName,
+          date: date.format('X')
         }
         const updateSchedule = await scheduleHandler.updateSchedule(this.tokens, this.schedule._id, fields);
         this.setState({
@@ -95,31 +167,20 @@ export default {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
-    addSchedule: async function() {
-      try {
-        const fields = {
-          name: this.scheduleName
-        }
-        const addSchedule = await scheduleHandler.addSchedule(this.tokens, this.account._id, fields);
-        this.setState({
-          schedule: addSchedule.schedule
-        })
-        this.populateFields();
-
-        EventBus.$emit('loadSchedules', {});
-
-        this.localSuccess = "Successfully added schedule.";
-      } catch (e) {
-        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
-      }
-    },
     populateFields: function() {
       this.scheduleName = this.schedule.name;
+      const dateMoment = moment.unix(this.schedule.date);
+      this.scheduleDate = {
+        date: dateMoment.format('D'),
+        month: dateMoment.format('M'),
+        year: dateMoment.format('Y')
+      };
     },
     resetErrors: function() {
       this.localErrors = {
         componentError: null,
-        scheduleName: null
+        scheduleName: null,
+        scheduleDate: null
       }
     }
   },
