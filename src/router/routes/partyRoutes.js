@@ -17,6 +17,9 @@ import SubbarWeddingDay from '@/components/subbar/WeddingDay';
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
 
+//Footer
+import FooterDefault from '@/components/footer/Default';
+
 export default [
   {
     path: '/party',
@@ -36,7 +39,8 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyParties,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -57,7 +61,8 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyGroups,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -78,7 +83,8 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
@@ -102,7 +108,8 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyOverview,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
@@ -126,7 +133,8 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props:{
           navbar: (route) => ({

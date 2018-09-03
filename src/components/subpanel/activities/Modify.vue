@@ -38,9 +38,6 @@
           <div class="field">
             <div class="control has-icons-left">
               <textarea class="textarea is-small" placeholder="Activity Description" v-model="activityDescription"  v-bind:class="{'is-danger': localErrors.activityDescription}"></textarea>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
               <p class="help is-danger" v-if="localErrors.activityDescription">{{localErrors.activityDescription}}</p>
             </div>
           </div>

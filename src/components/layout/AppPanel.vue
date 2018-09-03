@@ -1,13 +1,13 @@
 <template>
   <div id="layout_app_panel">
-      <router-view name="navbar" />
-      <router-view name="subbar" />
-      <div class="section">
-        <div class="container">
-          <router-view name="panel"/>
-        </div>
+    <router-view name="navbar" />
+    <router-view name="subbar" />
+    <div class="section">
+      <div class="container">
+        <router-view name="panel"/>
       </div>
     </div>
+    <router-view name="footer"/>
   </div>
 </template>
 

@@ -3,6 +3,9 @@
     <nav class="navbar subbar is-white" role="navigation" aria-label="main navigation">
       <div class="navbar-menu container">
         <div class="navbar-start">
+          <router-link to="/" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'overview' }">
+            Overview
+          </router-link>
           <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'schedule' }">
             Schedule
           </router-link>

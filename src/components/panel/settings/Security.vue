@@ -1,5 +1,5 @@
 <template>
-  <div id="main_schedule" v-if="schedule">
+  <div id="panel_security">
     <router-link :to="{ path: '/security/password' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'password' }">
       <span class="icon is-small is-left">
         <i class="fas fa-lock"></i>
@@ -16,7 +16,7 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
-  name: 'Main-Schedule',
+  name: 'Panel-Schedule',
   props: ['panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),

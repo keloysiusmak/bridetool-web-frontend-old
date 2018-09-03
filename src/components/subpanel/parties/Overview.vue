@@ -3,12 +3,20 @@
     <br/>
     <div class="columns">
       <div class="column">
-        <div v-for="activity in activeActivities" class="card">
-          <div class="card-content">
-            <p class="title is-5">{{activity.name}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
+        <p class="title is-7 is-uppercase">
+          {{party.firstName + " " + party.lastName}}'s activities
+        </p>
+        <article class="media" v-for="activity in activeActivities">
+          <div class="media-content">
+            <div class="content">
+              <p>
+                <small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small>
+                <br/>
+                <strong>{{activity.name}}</strong>
+              </p>
+            </div>
           </div>
-        </div>
+        </article>
       </div>
       <div class="column is-3">
         <div class="card">
@@ -24,7 +32,7 @@
         <div class="card">
           <div class="card-content">
             <p class="title is-5">Share with {{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-7 has-text-grey">Generate a link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date which his activities for your wedding.</p>
+            <p class="subtitle is-7 has-text-grey">Generate a link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date with {{ hisOrHers(party.gender) }} activities for your wedding.</p>
             <p class="is-size-7 is-italic">No link created</p>
           </div>
           <footer class="card-footer">
@@ -84,6 +92,9 @@ export default {
     },
     heOrShe: function(gender) {
       return (gender === 'male') ? 'he' : 'she';
+    },
+    hisOrHers: function(gender) {
+      return (gender === 'male') ? 'his' : 'hers';
     }
   },
   async created() {

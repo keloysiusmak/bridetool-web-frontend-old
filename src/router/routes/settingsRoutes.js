@@ -16,6 +16,9 @@ import SubbarSettings from '@/components/subbar/Settings';
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
 
+//Footer
+import FooterDefault from '@/components/footer/Default';
+
 export default [
   {
     path: '/settings',
@@ -42,7 +45,8 @@ export default [
           panel: PanelSettingsProfile,
           subpanel: SubPanelSettingsProfile,
           navbar: NavbarDefault,
-          subbar: SubbarSettings
+          subbar: SubbarSettings,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -62,7 +66,8 @@ export default [
           panel: PanelSettingsProfile,
           subpanel: SubPanelSettingsSwitchUser,
           navbar: NavbarDefault,
-          subbar: SubbarSettings
+          subbar: SubbarSettings,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -82,7 +87,8 @@ export default [
           panel: PanelSettingsSecurity,
           subpanel: SubPanelSettingsSecurity,
           navbar: NavbarDefault,
-          subbar: SubbarSettings
+          subbar: SubbarSettings,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({

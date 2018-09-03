@@ -66,5 +66,6 @@ export default {
 @import '../node_modules/bulma/bulma.sass'
 @import '../node_modules/bulma-extensions/bulma-checkradio/src/sass/index.sass'
 @import '../node_modules/bulma-extensions/bulma-timeline/src/sass/index.sass'
+@import '../node_modules/bulma-extensions/bulma-steps/src/sass/index.sass'
 @import './assets/css/sass/main.sass'
 </style>

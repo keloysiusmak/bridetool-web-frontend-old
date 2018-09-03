@@ -6,6 +6,7 @@
         <router-view name="panel"/>
       </div>
     </div>
+    <router-view name="footer"/>
   </div>
 </template>
 

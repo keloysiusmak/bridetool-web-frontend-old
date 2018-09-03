@@ -1,5 +1,5 @@
 <template>
-  <div id="main_login">
+  <div id="panel_login">
     <section class="hero is-fullheight">
       <div class="hero-body">
         <div class="container">
@@ -45,7 +45,7 @@ const accountHandler = require('../../../handlers/accountHandler');
 const coupleHandler = require('../../../handlers/coupleHandler');
 
 export default {
-  name: 'Main-Login',
+  name: 'Panel-Login',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

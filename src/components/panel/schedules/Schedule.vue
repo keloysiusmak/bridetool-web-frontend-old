@@ -1,12 +1,5 @@
 <template>
-  <div id="main_schedule" v-if="schedule">
-    <router-link :to="{ name: 'ScheduleOverview' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
-      <span class="icon is-small is-left">
-        <i class="fab fa-fly"></i>
-      </span>&nbsp;
-      Overview
-    </router-link>
-
+  <div id="panel_schedule" v-if="schedule">
     <router-link :to="{ name: 'ScheduleTimeline' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'timeline' }">
       <span class="icon is-small is-left">
         <i class="fas fa-calendar-alt"></i>
@@ -38,7 +31,7 @@ import { EventBus } from '../../../events/event-bus.js';
 const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
-  name: 'Main-Schedule',
+  name: 'Panel-Schedule',
   props: ['panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),

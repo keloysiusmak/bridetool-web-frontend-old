@@ -16,6 +16,9 @@ import SubbarWeddingDay from '@/components/subbar/WeddingDay';
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
 
+//Footer
+import FooterDefault from '@/components/footer/Default';
+
 export default [
   {
     path: '/schedule',
@@ -26,24 +29,7 @@ export default [
     children: [
       {
         path: '',
-        name: 'ScheduleOverview',
-        components: {
-          panel: PanelSchedule,
-          navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
-        },
-        props: {
-          navbar: (route) => ({
-            navbarSelected: 'weddingday'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
-          }),
-          panel: (route) => ({
-            panelSelected: 'overview'
-          }),
-          subpanel: true
-        }
+        redirect: 'timeline'
       },
       {
         path: 'activities',
@@ -52,7 +38,8 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesActivities,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -74,7 +61,8 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesTimeline,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -96,7 +84,8 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
@@ -121,6 +110,7 @@ export default [
           subpanel: SubPanelActivityModify,
           navbar: NavbarDefault,
           subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({

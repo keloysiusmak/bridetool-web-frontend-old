@@ -1,37 +1,38 @@
 <template>
-  <div id="main_schedule" v-if="schedule && parsedSchedule">
+  <div id="subpanel_timeline" v-if="schedule && parsedSchedule">
     <br/>
-    <div class="timeline is-centered">
-      <header class="timeline-header">
-        <span class="tag is-medium is-primary">{{schedule.name}}</span>
-      </header>
-      <div class="timeline-item">
-      </div>
-      <template v-for="(activities, date) in parsedSchedule">
-        <header class="timeline-header">
-          <span class="tag is-small is-secondary">{{date}}</span>
-        </header>
-        <div class="timeline-item" v-for="activity in activities">
-          <div class="timeline-marker"></div>
-          <div class="timeline-content">
-            <p class="heading">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
-            <p class="title is-5">{{activity.name}}</p>
-            <p class="subtitle is-7">{{activity.description}}</p>
+    <template v-for="(activities, date) in parsedSchedule">
+      <p class="title is-6">{{date}}</p>
+      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
+      <template v-for="activity in activities">
+        <article class="media" v-bind:class="completedActivity(activity.endTime)">
+          <div class="media-left">
+            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
           </div>
-        </div>
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-7">{{activity.description}}</p>
+            <br/>
+            <p class="is-size-7">
+              <span class="has-text-weight-bold">Involved:</span>
+              {{ formatParties(activity.assignedParties) }}
+            </p>
+          </div>
+          <div class="media-right">
+            <span class="icon is-small is-left">
+              <i class="fas fa-th-list"></i>
+            </span>
+          </div>
+        </article>
       </template>
-      <div class="timeline-item">
-        <div class="timeline-marker">
-        </div>
-      </div>
-    </div>
+      <br/>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
-import Modify from './Modify';
 
 const activityHandler = require('../../../handlers/activityHandler');
 const scheduleHandler = require('../../../handlers/scheduleHandler');
@@ -73,6 +74,32 @@ export default {
       const formattedTime = moment.unix(activity).format('h:mma');
 
       return formattedTime;
+    },
+    formatParties: function(parties) {
+      const filteredParties = parties.map(function(party){
+        return party.firstName + " " + party.lastName;
+      }).join(", ");
+      return (filteredParties) ? filteredParties : 'None';
+    },
+    isActualDay: function(activityDate) {
+      const formattedDate = moment.unix(this.schedule.date).format('D MMMM Y');
+      return (formattedDate === activityDate);
+    },
+    completedActivity: function(activityEndTime) {
+      const activityEnded = activityEndTime < Date.now() / 1000;
+      return {
+        'has-text-grey-lighter': activityEnded
+      }
+    },
+    completedActivities: function(activities) {
+      const totalActivities = activities.length;
+      let completed = 0;
+      activities.forEach((activity) => {
+        if (activity.endTime < Date.now() / 1000) {
+          completed++;
+        }
+      });
+      return completed / totalActivities * 100;
     }
   }
 }

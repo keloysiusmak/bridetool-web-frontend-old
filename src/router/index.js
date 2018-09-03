@@ -6,7 +6,7 @@ import { store } from '../store';
 import errorRoutes from './routes/errorRoutes'
 import activityRoutes from './routes/activityRoutes'
 import loginRoutes from './routes/loginRoutes'
-import mainRoutes from './routes/mainRoutes'
+import overviewRoutes from './routes/overviewRoutes'
 import partyRoutes from './routes/partyRoutes'
 import scheduleRoutes from './routes/scheduleRoutes'
 import settingsRoutes from './routes/settingsRoutes'
@@ -17,7 +17,7 @@ Vue.use(Router);
 const router = new Router({
   mode: 'history',
   routes: [
-    ...mainRoutes,
+    ...overviewRoutes,
     ...activityRoutes,
     ...loginRoutes,
     ...partyRoutes,

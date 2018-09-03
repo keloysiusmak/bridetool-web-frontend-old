@@ -14,6 +14,9 @@ import SubbarWeddingDay from '@/components/subbar/WeddingDay';
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
 
+//Footer
+import FooterDefault from '@/components/footer/Default';
+
 export default [
   {
     path: '/activities/',
@@ -29,7 +32,8 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelActivitiesActivity,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
@@ -51,7 +55,8 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelActivitiesModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay
+          subbar: SubbarWeddingDay,
+          footer: FooterDefault
         },
         props: {
           navbar: (route) => ({

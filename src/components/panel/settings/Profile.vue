@@ -1,5 +1,5 @@
 <template>
-  <div id="main_schedule" v-if="schedule">
+  <div id="panel_profile">
     <router-link :to="{ path: '/settings/profile/email' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'email' }">
       <span class="icon is-small is-left">
         <i class="fas fa-envelope"></i>
@@ -22,7 +22,7 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 const scheduleHandler = require('../../../handlers/scheduleHandler');
 
 export default {
-  name: 'Main-Schedule',
+  name: 'Panel-Schedule',
   props: ['panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),
