@@ -1,5 +1,5 @@
 <template>
-  <div id="panel_party" v-if="parties">
+  <div v-if="parties">
     <router-link :to="{ name: 'PartyParties' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'parties' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>
@@ -23,7 +23,6 @@ import { EventBus } from '../../../events/event-bus.js';
 const partyHandler = require('../../../handlers/partyHandler');
 
 export default {
-  name: 'Panel-Party',
   data() {
     return {
       errors: []
@@ -40,8 +39,8 @@ export default {
     ]),
     loadWeddingParty: async function() {
       try {
-        if (this.account._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
+        if (this.account._id && this.account.couple._id) {
+          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account.couple._id);
           this.setState({
             parties: getWeddingParty.weddingParty
           })

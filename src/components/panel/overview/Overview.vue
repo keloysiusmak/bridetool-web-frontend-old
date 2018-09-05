@@ -1,13 +1,15 @@
 <template>
   <div id="panel_overview">
-    <p class="title is-5">Thank you, {{ activeParty.firstName + " " + activeParty.lastName }}</p>
+    <p class="title is-5">Hey, {{ activeParty.firstName + " " + activeParty.lastName }}</p>
     <p class="is-size-7">
-      Etiam sed tincidunt purus. Pellentesque et dolor quis velit volutpat iaculis. Cras blandit, arcu vel placerat tempor, felis risus placerat purus, vitae interdum ex massa vitae turpis. Suspendisse suscipit felis sed tortor laoreet lobortis. Fusce mattis volutpat velit in aliquet. Praesent libero nunc, sodales nec nisi nec, volutpat lacinia urna. Morbi in tincidunt lectus.
+      Thank you for helping us in our step to make the challenges of wedding planning a thing of the past. We're committed to finding ways to help couples better plan their weddings, in the hope that the stresses of
+      wedding planning will cease to exist and couples can fully immerse themselves in enjoying one of the biggest days in their lives.
       <br/><br/>
-      Sed porta malesuada dolor, vel congue tortor gravida quis. Donec ut efficitur sem, id cursus tortor. Maecenas eget est sed ex maximus molestie a eget ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam laoreet finibus felis, et malesuada turpis imperdiet et. In hac habitasse platea dictumst. Nullam sapien nibh, molestie non sem in, tincidunt imperdiet libero. Ut dignissim tincidunt elementum.
+      Bridetool is still in its testing stage and we're always working to make bridetool more useful for couples and for you, and we would always love feedback on how we can make this better. Feel free to let us know by dropping us an email at
+      <a href="mailto:keloysiusmak@hotmail.com">keloysiusmak@hotmail.com</a>. We deeply appreciate the constructive feedback and we can't wait to make this better for you.
     </p>
     <br/>
-    <p class="title is-7">BRIDETOOL TEAM</p>
+    <p class="title is-7">WITH LOVE, THE BRIDETOOL TEAM</p>
     <hr/>
     <p class="title is-6">Still unsure on how to use Bridetool?</p>
     <p class="subtitle is-7 has-text-grey">
@@ -35,7 +37,6 @@ const moment = require('moment');
 
 export default {
   name: 'Panel-Overview',
-  props: ['scheduleId'],
   data() {
     return {
     }

@@ -454,13 +454,14 @@ export default {
           endTime: endTime.format('X'),
           assignedParties: this.activityAssignedPartiesId
         }
-        const addActivity = await activityHandler.addActivity(this.tokens, this.scheduleId, fields);
+        const addActivity = await activityHandler.addActivity(this.tokens, this.schedule._id, fields);
         this.activity = addActivity.activity;
 
         this.populateFields();
         EventBus.$emit('loadSchedule', {});
         this.localSuccess = 'Successfully added activity.';
       } catch (e) {
+        console.log(e);
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
@@ -516,18 +517,22 @@ export default {
       this.activityAssignedPartiesId = this.activity.assignedParties.map(party => {
         return party._id;
       });
-      this.activityAssignedParties = this.activity.assignedParties;
+      this.activityAssignedParties = this.activity.assignedParties.filter(party => {
+        return !party.isDeleted;
+      });
     },
     getAvailableParties: async function() {
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
-        const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
+        const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account.couple._id, startTime.format('X'), endTime.format('X'));
         this.activityAvailableParties = getAvailableParties.parties.filter(party => {
           return !this.activityAssignedPartiesId.includes(party._id);
         });
         this.availablePartiesLoading = false;
       } catch (e) {
+        console.log(e);
+        this.availablePartiesLoading = false;
       }
     },
     resetErrors: function() {
@@ -545,6 +550,9 @@ export default {
       try {
         const getActivity = await activityHandler.getActivity(this.tokens, this.activityId);
         this.activity = getActivity.activity;
+        if (this.activity.endTime < Date.now() / 1000) {
+          this.$router.push('/schedule/activities');
+        }
         this.populateFields();
       } catch (e) {
         console.log(e);

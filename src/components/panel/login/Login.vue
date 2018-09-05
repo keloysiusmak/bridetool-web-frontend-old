@@ -1,34 +1,88 @@
 <template>
-  <div id="panel_login">
+  <div class="loginPanel">
     <section class="hero is-fullheight">
       <div class="hero-body">
         <div class="container">
           <div class="columns is-centered is-desktop">
-            <div class="column is-one-third is-vcentered is-desktop">
-              <form v-on:submit.prevent="login()">
-                <div class="field">
-                  <div class="control has-icons-left has-icons-right">
-                    <input class="input is-medium" placeholder="Username" v-model="username"/>
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-user"></i>
-                    </span>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="control has-icons-left has-icons-right">
-                    <input class="input is-medium" placeholder="Password" type="password" v-model="password"/>
-                    <span class="icon is-small is-left">
-                      <i class="fas fa-key"></i>
-                    </span>
-                  </div>
-                </div>
-                <p>&nbsp;</p>
-                <div class="field">
-                  <div class="control">
-                    <input class="button is-link is-medium" type="submit" value="Login" />
-                  </div>
-                </div>
-              </form>
+            <div class="column is-half is-vcentered has-text-centered is-desktop">
+              <span class="subtitle is-3 has-text-white has-text-weight-light">welcome to</span>
+              <span class="subtitle is-3 has-text-white has-text-weight-bold">&nbsp;bridetool</span>
+              <div class="tile is-parent" v-if="showResetPassword">
+                <article class="tile is-child box has-text-left">
+                  <p class="is-italic is-size-7 is-underline">
+                    <a v-on:click="resetPassword(false)">
+                      Remembered your password?
+                    </a>
+                  </p>
+                  <br/>
+                  <p class="title is-5">Oh no, did you forget your password?</p>
+                  <p class="subtitle is-7">
+                    Don't worry! We got this. Key in your username you use to sign in to your account
+                    and we'll drop you an email associated with that account for more information.
+                  </p>
+                  <form v-on:submit.prevent="login()">
+                    <label class="label has-text-grey">Username</label>
+                    <div class="field">
+                      <div class="control has-icons-left has-icons-right">
+                        <input class="input" placeholder="Username" v-model="username"/>
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-user"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <br/>
+                    <div class="field is-clearfix">
+                      <div class="control is-pulled-right">
+                        <input class="button is-link is-outlined" type="submit" value="Reset Password" />
+                      </div>
+                    </div>
+                  </form>
+                </article>
+              </div>
+              <div class="tile is-parent" v-if="!showResetPassword">
+                <article class="tile is-child box has-text-left">
+                  <form v-on:submit.prevent="login()">
+                    <label class="label has-text-grey">Username</label>
+                    <div class="field">
+                      <div class="control has-icons-left has-icons-right">
+                        <input class="input" placeholder="Username" v-model="username"/>
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-user"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <br/>
+                    <label class="label has-text-grey">Password</label>
+                    <div class="field">
+                      <div class="control has-icons-left has-icons-right">
+                        <input class="input" placeholder="Password" type="password" v-model="password"/>
+                        <span class="icon is-small is-left">
+                          <i class="fas fa-key"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <p class="is-italic is-size-7 is-underline">
+                      <a v-on:click="resetPassword(true)">
+                        forgot your password?
+                      </a>
+                    </p>
+                    <br/>
+                    <div class="field is-clearfix">
+                      <div class="control is-pulled-right">
+                        <input class="button is-link is-outlined" type="submit" value="Login" />
+                      </div>
+                    </div>
+                    <div class="is-divider" data-content="DON'T HAVE AN ACCOUNT?"></div>
+                    <p class="title is-5">Sign ups open soon!</p>
+                    <p class="subtitle is-7">
+                      Bridetool is still in its beta testing phase and unfortunately we're unable
+                      to accomodate more users at this moment. We would however be happy to share
+                      with you more information when it's ready. Drop us an email at <a href="mailto:keloysiusmak@hotmail.com">keloysiusmak@hotmail.com</a>
+                      and we'll keep in touch.
+                    </p>
+                  </form>
+                </article>
+              </div>
             </div>
           </div>
         </div>
@@ -45,7 +99,6 @@ const accountHandler = require('../../../handlers/accountHandler');
 const coupleHandler = require('../../../handlers/coupleHandler');
 
 export default {
-  name: 'Panel-Login',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -53,13 +106,18 @@ export default {
   data () {
     return {
       username: 'hey',
-      password: 'heya'
+      password: 'heya',
+      showResetPassword: false
     }
   },
   methods: {
     ...mapMutations([
       'setState'
     ]),
+    resetPassword: function(value) {
+      console.log(value);
+      this.showResetPassword = value;
+    },
     login: async function() {
       try {
         this.loading = true;
@@ -95,4 +153,16 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .loginPanel {
+    background: #DAE2F8;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #D6A4A4, #DAE2F8);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #D6A4A4, #DAE2F8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
+  .label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .tile .tile {
+    padding: 4rem;
+  }
 </style>

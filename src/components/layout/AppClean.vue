@@ -1,10 +1,6 @@
 <template>
   <div id="layout_app_clean">
-    <div class="section">
-      <div class="container">
-        <router-view name="panel"/>
-      </div>
-    </div>
+    <router-view name="panel"/>
     <router-view name="footer"/>
   </div>
 </template>

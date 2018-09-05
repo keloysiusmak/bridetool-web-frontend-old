@@ -36,11 +36,14 @@
     <br/>
     <div class="columns">
       <div class="column">
-        <p class="title is-4">
+        <p class="title is-5">
           Wedding Party
         </p>
       </div>
       <div class="column has-text-right">
+        <a href="#" v-on:click="toggleHideDeletedParties()" class="button is-outlined is-small is-rounded">
+          {{ (hideDeletedParties) ? 'Show' : 'Hide' }} Deleted Parties
+        </a>
         <router-link :to="{name:'PartyAdd'}" class="button is-secondary is-small is-rounded">
           + Add New Party
         </router-link>
@@ -52,46 +55,34 @@
       <span class="is-size-7">{{localSuccess}}</span>
     </div>
 
-    <div class="card" v-for="party in activeParties">
-      <div class="card-content">
-        <div class="columns">
-          <div class="column is-8">
-            <p class="title is-5">{{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">Wedding Party</p>
-            <div class="tags">
-            </div>
-          </div>
-          <div class="column is-4 has-text-right is-size-7">
-            <ul>
-              <li><router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link></li>
-              <li><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link></li>
-              <li><a v-on:click="confirmDeleteParty(party._id);">Delete Party</a></li>
-            </ul>
-          </div>
-        </div>
+    <article class="media" v-for="party in activeParties">
+      <div class="media-content">
+        <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
+        <p class="is-size-7">
+          <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link>
+          &#183;
+          <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
+          &#183;
+          <a v-on:click="confirmDeleteParty(party._id);">Delete Party</a>
+        </p>
       </div>
-    </div>
-    <hr/>
-    <div class="card" v-for="party in deletedParties">
-      <div class="card-content">
-        <div class="columns">
-          <div class="column is-8">
-            <p class="title is-5">{{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">Wedding Party</p>
-            <div class="tags">
-              <span class="tag is-danger">Deleted</span>
-            </div>
-          </div>
-          <div class="column is-4 has-text-right is-size-7">
-            <ul>
-              <li><router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link></li>
-              <li><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link></li>
-              <li><a v-on:click="confirmRestoreParty(party._id);">Restore Party</a></li>
-            </ul>
-          </div>
-        </div>
+    </article>
+
+    <article class="media has-text-grey-lighter" v-for="party in deletedParties" v-if="!hideDeletedParties">
+      <div class="media-content">
+        <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
+        <p class="is-size-7">
+          <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link>
+          &#183;
+          <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
+          &#183;
+          <a v-on:click="confirmRestoreParty(party._id);">Restore Party</a>
+        </p>
       </div>
-    </div>
+      <div class="media-right is-size-7">
+        <span class="tag is-danger is-small">Deleted</span>
+      </div>
+    </article>
   </div>
 </template>
 
@@ -108,7 +99,8 @@ export default {
       deletePartyModal: false,
       restorePartyModal: false,
       localSuccess: null,
-      party: null
+      party: null,
+      hideDeletedParties: true
     }
   },
   computed: {
@@ -136,8 +128,8 @@ export default {
     ]),
     loadWeddingParty: async function() {
       try {
-        if (this.account._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
+        if (this.account._id && this.account.couple._id) {
+          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account.couple._id);
           this.setState({
             parties: getWeddingParty.weddingParty
           })
@@ -177,6 +169,9 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    toggleHideDeletedParties: function() {
+      this.hideDeletedParties = !this.hideDeletedParties;
     },
     restoreParty: async function(partyId) {
       this.restorePartyModal = false;

@@ -1,48 +1,33 @@
 <template>
   <div v-if="party">
-    <br/>
-    <div class="columns">
-      <div class="column">
-        <p class="title is-7 is-uppercase">
-          {{party.firstName + " " + party.lastName}}'s activities
-        </p>
-        <template v-for="(activities, date) in parsedActivities">
-          <p class="title is-6">{{date}}</p>
-          <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
-          <template v-for="activity in activities">
-            <article class="media" v-bind:class="completedActivity(activity.endTime)">
-              <div class="media-left">
-                <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
-              </div>
-              <div class="media-content">
-                <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-                <p class="is-size-7">{{activity.description}}</p>
-              </div>
-              <div class="media-right">
-                <span class="icon is-small is-left">
-                  <i v-bind:class="getIcon(activity.type)"></i>
-                </span>
-              </div>
-            </article>
-          </template>
-          <br/>
-        </template>
-      </div>
-      <div class="column is-3">
-        <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-7">Edit Party</router-link>
-        <br/>
-        <br/>
-        <div class="card">
-          <div class="card-content">
-            <p class="title is-5">Share with {{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-7 has-text-grey">Copy this link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date with {{ hisOrHers(party.gender) }} activities for your wedding.</p>
-            <p class="is-size-7 is-italic">
-              <a v-on:click="copyToClipboard();">Click here to copy the link</a>
-            </p>
+    <p class="title is-5 is-uppercase">
+      {{party.firstName + " " + party.lastName}}
+    </p>
+    <p class="subtitle is-7">
+      Here's your list of activities assigned to you!
+    </p>
+      <br/>
+    <template v-for="(activities, date) in parsedActivities">
+      <p class="title is-6">{{date}}</p>
+      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
+      <template v-for="activity in activities">
+        <article class="media" v-bind:class="completedActivity(activity.endTime)">
+          <div class="media-left">
+            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
           </div>
-        </div>
-      </div>
-    </div>
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-7">{{activity.description}}</p>
+          </div>
+          <div class="media-right">
+            <span class="icon is-small is-left">
+              <i v-bind:class="getIcon(activity.type)"></i>
+            </span>
+          </div>
+        </article>
+      </template>
+      <br/>
+    </template>
   </div>
 </template>
 
@@ -54,10 +39,8 @@ const partyHandler = require('../../../handlers/partyHandler');
 const moment = require('moment');
 
 export default {
-  name: 'Main-Party',
   data() {
     return {
-      errors: [],
       party: null
     }
   },
@@ -67,7 +50,6 @@ export default {
     ...mapState(mappedStates),
     parsedActivities: function() {
       let scheduleDates = {};
-
       const activeActivities = this.party.activities.filter(activity => {
         return !activity.isDeleted;
       }).sort((activity1, activity2) => {
@@ -109,16 +91,9 @@ export default {
     hisOrHers: function(gender) {
       return (gender === 'male') ? 'his' : 'hers';
     },
-    copyToClipboard: function() {
-      var aux = document.createElement("input");
-      aux.setAttribute("value", "http://localhost:8080" + this.$route.fullPath + "/overview");
-      document.body.appendChild(aux);
-      aux.select();
-      document.execCommand("copy");
-      document.body.removeChild(aux);
-    },
     completedActivity: function(activityEndTime) {
-      const activityEnded = activityEndTime < Date.now() / 1000;
+      //const activityEnded = activityEndTime < Date.now() / 1000;
+      const activityEnded = activityEndTime < 1545923401;
       return {
         'has-text-grey-lighter': activityEnded
       }
@@ -127,7 +102,8 @@ export default {
       const totalActivities = activities.length;
       let completed = 0;
       activities.forEach((activity) => {
-        if (activity.endTime < Date.now() / 1000) {
+        //if (activity.endTime < Date.now() / 1000) {
+        if (activity.endTime < 1545923401) {
           completed++;
         }
       });

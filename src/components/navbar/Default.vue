@@ -1,18 +1,23 @@
 <template>
-  <div id="sidebar_default">
+  <div>
     <nav class="navbar mainbar is-transparent" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <a class="navbar-item">
+        <router-link to="/" class="navbar-item">
           <img src="../../assets/img/rocket.png" alt="Bulma: a modern CSS framework based on Flexbox" width="32" height="32">
-        </a>
+        </router-link>
       </div>
       <div class="navbar-menu">
-        <div class="navbar-end">
+        <div class="navbar-end" v-if="activeParty">
           <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
             Wedding Day
           </router-link>
           <router-link to="/settings" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'settings' }">
             {{ activeParty.firstName + " " + activeParty.lastName }}
+          </router-link>
+        </div>
+        <div class="navbar-end" v-if="!activeParty">
+          <router-link to="/login" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
+            Log In
           </router-link>
         </div>
       </div>
@@ -25,7 +30,6 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
-  name: 'Sidebar-Default',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

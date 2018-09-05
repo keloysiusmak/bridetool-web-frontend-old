@@ -1,8 +1,10 @@
 //Layouts
 import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanelOnly from '@/components/layout/AppPanelOnly';
 
 //Panel
 import PanelParty from '@/components/panel/parties/Party';
+import PanelPartyOverview from '@/components/panel/parties/Overview';
 
 //SubPanel
 import SubPanelPartyOverview from '@/components/subpanel/parties/Overview';
@@ -21,6 +23,28 @@ import NavbarDefault from '@/components/navbar/Default';
 import FooterDefault from '@/components/footer/Default';
 
 export default [
+  {
+    path: '/party/:partyId/overview',
+    component: LayoutAppPanelOnly,
+    children: [
+      {
+        path: '',
+        meta: {
+          requiresAuth: false
+        },
+        components: {
+          navbar: NavbarDefault,
+          panel: PanelPartyOverview,
+          footer: FooterDefault
+        },
+        props: {
+          panel: (route) => ({
+            partyId: route.params.partyId
+          })
+        }
+      }
+    ]
+  },
   {
     path: '/party',
     meta: {

@@ -40,62 +40,82 @@
       <span class="is-size-7">{{localSuccess}}</span>
     </div>
     <div class="columns">
+      <div class="column has-text-left">
+        <p class="title is-5">{{ (hideDeletedActivities) ? 'Active' : 'Deleted' }} Activites</p>
+      </div>
       <div class="column has-text-right">
+        <a href="#" v-on:click="toggleHideDeletedActivities()" class="button is-outlined is-small is-rounded">
+          {{ (hideDeletedActivities) ? 'Show' : 'Hide' }} Deleted Activities
+        </a>
         <router-link :to="{name:'ActivityAdd'}" class="button is-secondary is-small is-rounded">
           + Add New Activity
         </router-link>
       </div>
     </div>
-    <div class="card" v-for="activity in activeActivities" :key="activity._id">
-      <div class="card-content">
-        <div class="columns">
-          <div class="column is-10">
-            <p class="title is-5">{{activity.name}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
-            <div class="content">
-              <p class="is-size-7">
-                {{activity.description}}
-              </p>
-            </div>
-            <div class="tags">
-              <span class="tag is-secondary" v-for="party in activity.assignedParties">{{party.firstName + " " + party.lastName}}</span>
-            </div>
+
+    <template v-if="!activeActivitiesCount && hideDeletedActivities">
+      <p class="is-size-6">
+        No activities to show. <router-link :to="{name:'ActivityAdd'}">Add some activites</router-link> and let's get started!
+      </p>
+      <br/>
+      <p class="is-size-6">
+
+      </p>
+    </template>
+    <template v-for="(activities, date) in activeActivities" v-if="hideDeletedActivities && activeActivitiesCount">
+      <p class="title is-6">{{date}}</p>
+      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
+      <template v-for="activity in activities">
+        <article class="media" v-bind:class="completedActivity(activity.endTime)">
+          <div class="media-left">
+            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
           </div>
-          <div class="column is-2 has-text-right is-size-7">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-7">{{activity.description}}</p>
+          </div>
+          <div class="media-right is-size-7" v-if="!isCompletedActivity(activity)">
             <ul>
               <li><router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link></li>
               <li><a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a></li>
             </ul>
           </div>
-        </div>
-      </div>
-    </div>
-    <hr/>
+        </article>
+      </template>
+      <br/>
+    </template>
 
-    <div class="card" v-for="activity in deletedActivities" :key="activity._id">
-      <div class="card-content">
-        <div class="columns">
-          <div class="column">
-            <p class="title is-5">{{activity.name}}</p>
-            <p class="subtitle is-7 is-italic has-text-grey">{{formatTime(activity.startTime)}}</p>
-            <div class="content">
-              <p class="is-size-7">
-                {{activity.description}}
-              </p>
-            </div>
-            <div class="tags">
-              <span class="tag is-danger">Deleted</span>
-            </div>
+    <template v-if="!deletedActivitiesCount && !hideDeletedActivities">
+      <p class="is-size-6">
+        No deleted activities to show. Deleted activities are automatically permanently cleared after 14 days.
+      </p>
+      <br/>
+      <p class="is-size-6">
+
+      </p>
+    </template>
+    <template v-for="(activities, date) in deletedActivities" v-if="!hideDeletedActivities && deletedActivitiesCount">
+      <p class="title is-6">{{date}}</p>
+      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
+      <template v-for="activity in activities">
+        <article class="media" v-bind:class="completedActivity(activity.endTime)">
+          <div class="media-left">
+            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
           </div>
-          <div class="column has-text-right is-size-7">
+          <div class="media-content">
+            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-7">{{activity.description}}</p>
+          </div>
+          <div class="media-right is-size-7" v-if="!isCompletedActivity(activity)">
             <ul>
               <li><router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link></li>
               <li><a v-on:click="confirmRestoreActivity(activity._id);">Restore Activity</a></li>
             </ul>
           </div>
-        </div>
-      </div>
-    </div>
+        </article>
+      </template>
+      <br/>
+    </template>
   </div>
 </template>
 
@@ -115,21 +135,56 @@ export default {
       deleteActivityModal: false,
       restoreActivityModal: false,
       activity: null,
-      localSuccess: null
+      localSuccess: null,
+      hideDeletedActivities: true
     }
   },
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
-    activeActivities: function() {
+    activeActivitiesCount: function() {
       return this.schedule.scheduleActivities.filter(activity => {
         return !activity.isDeleted;
-      });
+      }).length;
     },
-    deletedActivities: function() {
+    deletedActivitiesCount: function() {
       return this.schedule.scheduleActivities.filter(activity => {
         return activity.isDeleted;
+      }).length;
+    },
+    activeActivities: function() {
+      let scheduleDates = {};
+      const activeActivities = this.schedule.scheduleActivities.filter(activity => {
+        return !activity.isDeleted;
+      }).sort((activity1, activity2) => {
+        return activity1.startTime - activity2.startTime
+      }).forEach(activity => {
+        const formattedTime = moment.unix(activity.startTime).format('D MMMM Y');
+        if (scheduleDates[formattedTime]) {
+          scheduleDates[formattedTime].push(activity);
+        } else {
+          scheduleDates[formattedTime] = [activity];
+        }
       });
+
+      return scheduleDates;
+    },
+    deletedActivities: function() {
+      let scheduleDates = {};
+      const deletedActivities = this.schedule.scheduleActivities.filter(activity => {
+        return activity.isDeleted;
+      }).sort((activity1, activity2) => {
+        return activity1.startTime - activity2.startTime
+      }).forEach(activity => {
+        const formattedTime = moment.unix(activity.startTime).format('D MMMM Y');
+        if (scheduleDates[formattedTime]) {
+          scheduleDates[formattedTime].push(activity);
+        } else {
+          scheduleDates[formattedTime] = [activity];
+        }
+      });
+
+      return scheduleDates;
     }
   },
   methods: {
@@ -137,7 +192,7 @@ export default {
       'setState'
     ]),
     formatTime: function(activity) {
-      const formattedTime = moment.unix(activity).format('D MMMM Y h:mma');
+      const formattedTime = moment.unix(activity).format('h:mma');
 
       return formattedTime;
     },
@@ -152,6 +207,12 @@ export default {
       this.activity = this.schedule.scheduleActivities.find(activity => {
         return activity._id === activityId;
       });
+    },
+    toggleHideDeletedActivities: function() {
+      this.hideDeletedActivities = !this.hideDeletedActivities;
+    },
+    isCompletedActivity: function(activity) {
+      return activity.endTime < Date.now() / 1000;
     },
     deleteActivity: async function(activityId) {
       this.deleteActivityModal = false;
@@ -194,6 +255,22 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    completedActivity: function(activityEndTime) {
+      const activityEnded = activityEndTime < Date.now() / 1000;
+      return {
+        'has-text-grey-lighter': activityEnded
+      }
+    },
+    completedActivities: function(activities) {
+      const totalActivities = activities.length;
+      let completed = 0;
+      activities.forEach((activity) => {
+        if (activity.endTime < Date.now() / 1000) {
+          completed++;
+        }
+      });
+      return completed / totalActivities * 100;
     }
   }
 }
