@@ -3,6 +3,14 @@
     <br/>
     <span class="title is-5">Manage Email</span>
     <hr/>
+    <div v-if="localErrors.componentError" class="notification is-danger">
+      <button class="delete" v-on:click="localErrors.componentError = null"></button>
+      <span class="is-size-7">{{localErrors.componentError}}</span>
+    </div>
+    <div v-if="localSuccess" class="notification is-success">
+      <button class="delete" v-on:click="localSuccess = null"></button>
+      <span class="is-size-7">{{localSuccess}}</span>
+    </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
         <div class="field-label is-small">
@@ -16,6 +24,7 @@
                 <i class="fas fa-envelope"></i>
               </span>
             </div>
+            <p class="help is-danger" v-if="localErrors.email">{{localErrors.email}}</p>
           </div>
         </div>
       </div>
@@ -49,10 +58,12 @@ export default {
   },
   data() {
     return {
-      errors: []
+      localErrors: {},
+      localSuccess: ''
     }
   },
   created() {
+    this.resetErrors();
     this.accountEmail = this.account.email;
   },
   methods: {
@@ -64,17 +75,20 @@ export default {
       return re.test(email);
     },
     checkForm: async function() {
-      this.errors = [];
+      this.resetErrors();
+      let hasErrors = false;
 
       if (!this.accountEmail) {
-        this.errors.push("Email Missing");
+        this.localErrors.email = 'You need to fill in an email address.';
+        hasErrors = true;
       } else {
         if (!this.validEmail(this.accountEmail)) {
-          this.errors.push("Invalid Email");
+          this.localErrors.email = 'Your email address is invalid.';
+          hasErrors = true;
         }
       }
 
-      if (!this.errors.length) {
+      if (!hasErrors) {
         this.updateAccount();
       }
     },
@@ -87,11 +101,18 @@ export default {
         this.setState({
           account: updateAccount.account
         });
-        console.log("SUCCESSFULLY UPDATED ACCOUNT");
+        this.localSuccess = 'Successfully updated profile.';
       } catch (e) {
-        this.errors.push(e.details);
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
-    }
+    },
+    resetErrors: function() {
+      this.localSuccess = null
+      this.localErrors = {
+        componentError: null,
+        email: null
+      }
+    },
   }
 }
 </script>

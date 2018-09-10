@@ -55,6 +55,11 @@
       <span class="is-size-7">{{localSuccess}}</span>
     </div>
 
+    <div v-if="localErrors.componentError" class="notification is-danger">
+      <button class="delete" v-on:click="localErrors.componentError = null"></button>
+      <span class="is-size-7">{{localErrors.componentError}}</span>
+    </div>
+
     <article class="media" v-for="party in activeParties">
       <div class="media-content">
         <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
@@ -99,6 +104,7 @@ export default {
       deletePartyModal: false,
       restorePartyModal: false,
       localSuccess: null,
+      localErrors: {},
       party: null,
       hideDeletedParties: true
     }
@@ -129,13 +135,13 @@ export default {
     loadWeddingParty: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account.couple._id);
+          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
           this.setState({
             parties: getWeddingParty.weddingParty
           })
         }
       } catch (e) {
-        console.log(e);
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
     confirmDeleteParty: function(partyId) {
@@ -190,7 +196,7 @@ export default {
         })
         this.localSuccess = 'Successfully restored party.';
       } catch (e) {
-        console.log(e);
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     }
   },

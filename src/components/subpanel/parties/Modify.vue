@@ -6,7 +6,7 @@
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      {{localErrors.componentError}}
+      <span class="is-size-7">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
@@ -158,7 +158,7 @@ export default {
           lastName: this.partyLastName,
           gender: this.partyGender
         }
-        const addParty = await partyHandler.addParty(this.tokens, this.account.couple._id, fields);
+        const addParty = await partyHandler.addParty(this.tokens, this.account._id, fields);
         this.party = addParty.party;
         this.populateFields();
         this.localSuccess = 'Successfully added party.';

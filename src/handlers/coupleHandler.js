@@ -8,7 +8,7 @@ function getCouple(tokens, coupleId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 module.exports = {

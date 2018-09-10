@@ -9,21 +9,22 @@ function getWeddingParty(tokens, coupleId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 
 function getAvailableParties(tokens, coupleId, startTime, endTime) {
-  return axios.post('/couple/' + coupleId + '/available-parties', {
+  return axios.post('/couple/' + coupleId + '/available', {
     startTime,
     endTime
   }, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 
@@ -34,27 +35,29 @@ function getParty(tokens, partyId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function addParty(tokens, coupleId, fields) {
-  return axios.post('/couple/' + coupleId + '/weddingparty', fields, {
+  return axios.post('/couple/' + coupleId + '/party', fields, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function updateParty(tokens, partyId, fields) {
   return axios.put('/party/' + partyId, fields, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function deleteParty(tokens, partyId) {
@@ -64,17 +67,18 @@ function deleteParty(tokens, partyId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function restoreParty(tokens, partyId) {
   return axios.post('/party/' + partyId + '/restore', {}, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 module.exports = {

@@ -8,27 +8,29 @@ function getActivity(tokens, activityId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function addActivity(tokens, scheduleId, fields) {
   return axios.post('/schedule/' + scheduleId + '/activity', fields, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function updateActivity(tokens, activityId, fields) {
   return axios.put('/activity/' + activityId, fields, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function deleteActivity(tokens, activityId) {
@@ -38,17 +40,18 @@ function deleteActivity(tokens, activityId) {
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function restoreActivity(tokens, activityId) {
   return axios.post('/activity/' + activityId + '/restore', {}, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 module.exports = {

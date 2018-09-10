@@ -6,7 +6,7 @@
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      {{localErrors.componentError}}
+      <span class="is-size-7">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
@@ -461,7 +461,6 @@ export default {
         EventBus.$emit('loadSchedule', {});
         this.localSuccess = 'Successfully added activity.';
       } catch (e) {
-        console.log(e);
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
     },
@@ -525,13 +524,12 @@ export default {
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
-        const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account.couple._id, startTime.format('X'), endTime.format('X'));
+        const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
         this.activityAvailableParties = getAvailableParties.parties.filter(party => {
           return !this.activityAssignedPartiesId.includes(party._id);
         });
         this.availablePartiesLoading = false;
       } catch (e) {
-        console.log(e);
         this.availablePartiesLoading = false;
       }
     },
@@ -555,7 +553,6 @@ export default {
         }
         this.populateFields();
       } catch (e) {
-        console.log(e);
       }
     }
   },

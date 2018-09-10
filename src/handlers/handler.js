@@ -1,11 +1,12 @@
 module.exports = (response) => {
   const data = response.data;
 
-  const allowedStatuses = [200, 201];
-  if (!allowedStatuses.includes(data.status)) {
+  const allowedStatusCodes = [200, 201];
+  if (!allowedStatusCodes.includes(data.statusCode)) {
     throw {
-      code: data.status,
-      details: data.details,
+      statusCode: data.statusCode,
+      error: data.error,
+      message: data.message
     };
   }
 

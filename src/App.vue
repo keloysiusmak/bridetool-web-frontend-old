@@ -12,8 +12,9 @@ import { mappedStates, mappedGetters } from './components/config/vuex-config';
 const handler = require('./handlers/handler');
 const scheduleHandler = require('./handlers/scheduleHandler');
 const tokenHandler = require('./handlers/tokenHandler');
+const config = require('../dist/config/config.' + process.env.NODE_ENV);
 
-axios.defaults.baseURL = 'http://localhost:51051';
+axios.defaults.baseURL = config.apiUrl;
 
 export default {
   name: 'App',

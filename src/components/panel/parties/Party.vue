@@ -40,7 +40,7 @@ export default {
     loadWeddingParty: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account.couple._id);
+          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
           this.setState({
             parties: getWeddingParty.weddingParty
           })

@@ -115,7 +115,6 @@ export default {
       'setState'
     ]),
     resetPassword: function(value) {
-      console.log(value);
       this.showResetPassword = value;
     },
     login: async function() {

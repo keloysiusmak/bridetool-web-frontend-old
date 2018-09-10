@@ -1,15 +1,15 @@
 const axios = require('axios');
-const config = require('../../config/config.' + process.env.NODE_ENV);
+const config = require('../../dist/config/config.' + process.env.NODE_ENV);
 const handler = require('../handlers/handler');
 
 function getApiToken() {
-  return axios.get('/auth/api/token', {
+  return axios.get('/auth/token', {
     headers: {
       'api-key': config.developerKeys.apiKey,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 
@@ -30,15 +30,13 @@ async function checkAccessTokenExpired(store, tokens) {
 }
 
 function refreshToken(tokens) {
-  return axios.post('/auth/refresh', {
-    refreshToken: tokens.refreshToken
-  }, {
+  return axios.get('/auth/refresh', {
     headers: {
-      'api-token': tokens.apiToken,
+      'refresh-token': tokens.refreshToken
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 

@@ -7,11 +7,13 @@ function loginAccount(tokens, username, password) {
     password,
   }, {
     headers: {
+      'Content-Type': 'application/json',
       'api-token': tokens.apiToken,
     },
+    crossdomain: true
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function changePassword(tokens, accountId, oldPassword, newPassword) {
@@ -20,21 +22,23 @@ function changePassword(tokens, accountId, oldPassword, newPassword) {
     newPassword
   }, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 function updateAccount(tokens, accountId, fields) {
   return axios.put('/account/' + accountId, fields, {
     headers: {
+      'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
     },
   }).then(response => {
     response = handler(response);
-    return response.result;
+    return response.data;
   });
 }
 module.exports = {

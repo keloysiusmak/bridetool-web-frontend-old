@@ -3,6 +3,14 @@
     <br>
     <span class="title is-5">Manage Password</span>
     <hr/>
+    <div v-if="localErrors.componentError" class="notification is-danger">
+      <button class="delete" v-on:click="localErrors.componentError = null"></button>
+      <span class="is-size-7">{{localErrors.componentError}}</span>
+    </div>
+    <div v-if="localSuccess" class="notification is-success">
+      <button class="delete" v-on:click="localSuccess = null"></button>
+      <span class="is-size-7">{{localSuccess}}</span>
+    </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
         <div class="field-label is-small">
@@ -16,6 +24,7 @@
                 <i class="fas fa-key"></i>
               </span>
             </div>
+            <p class="help is-danger" v-if="localErrors.oldPassword">{{localErrors.oldPassword}}</p>
           </div>
         </div>
       </div>
@@ -31,6 +40,7 @@
                 <i class="fas fa-key"></i>
               </span>
             </div>
+            <p class="help is-danger" v-if="localErrors.newPassword">{{localErrors.newPassword}}</p>
           </div>
         </div>
       </div>
@@ -46,6 +56,7 @@
                 <i class="fas fa-key"></i>
               </span>
             </div>
+            <p class="help is-danger" v-if="localErrors.confirmNewPassword">{{localErrors.confirmNewPassword}}</p>
           </div>
         </div>
       </div>
@@ -82,7 +93,8 @@ export default {
       oldPassword: '',
       newPassword: '',
       newPasswordConfirmation: '',
-      errors: []
+      localErrors: {},
+      localSuccess: ''
     }
   },
   methods: {
@@ -90,35 +102,58 @@ export default {
       'setState'
     ]),
     checkForm: async function() {
-      this.errors = [];
+      this.resetErrors();
+      let hasErrors = false;
       if (!this.oldPassword) {
-        this.errors.push("Old Password missing");
+        this.localErrors.oldPassword = 'This field cannot be empty.';
+        hasErrors = true;
       }
 
       if (!this.newPassword) {
-        this.errors.push("New Password missing");
+        this.localErrors.newPassword = 'This field cannot be empty.';
+        hasErrors = true;
       }
 
       if (!this.newPasswordConfirmation) {
-        this.errors.push("New Password Confirmation missing");
+        this.localErrors.confirmNewPassword = 'This field cannot be empty.';
+        hasErrors = true;
       }
 
       if (!(this.newPassword === this.newPasswordConfirmation)) {
-        this.errors.push("New Password different");
+        this.localErrors.newPassword = 'Passwords do not match.';
+        this.localErrors.confirmNewPassword = 'Passwords do not match.';
+        hasErrors = true;
       }
 
-      if (!this.errors.length) {
+      if (!hasErrors) {
         this.changePassword();
       }
     },
     changePassword: async function() {
       try {
         const changePassword = await accountHandler.changePassword(this.tokens, this.account._id, this.oldPassword, this.newPassword);
-        console.log("SUCCESSFULLY CHANGED PASSWORD");
+        this.localSuccess = 'Successfully updated profile.';
       } catch (e) {
-        this.errors.push(e.details);
+        if (e.statusCode === 401) {
+          this.localErrors.componentError = e.message;
+        }
+        else {
+          this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
+        }
+      }
+    },
+    resetErrors: function() {
+      this.localSuccess = null
+      this.localErrors = {
+        componentError: null,
+        oldPassword: null,
+        newPassword: null,
+        confirmNewPassword: null
       }
     }
+  },
+  created() {
+    this.resetErrors();
   }
 }
 </script>
