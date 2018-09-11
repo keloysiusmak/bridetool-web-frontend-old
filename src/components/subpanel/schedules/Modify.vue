@@ -1,5 +1,8 @@
 <template>
-  <div id="main_schedule_edit">
+  <div v-if="!schedule || modifyLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="schedule">
     <br/>
     <span class="title is-5">Edit Schedule</span>
     <hr/>
@@ -105,7 +108,8 @@ export default {
       monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
       dates: [1, 2, 3, 4, 5, 6, 7, 8, 9 ,10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31],
       months: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-      years: [2018, 2019, 2020, 2021]
+      years: [2018, 2019, 2020, 2021],
+      modifyLoading: false
     }
   },
   props: ['scheduleId'],
@@ -150,6 +154,7 @@ export default {
       return valid;
     },
     updateSchedule: async function() {
+      this.modifyLoading = true;
       try {
         const date = this.formatMoment(this.scheduleDate);
 
@@ -166,6 +171,7 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     populateFields: function() {
       this.scheduleName = this.schedule.name;

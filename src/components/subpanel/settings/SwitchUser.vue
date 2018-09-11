@@ -1,5 +1,8 @@
 <template>
-  <div id="main_welcome">
+  <div v-if="!account" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="account">
     <br/>
     <p class="is-size-7">Are you {{activeParty.firstName + " " + activeParty.lastName}}? If not, click <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">here</a> to switch to {{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}.</p>
   </div>

@@ -1,5 +1,8 @@
 <template>
-  <div id="main_wedding_party" v-if="parties">
+  <div v-if="!parties || deleteOrRestoreLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="parties">
     <!-- START deletePartyModal -->
     <div class="modal" v-bind:class="{ 'is-active': deletePartyModal }" v-if="party">
       <div class="modal-background"></div>
@@ -65,10 +68,12 @@
         <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
         <p class="is-size-7">
           <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link>
-          &#183;
-          <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
-          &#183;
-          <a v-on:click="confirmDeleteParty(party._id);">Delete Party</a>
+          <template v-if="!isCouple(party._id)">
+            &#183;
+            <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
+            &#183;
+            <a v-on:click="confirmDeleteParty(party._id);">Delete Party</a>
+          </template>
         </p>
       </div>
     </article>
@@ -106,7 +111,8 @@ export default {
       localSuccess: null,
       localErrors: {},
       party: null,
-      hideDeletedParties: true
+      hideDeletedParties: true,
+      deleteOrRestoreLoading: false
     }
   },
   computed: {
@@ -132,6 +138,12 @@ export default {
     ...mapMutations([
       'setState'
     ]),
+    isCouple: function(partyId) {
+      const filteredIds = this.account.couple.coupleParty.map(party => {
+        return party._id;
+      });
+      return filteredIds.includes(partyId);
+    },
     loadWeddingParty: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
@@ -158,6 +170,7 @@ export default {
     },
     deleteParty: async function(partyId) {
       this.deletePartyModal = false;
+      this.deleteOrRestoreLoading = true;
       try {
         const deleteParty = await partyHandler.deleteParty(this.tokens, this.party._id);
         const parties = this.parties.map(party => {
@@ -173,14 +186,16 @@ export default {
         })
         this.localSuccess = 'Successfully deleted party.';
       } catch (e) {
-        console.log(e);
+        //
       }
+      this.deleteOrRestoreLoading = false;
     },
     toggleHideDeletedParties: function() {
       this.hideDeletedParties = !this.hideDeletedParties;
     },
     restoreParty: async function(partyId) {
       this.restorePartyModal = false;
+      this.deleteOrRestoreLoading = true;
       try {
         const restoreParty = await partyHandler.restoreParty(this.tokens, this.party._id);
         const parties = this.parties.map(party => {
@@ -198,6 +213,7 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.deleteOrRestoreLoading = false;
     }
   },
   async created() {

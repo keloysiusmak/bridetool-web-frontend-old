@@ -1,5 +1,5 @@
 <template>
-  <div v-if="parties">
+  <div>
     <router-link :to="{ name: 'PartyParties' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'parties' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>

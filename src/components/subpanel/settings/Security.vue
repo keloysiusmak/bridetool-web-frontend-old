@@ -1,5 +1,8 @@
 <template>
-  <div id="main_settings_password">
+  <div v-if="!account" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="account">
     <br>
     <span class="title is-5">Manage Password</span>
     <hr/>

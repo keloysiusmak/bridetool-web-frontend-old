@@ -1,11 +1,19 @@
 <template>
-  <div v-if="party">
+  <div v-if="!party" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="party">
     <br/>
     <div class="columns">
       <div class="column">
         <p class="title is-7 is-uppercase">
           {{party.firstName + " " + party.lastName}}'s activities
         </p>
+        <template v-if="!hasActivities">
+          <p class="is-size-7">
+            No activities to show.
+          </p>
+        </template>
         <template v-for="(activities, date) in parsedActivities">
           <p class="title is-6">{{date}}</p>
           <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
@@ -65,6 +73,11 @@ export default {
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
+    hasActivities: function() {
+      return this.party.activities.filter(activity => {
+        return !activity.isDeleted;
+      }).length > 0;
+    },
     parsedActivities: function() {
       let scheduleDates = {};
 

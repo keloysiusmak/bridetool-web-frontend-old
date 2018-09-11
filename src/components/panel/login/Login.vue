@@ -41,6 +41,10 @@
               </div>
               <div class="tile is-parent" v-if="!showResetPassword">
                 <article class="tile is-child box has-text-left">
+                  <div v-if="localErrors.componentError" class="notification is-danger">
+                    <button class="delete" v-on:click="localErrors.componentError = null"></button>
+                    <span class="is-size-7">{{localErrors.componentError}}</span>
+                  </div>
                   <form v-on:submit.prevent="login()">
                     <label class="label has-text-grey">Username</label>
                     <div class="field">
@@ -68,8 +72,11 @@
                     </p>
                     <br/>
                     <div class="field is-clearfix">
-                      <div class="control is-pulled-right">
+                      <div class="control is-pulled-right" v-if="!loginLoading">
                         <input class="button is-link is-outlined" type="submit" value="Login" />
+                      </div>
+                      <div class="control is-pulled-right" v-if="loginLoading">
+                        <a class="button is-loading is-medium is-text"></a>
                       </div>
                     </div>
                     <div class="is-divider" data-content="DON'T HAVE AN ACCOUNT?"></div>
@@ -107,7 +114,11 @@ export default {
     return {
       username: 'hey',
       password: 'heya',
-      showResetPassword: false
+      showResetPassword: false,
+      loginLoading: false,
+      localErrors: {
+        componentError: ''
+      }
     }
   },
   methods: {
@@ -119,7 +130,7 @@ export default {
     },
     login: async function() {
       try {
-        this.loading = true;
+        this.loginLoading = true;
         const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
 
         const primaryParty = loginAccount.account.couple.primaryParty;
@@ -138,12 +149,16 @@ export default {
           storedTokensTime: Math.floor(Date.now() / 1000),
           activeParty: activeParty
         });
+        this.loginLoading = false;
 
         this.$router.push({ path: '/' });
       } catch (e) {
-        this.setState({
-          errors: e.message
-        });
+        if (e.statusCode === 401) {
+          this.localErrors.componentError = 'Incorrect username or password.';
+        } else {
+          this.localErrors.componentError = 'Oops something went wrong.';
+        }
+        this.loginLoading = false;
       }
     }
   }

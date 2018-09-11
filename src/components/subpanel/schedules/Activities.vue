@@ -1,5 +1,8 @@
 <template>
-  <div id="main_schedule" v-if="schedule">
+  <div v-if="!schedule || deleteOrRestoreLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="schedule">
     <!-- START deleteActivityModal -->
     <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
       <div class="modal-background"></div>
@@ -136,7 +139,8 @@ export default {
       restoreActivityModal: false,
       activity: null,
       localSuccess: null,
-      hideDeletedActivities: true
+      hideDeletedActivities: true,
+      deleteOrRestoreLoading: false
     }
   },
   computed: {
@@ -215,6 +219,7 @@ export default {
       return activity.endTime < Date.now() / 1000;
     },
     deleteActivity: async function(activityId) {
+      this.deleteOrRestoreLoading = true;
       this.deleteActivityModal = false;
       try {
         const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activity._id);
@@ -232,10 +237,12 @@ export default {
         })
         this.localSuccess = 'Successfully deleted activity.';
       } catch (e) {
-        console.log(e);
+        //
       }
+      this.deleteOrRestoreLoading = false;
     },
     restoreActivity: async function(activityId) {
+      this.deleteOrRestoreLoading = true;
       this.restoreActivityModal = false;
       try {
         const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activity._id);
@@ -253,8 +260,9 @@ export default {
         })
         this.localSuccess = 'Successfully restored activity.';
       } catch (e) {
-        console.log(e);
+        //
       }
+      this.deleteOrRestoreLoading = false;
     },
     completedActivity: function(activityEndTime) {
       const activityEnded = activityEndTime < Date.now() / 1000;

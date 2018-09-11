@@ -1,5 +1,8 @@
 <template>
-  <div id="main_activity_edit">
+  <div v-if="!activity && modifyType === 'edit' || modifyLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="activity || modifyType !== 'edit'">
     <br/>
     <span class="title is-5" v-if="modifyType === 'edit'">Edit Activity</span>
     <span class="title is-5" v-if="modifyType === 'create'">Create Activity</span>
@@ -355,7 +358,8 @@ export default {
       availablePartiesLoading: false,
       localErrors: {},
       localSuccess: '',
-      activity: null
+      activity: null,
+      modifyLoading: false
     }
   },
   props: ['activityId', 'modifyType'],
@@ -420,6 +424,7 @@ export default {
       }
     },
     updateActivity: async function() {
+      this.modifyLoading = true;
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
@@ -440,8 +445,10 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     addActivity: async function() {
+      this.modifyLoading = true;
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
@@ -463,6 +470,7 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     formatMoment: function(activity) {
       const newMoment = moment();

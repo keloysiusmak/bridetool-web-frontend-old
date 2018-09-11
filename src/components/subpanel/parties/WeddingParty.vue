@@ -1,5 +1,8 @@
 <template>
-  <div id="main_wedding_party" v-if="parties">
+  <div v-if="!parties" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="parties">
     <!-- START deletePartyModal -->
     <div class="modal" v-bind:class="{ 'is-active': deletePartyModal }" v-if="party">
       <div class="modal-background"></div>

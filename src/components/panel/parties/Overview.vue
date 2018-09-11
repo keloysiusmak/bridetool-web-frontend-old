@@ -1,5 +1,8 @@
 <template>
-  <div v-if="party">
+  <div v-if="!party" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="party">
     <p class="title is-5 is-uppercase">
       {{party.firstName + " " + party.lastName}}
     </p>

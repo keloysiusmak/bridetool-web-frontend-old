@@ -1,5 +1,8 @@
 <template>
-  <div v-if="schedule && parsedSchedule">
+  <div v-if="!schedule || deleteLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="schedule && parsedSchedule">
     <!-- START deleteActivityModal -->
     <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
       <div class="modal-background"></div>
@@ -11,23 +14,6 @@
           </div>
           <a class="button is-danger is-small" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
           <a class="button is-white is-small" v-on:click="deleteActivityModal = false">Cancel</a>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="close"></button>
-    </div>
-    <!-- END deleteActivityModal -->
-
-    <!-- START deleteActivityModal -->
-    <div class="modal" v-bind:class="{ 'is-active': restoreActivityModal }" v-if="activity">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box">
-          <div class="title is-5">Are you sure you want to restore '{{activity.name}}'?</div>
-          <div class="subtitle is-7">
-            Previously assigned parties cannot be restored.
-          </div>
-          <a class="button is-success is-small" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
-          <a class="button is-white is-small" v-on:click="restoreActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
@@ -94,9 +80,9 @@ export default {
   data() {
     return {
       deleteActivityModal: false,
-      restoreActivityModal: false,
       activity: null,
-      localSuccess: null
+      localSuccess: null,
+      deleteLoading: false
     }
   },
   computed: {
@@ -148,12 +134,6 @@ export default {
         return activity._id === activityId;
       });
     },
-    confirmRestoreActivity: function(activityId) {
-      this.restoreActivityModal = true;
-      this.activity = this.schedule.scheduleActivities.find(activity => {
-        return activity._id === activityId;
-      });
-    },
     isActualDay: function(activityDate) {
       const formattedDate = moment.unix(this.schedule.date).format('D MMMM Y');
       return (formattedDate === activityDate);
@@ -163,6 +143,7 @@ export default {
     },
     deleteActivity: async function(activityId) {
       this.deleteActivityModal = false;
+      this.deleteLoading = true;
       try {
         const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activity._id);
         const schedule = this.schedule;
@@ -181,27 +162,7 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
-    restoreActivity: async function(activityId) {
-      this.restoreActivityModal = false;
-      try {
-        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activity._id);
-        const schedule = this.schedule;
-        schedule.scheduleActivities = this.schedule.scheduleActivities.map(activity => {
-          if (activity._id === this.activity._id) {
-            activity.isDeleted = false;
-            return activity;
-          } else {
-            return activity;
-          }
-        });
-        this.setState({
-          schedule: schedule
-        })
-        this.localSuccess = 'Successfully restored activity.';
-      } catch (e) {
-        console.log(e);
-      }
+      this.deleteLoading = false;
     },
     completedActivity: function(activityEndTime) {
       const activityEnded = activityEndTime < Date.now() / 1000;

@@ -1,5 +1,5 @@
 <template>
-  <div id="panel_schedule" v-if="schedule">
+  <div id="panel_schedule">
     <router-link :to="{ name: 'ScheduleTimeline' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'timeline' }">
       <span class="icon is-small is-left">
         <i class="fas fa-calendar-alt"></i>
@@ -57,9 +57,8 @@ export default {
         this.setState({
           schedule: getSchedule.schedule
         });
-        this.loading = false;
       } catch (e) {
-        console.log(e.details);
+        //
       }
     }
   },

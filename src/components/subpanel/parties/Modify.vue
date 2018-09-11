@@ -1,5 +1,8 @@
 <template>
-  <div id="main_party_edit">
+  <div v-if="!party && modifyType === 'edit' || modifyLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="party || modifyType !== 'edit'">
     <br/>
     <span class="title is-5" v-if="modifyType === 'edit'">Edit Party</span>
     <span class="title is-5" v-if="modifyType === 'create'">Create Party</span>
@@ -86,6 +89,7 @@
 <script>
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
+import { EventBus } from '../../../events/event-bus.js';
 
 const partyHandler = require('../../../handlers/partyHandler');
 
@@ -96,9 +100,11 @@ export default {
       loading: true,
       localErrors: {},
       localSuccess: '',
+      party: null,
       partyFirstName: null,
       partyLastName: null,
-      partyGender: null
+      partyGender: null,
+      modifyLoading: false
     }
   },
   props: ['partyId', 'modifyType'],
@@ -137,6 +143,7 @@ export default {
       }
     },
     updateParty: async function() {
+      this.modifyLoading = true;
       try {
         const fields = {
           firstName: this.partyFirstName,
@@ -145,13 +152,16 @@ export default {
         }
         const updateParty = await partyHandler.updateParty(this.tokens, this.party._id, fields);
         this.party = updateParty.party;
+        EventBus.$emit('loadSchedule');
         this.populateFields();
         this.localSuccess = 'Successfully updated party.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     addParty: async function() {
+      this.modifyLoading = true;
       try {
         const fields = {
           firstName: this.partyFirstName,
@@ -160,11 +170,13 @@ export default {
         }
         const addParty = await partyHandler.addParty(this.tokens, this.account._id, fields);
         this.party = addParty.party;
+        EventBus.$emit('loadSchedule');
         this.populateFields();
         this.localSuccess = 'Successfully added party.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     populateFields: function() {
       this.partyFirstName = this.party.firstName;
