@@ -2,94 +2,92 @@
   <div class="loginPanel">
     <section class="hero is-fullheight">
       <div class="hero-body">
-        <div class="container">
-          <div class="columns is-centered is-desktop">
-            <div class="column is-half is-vcentered has-text-centered is-desktop">
-              <span class="subtitle is-3 has-text-white has-text-weight-light">welcome to</span>
-              <span class="subtitle is-3 has-text-white has-text-weight-bold">&nbsp;bridetool</span>
-              <div class="tile is-parent" v-if="showResetPassword">
-                <article class="tile is-child box has-text-left">
+        <div class="container is-login">
+          <div class="is-vcentered has-text-centered">
+            <span class="subtitle is-3 has-text-white has-text-weight-light">welcome to</span>
+            <span class="subtitle is-3 has-text-white has-text-weight-bold">&nbsp;bridetool</span>
+            <div class="tile is-parent" v-if="showResetPassword">
+              <article class="tile is-child box has-text-left">
+                <p class="is-italic is-size-7 is-underline">
+                  <a v-on:click="resetPassword(false)">
+                    Remembered your password?
+                  </a>
+                </p>
+                <br/>
+                <p class="title is-5">Oh no, did you forget your password?</p>
+                <p class="subtitle is-7">
+                  Don't worry! We got this. Key in your username you use to sign in to your account
+                  and we'll drop you an email associated with that account for more information.
+                </p>
+                <form v-on:submit.prevent="login()">
+                  <label class="label has-text-grey">Username</label>
+                  <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                      <input class="input" placeholder="Username" v-model="username"/>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                  <div class="field is-clearfix">
+                    <div class="control is-pulled-right">
+                      <input class="button is-link is-outlined" type="submit" value="Reset Password" />
+                    </div>
+                  </div>
+                </form>
+              </article>
+            </div>
+            <div class="tile is-parent" v-if="!showResetPassword">
+              <article class="tile is-child box has-text-left">
+                <div v-if="localErrors.componentError" class="notification is-danger">
+                  <button class="delete" v-on:click="localErrors.componentError = null"></button>
+                  <span class="is-size-7">{{localErrors.componentError}}</span>
+                </div>
+                <form v-on:submit.prevent="login()">
+                  <label class="label has-text-grey">Username</label>
+                  <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                      <input class="input" placeholder="Username" v-model="username"/>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <br/>
+                  <label class="label has-text-grey">Password</label>
+                  <div class="field">
+                    <div class="control has-icons-left has-icons-right">
+                      <input class="input" placeholder="Password" type="password" v-model="password"/>
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-key"></i>
+                      </span>
+                    </div>
+                  </div>
                   <p class="is-italic is-size-7 is-underline">
-                    <a v-on:click="resetPassword(false)">
-                      Remembered your password?
+                    <a v-on:click="resetPassword(true)">
+                      forgot your password?
                     </a>
                   </p>
                   <br/>
-                  <p class="title is-5">Oh no, did you forget your password?</p>
-                  <p class="subtitle is-7">
-                    Don't worry! We got this. Key in your username you use to sign in to your account
-                    and we'll drop you an email associated with that account for more information.
-                  </p>
-                  <form v-on:submit.prevent="login()">
-                    <label class="label has-text-grey">Username</label>
-                    <div class="field">
-                      <div class="control has-icons-left has-icons-right">
-                        <input class="input" placeholder="Username" v-model="username"/>
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-user"></i>
-                        </span>
-                      </div>
+                  <div class="field is-clearfix">
+                    <div class="control is-pulled-right" v-if="!loginLoading">
+                      <input class="button is-link is-outlined" type="submit" value="Login" />
                     </div>
-                    <br/>
-                    <div class="field is-clearfix">
-                      <div class="control is-pulled-right">
-                        <input class="button is-link is-outlined" type="submit" value="Reset Password" />
-                      </div>
+                    <div class="control is-pulled-right" v-if="loginLoading">
+                      <a class="button is-loading is-medium is-text"></a>
                     </div>
-                  </form>
-                </article>
-              </div>
-              <div class="tile is-parent" v-if="!showResetPassword">
-                <article class="tile is-child box has-text-left">
-                  <div v-if="localErrors.componentError" class="notification is-danger">
-                    <button class="delete" v-on:click="localErrors.componentError = null"></button>
-                    <span class="is-size-7">{{localErrors.componentError}}</span>
                   </div>
-                  <form v-on:submit.prevent="login()">
-                    <label class="label has-text-grey">Username</label>
-                    <div class="field">
-                      <div class="control has-icons-left has-icons-right">
-                        <input class="input" placeholder="Username" v-model="username"/>
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-user"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <br/>
-                    <label class="label has-text-grey">Password</label>
-                    <div class="field">
-                      <div class="control has-icons-left has-icons-right">
-                        <input class="input" placeholder="Password" type="password" v-model="password"/>
-                        <span class="icon is-small is-left">
-                          <i class="fas fa-key"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <p class="is-italic is-size-7 is-underline">
-                      <a v-on:click="resetPassword(true)">
-                        forgot your password?
-                      </a>
-                    </p>
-                    <br/>
-                    <div class="field is-clearfix">
-                      <div class="control is-pulled-right" v-if="!loginLoading">
-                        <input class="button is-link is-outlined" type="submit" value="Login" />
-                      </div>
-                      <div class="control is-pulled-right" v-if="loginLoading">
-                        <a class="button is-loading is-medium is-text"></a>
-                      </div>
-                    </div>
-                    <div class="is-divider" data-content="DON'T HAVE AN ACCOUNT?"></div>
-                    <p class="title is-5">Sign ups open soon!</p>
-                    <p class="subtitle is-7">
-                      Bridetool is still in its beta testing phase and unfortunately we're unable
-                      to accomodate more users at this moment. We would however be happy to share
-                      with you more information when it's ready. Drop us an email at <a href="mailto:keloysiusmak@hotmail.com">keloysiusmak@hotmail.com</a>
-                      and we'll keep in touch.
-                    </p>
-                  </form>
-                </article>
-              </div>
+                  <div class="is-divider" data-content="DON'T HAVE AN ACCOUNT?"></div>
+                  <p class="title is-5">Sign ups open soon!</p>
+                  <p class="subtitle is-7">
+                    Bridetool is still in its beta testing phase and unfortunately we're unable
+                    to accomodate more users at this moment. We would however be happy to share
+                    with you more information when it's ready. Drop us an email at <a href="mailto:keloysiusmak@hotmail.com">keloysiusmak@hotmail.com</a>
+                    and we'll keep in touch.
+                  </p>
+                </form>
+              </article>
             </div>
           </div>
         </div>
@@ -176,7 +174,11 @@ export default {
     text-transform: uppercase;
     font-size: 0.75rem;
   }
-  .tile .tile {
-    padding: 4rem;
+  .is-login {
+    max-width: 500px;
+    width:500px;
+  }
+  .hero-body{
+    padding: 3rem 0.5rem;
   }
 </style>

@@ -5,8 +5,13 @@
         <router-link to="/" class="navbar-item">
           <img src="../../assets/img/rocket.png" alt="Bulma: a modern CSS framework based on Flexbox" width="32" height="32">
         </router-link>
+        <a role="button" class="navbar-burger" v-on:click="toggleMenu()" aria-label="menu" aria-expanded="false" data-target="menu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
       </div>
-      <div class="navbar-menu">
+      <div class="navbar-menu" id="menu">
         <div class="navbar-end" v-if="activeParty">
           <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
             Wedding Day
@@ -14,6 +19,9 @@
           <router-link to="/settings" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'settings' }">
             {{ activeParty.firstName + " " + activeParty.lastName }}
           </router-link>
+          <a v-on:click="logout()" class="navbar-item">
+            Log Out
+          </a>
         </div>
         <div class="navbar-end" v-if="!activeParty">
           <router-link to="/login" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
@@ -36,10 +44,28 @@ export default {
   },
   props: ['navbarSelected'],
   methods: {
+    ...mapMutations([
+      'setState'
+    ]),
+    toggleMenu: function() {
+      $(".navbar-burger").toggleClass("is-active");
+      $(".navbar-menu").toggleClass("is-active");
+    },
+    logout: async function() {
+      this.setState({
+        accessToken: null,
+        account: null,
+        storedTokensTime: null,
+        refreshToken: null,
+        user: null
+      });
+      this.$router.push({ path: '/login' });
+    }
   },
   created() {
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

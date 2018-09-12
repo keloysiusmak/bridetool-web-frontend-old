@@ -246,7 +246,7 @@
         </div>
         <div class="field-body">
           <div class="field is-grouped is-grouped-multiline">
-            <div class="control" v-if="!activityAssignedParties.length">
+            <div v-if="!activityAssignedParties.length">
               <p class="help">There are currently no members of your party assigned to this activity.</p>
             </div>
             <div class="control" v-if="activityAssignedParties.length" v-for="party in activityAssignedParties">
@@ -274,7 +274,7 @@
             <a class="button is-loading is-medium is-text"></a>
           </div>
           <div class="field is-grouped is-grouped-multiline" v-if="!availablePartiesLoading">
-            <div class="control" v-if="!activityAvailableParties.length">
+            <div v-if="!activityAvailableParties.length">
               <p class="help">There are currently no members of your party available to be assigned.</p>
             </div>
             <div class="control" v-if="activityAvailableParties.length" v-for="party in activityAvailableParties">
@@ -443,6 +443,7 @@ export default {
         EventBus.$emit('loadSchedule', {});
         this.localSuccess = 'Successfully updated activity.';
       } catch (e) {
+        console.log(e);
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
       this.modifyLoading = false;

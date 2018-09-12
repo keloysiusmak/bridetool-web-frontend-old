@@ -49,6 +49,8 @@
           </p>
           <p class="subtitle is-5">
             <span class="tag is-danger">Coming Soon</span>
+            <br/>
+            <br/>
             You'll also be able to organize your wedding party into groups, so you can quickly assign
             activities and tasks!
           </p>

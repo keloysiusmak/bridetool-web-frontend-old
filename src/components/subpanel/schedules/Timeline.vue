@@ -38,15 +38,15 @@
       <p class="title is-6">{{date}}</p>
       <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
       <template v-for="activity in activities">
-        <article class="media" v-bind:class="completedActivity(activity.endTime)">
-          <div class="media-left">
+        <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
+          <div class="column is-2 is-12-mobile">
             <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
           </div>
-          <div class="media-content">
+          <div class="column is-8 is-12-mobile">
             <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
             <p class="is-size-7">{{activity.description}}</p>
             <br/>
-            <p class="is-size-7">
+            <p class="is-size-7 is-12-mobile">
               <span class="has-text-weight-bold">Involved:</span>
               {{ formatParties(activity.assignedParties) }}
             </p>
@@ -55,7 +55,7 @@
               <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link> &#183; <a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a>
             </p>
           </div>
-          <div class="media-right">
+          <div class="column is-2 has-text-right is-hidden-mobile">
             <span class="icon is-small is-left">
               <i v-bind:class="getIcon(activity.type)"></i>
             </span>

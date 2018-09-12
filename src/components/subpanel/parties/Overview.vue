@@ -6,6 +6,7 @@
     <br/>
     <div class="columns">
       <div class="column">
+        <p><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-7">Edit Party</router-link></p>
         <p class="title is-7 is-uppercase">
           {{party.firstName + " " + party.lastName}}'s activities
         </p>
@@ -18,15 +19,15 @@
           <p class="title is-6">{{date}}</p>
           <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
           <template v-for="activity in activities">
-            <article class="media" v-bind:class="completedActivity(activity.endTime)">
-              <div class="media-left">
+            <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
+              <div class="column is-2 is-12-mobile">
                 <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
               </div>
-              <div class="media-content">
+              <div class="column is-8 is-12-mobile">
                 <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
                 <p class="is-size-7">{{activity.description}}</p>
               </div>
-              <div class="media-right">
+              <div class="column is-2 is-hidden-mobile has-text-right">
                 <span class="icon is-small is-left">
                   <i v-bind:class="getIcon(activity.type)"></i>
                 </span>
@@ -37,9 +38,6 @@
         </template>
       </div>
       <div class="column is-3">
-        <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-7">Edit Party</router-link>
-        <br/>
-        <br/>
         <div class="card">
           <div class="card-content">
             <p class="title is-5">Share with {{party.firstName + " " + party.lastName}}</p>

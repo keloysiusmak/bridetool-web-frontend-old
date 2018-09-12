@@ -8,6 +8,8 @@
 import axios from 'axios';
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from './components/config/vuex-config';
+window.$ = require('jquery')
+window.JQuery = require('jquery')
 
 const handler = require('./handlers/handler');
 const scheduleHandler = require('./handlers/scheduleHandler');

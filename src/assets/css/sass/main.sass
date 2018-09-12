@@ -35,35 +35,65 @@ html
       &:hover
         color: $primary
 
-.subbar
-  background-color: $white !important
-  min-height: 0.8rem !important
-  height: 2.3rem
-  border-bottom: 1px solid $white-ter
-  & .navbar-brand
+@media (max-width: 1158px)
+  .subbar
+    background-color: $white !important
+    min-height: 0.8rem !important
     height: 2.3rem
-    min-height: 1.5rem
-    & .navbar-item
-      padding: 1.05rem 0.5rem
-      font-size: 0.8rem
-      line-height: 1.2rem
-      border-bottom: 2px solid #fff
-  & .navbar-menu
-    height: calc(2.3rem - 2px)
-    min-height: 1.5rem
-    & .navbar-start
+    border-bottom: 1px solid $white-ter
+    & .navbar-menu
+      box-shadow: none
+      margin: 0
+      padding: 0
+      height: calc(2.3rem - 2px)
+      min-height: 1.5rem
+      & .navbar-start
+        & .navbar-item
+          display: inline-table
+          margin: 0
+          padding: 0.5rem 0.5rem
+          font-size: 0.8rem
+          line-height: 1.2rem
+          border-bottom: 0
+          &.is-active
+            color: $grey-darker
+            background-color: $white !important
+            border-bottom: 2px solid $primary
+            font-weight: bold
+          &:hover
+            color: $grey-darker
+            background-color: $white !important
+            border-bottom: 2px solid $primary
+@media (min-width: 1158px)
+  .subbar
+    background-color: $white !important
+    min-height: 0.8rem !important
+    height: 2.3rem
+    border-bottom: 1px solid $white-ter
+    & .navbar-brand
+      height: 2.3rem
+      min-height: 1.5rem
       & .navbar-item
         padding: 1.05rem 0.5rem
         font-size: 0.8rem
         line-height: 1.2rem
-        border-bottom: 2px solid $white
-        &.is-active
-          background-color: $white !important
-          border-bottom: 2px solid $primary
-          font-weight: bold
-        &:hover
-          background-color: $white !important
-          border-bottom: 2px solid $primary
+        border-bottom: 2px solid #fff
+    & .navbar-menu
+      height: calc(2.3rem - 2px)
+      min-height: 1.5rem
+      & .navbar-start
+        & .navbar-item
+          padding: 1.05rem 0.5rem
+          font-size: 0.8rem
+          line-height: 1.2rem
+          border-bottom: 2px solid $white
+          &.is-active
+            background-color: $white !important
+            border-bottom: 2px solid $primary
+            font-weight: bold
+          &:hover
+            background-color: $white !important
+            border-bottom: 2px solid $primary
 
 .card-footer-item
   &.is-primary
