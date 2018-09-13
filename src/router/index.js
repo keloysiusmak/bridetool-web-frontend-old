@@ -5,6 +5,7 @@ import { store } from '../store';
 //routes
 import errorRoutes from './routes/errorRoutes'
 import activityRoutes from './routes/activityRoutes'
+import budgetRoutes from './routes/budgetRoutes'
 import loginRoutes from './routes/loginRoutes'
 import overviewRoutes from './routes/overviewRoutes'
 import partyRoutes from './routes/partyRoutes'
@@ -19,6 +20,7 @@ const router = new Router({
   routes: [
     ...overviewRoutes,
     ...activityRoutes,
+    ...budgetRoutes,
     ...loginRoutes,
     ...partyRoutes,
     ...scheduleRoutes,

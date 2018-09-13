@@ -1,16 +1,23 @@
 <template>
   <div>
-    <router-link :to="{ name: 'PartyParties' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'parties' }">
+    <router-link :to="{ name: 'BudgetOverview' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>
       </span>&nbsp;
-      Parties
+      Overview
     </router-link>
-    <router-link :to="{ name: 'PartyGroups' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
+    <router-link :to="{ name: 'BudgetRecords' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'records' }">
       <span class="icon is-small is-left">
         <i class="fas fa-stream"></i>
       </span>&nbsp;
-      Groups
+      Records
+    </router-link>
+
+    <router-link :to="{ name: 'BudgetManage' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
+      <span class="icon is-small is-left">
+        <i class="fas fa-wrench"></i>
+      </span>&nbsp;
+      Manage
     </router-link>
   </div>
 </template>
@@ -20,7 +27,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 import { EventBus } from '../../../events/event-bus.js';
 
-const partyHandler = require('../../../handlers/partyHandler');
+const budgetHandler = require('../../../handlers/budgetHandler');
 
 export default {
   data() {
@@ -28,7 +35,7 @@ export default {
       errors: []
     }
   },
-  props: ['partyId', 'panelSelected'],
+  props: ['panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -37,12 +44,12 @@ export default {
     ...mapMutations([
       'setState'
     ]),
-    loadWeddingParty: async function() {
+    loadBudget: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
+          const getBudget = await budgetHandler.getBudget(this.tokens, this.account.couple.budget);
           this.setState({
-            parties: getWeddingParty.weddingParty
+            budget: getBudget.budget
           })
         }
       } catch (e) {
@@ -51,11 +58,11 @@ export default {
     }
   },
   async created() {
-    this.loadWeddingParty();
+    this.loadBudget();
   },
   async mounted() {
-    EventBus.$on('loadWeddingParty', payload => {
-      this.loadWeddingParty();
+    EventBus.$on('loadBudget', payload => {
+      this.loadBudget();
     });
   }
 }

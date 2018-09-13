@@ -20,7 +20,8 @@ export const store = new Vuex.Store({
     activeParty: null,
     globalErrors: null,
     schedule: null,
-    parties: null
+    parties: null,
+    budget: null
   },
   getters: {
     tokens(state) {

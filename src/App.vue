@@ -36,6 +36,7 @@ export default {
             accessToken: checkAccessTokenExpired.accessToken,
             storedTokensTime: checkAccessTokenExpired.storedTokensTime
           });
+          router.go(0);
         }
       } catch (e) {
         this.setState({

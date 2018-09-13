@@ -85,7 +85,7 @@ export default {
           this.party = getParty.party;
         }
       } catch (e) {
-        console.log(e);
+        //
       }
     },
     heOrShe: function(gender) {

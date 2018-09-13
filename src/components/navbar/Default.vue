@@ -13,6 +13,9 @@
       </div>
       <div class="navbar-menu" id="menu">
         <div class="navbar-end" v-if="activeParty">
+          <router-link to="/budget" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'planner' }">
+            Planner
+          </router-link>
           <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
             Wedding Day
           </router-link>
