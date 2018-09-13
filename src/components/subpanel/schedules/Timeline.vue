@@ -26,11 +26,11 @@
     </div>
     <p class="title is-5">{{this.schedule.name}}</p>
     <template v-if="!parsedScheduleCount">
-      <p class="is-size-6">
+      <p class="is-size-7">
         Hey! It seems you haven't added any activities to your schedule.
       </p>
       <br/>
-      <p class="is-size-6">
+      <p class="is-size-7">
         Head on over <router-link to="/activities">here</router-link> to add some activities, so we can start getting organized!
       </p>
     </template>
@@ -39,10 +39,10 @@
       <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
       <template v-for="activity in activities">
         <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
-          <div class="column is-2 is-12-mobile">
-            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
+          <div class="column is-3 is-12-mobile">
+            <p class="is-size-7" v-html="formatTimes(activity)"></p>
           </div>
-          <div class="column is-8 is-12-mobile">
+          <div class="column is-7 is-12-mobile">
             <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
             <p class="is-size-7">{{activity.description}}</p>
             <br/>
@@ -115,8 +115,22 @@ export default {
     ...mapMutations([
       'setState'
     ]),
-    formatTime: function(activity) {
-      const formattedTime = moment.unix(activity).format('h:mma');
+    hasS: function(count) {
+      if (count > 1) {
+        return 's';
+      }
+    },
+    formatTimes: function(activity) {
+      var start = moment.unix(activity.startTime);
+      var end = moment.unix(activity.endTime);
+      var duration = moment.duration(end.diff(start));
+      var days = Math.floor(duration.asDays());
+      let daysElapsed = '';
+      if (days > 0) daysElapsed = ' <small class="has-text-grey-light"><i>(+' + days + ' day' + this.hasS(days) + ')</i></small>';
+      return this.formatTime(activity.startTime) + " - " + this.formatTime(activity.endTime) + daysElapsed;
+    },
+    formatTime: function(activityTime) {
+      const formattedTime = moment.unix(activityTime).format('h:mma');
 
       return formattedTime;
     },

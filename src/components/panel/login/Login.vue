@@ -53,6 +53,7 @@
                         <i class="fas fa-user"></i>
                       </span>
                     </div>
+                    <p class="help is-danger" v-if="localErrors.username">{{localErrors.username}}</p>
                   </div>
                   <br/>
                   <label class="label has-text-grey">Password</label>
@@ -63,6 +64,7 @@
                         <i class="fas fa-key"></i>
                       </span>
                     </div>
+                    <p class="help is-danger" v-if="localErrors.password">{{localErrors.password}}</p>
                   </div>
                   <p class="is-italic is-size-7 is-underline">
                     <a v-on:click="resetPassword(true)">
@@ -110,12 +112,14 @@ export default {
   },
   data () {
     return {
-      username: 'hey',
-      password: 'heya',
+      username: null,
+      password: null,
       showResetPassword: false,
       loginLoading: false,
       localErrors: {
-        componentError: ''
+        componentError: '',
+        username: '',
+        password: ''
       }
     }
   },
@@ -126,30 +130,53 @@ export default {
     resetPassword: function(value) {
       this.showResetPassword = value;
     },
+    resetErrors: function() {
+      this.localSuccess = null
+      this.localErrors = {
+        componentError: null,
+        username: null,
+        password: null
+      }
+    },
     login: async function() {
       try {
-        this.loginLoading = true;
-        const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
+        this.resetErrors();
+        let hasErrors = false;
 
-        const primaryParty = loginAccount.account.couple.primaryParty;
-
-        const activeParty = {
-          firstName: primaryParty.firstName,
-          lastName: primaryParty.lastName,
-          gender: primaryParty.gender,
-          id: primaryParty._id
+        if (!this.username) {
+          this.localErrors.username = 'Username cannot be empty.';
+          hasErrors = true;
         }
 
-        this.setState({
-          accessToken: loginAccount.accessToken,
-          refreshToken: loginAccount.refreshToken,
-          account: loginAccount.account,
-          storedTokensTime: Math.floor(Date.now() / 1000),
-          activeParty: activeParty
-        });
-        this.loginLoading = false;
+        if (!this.password) {
+          this.localErrors.password = 'Password cannot be empty.';
+          hasErrors = true;
+        }
 
-        this.$router.push({ path: '/' });
+        if (!hasErrors) {
+          this.loginLoading = true;
+          const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
+
+          const primaryParty = loginAccount.account.couple.primaryParty;
+
+          const activeParty = {
+            firstName: primaryParty.firstName,
+            lastName: primaryParty.lastName,
+            gender: primaryParty.gender,
+            id: primaryParty._id
+          }
+
+          this.setState({
+            accessToken: loginAccount.accessToken,
+            refreshToken: loginAccount.refreshToken,
+            account: loginAccount.account,
+            storedTokensTime: Math.floor(Date.now() / 1000),
+            activeParty: activeParty
+          });
+          this.loginLoading = false;
+
+          this.$router.push({ path: '/' });
+        }
       } catch (e) {
         if (e.statusCode === 401) {
           this.localErrors.componentError = 'Incorrect username or password.';

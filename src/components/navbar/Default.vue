@@ -17,7 +17,7 @@
             Wedding Day
           </router-link>
           <router-link to="/settings" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'settings' }">
-            {{ activeParty.firstName + " " + activeParty.lastName }}
+            Settings
           </router-link>
           <a v-on:click="logout()" class="navbar-item">
             Log Out

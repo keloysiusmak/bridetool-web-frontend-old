@@ -10,7 +10,6 @@ import PanelPartyOverview from '@/components/panel/parties/Overview';
 import SubPanelPartyOverview from '@/components/subpanel/parties/Overview';
 import SubPanelPartyParties from '@/components/subpanel/parties/Parties';
 import SubPanelPartyGroups from '@/components/subpanel/parties/Groups';
-import SubPanelWeddingParty from '@/components/subpanel/parties/WeddingParty';
 import SubPanelPartyModify from '@/components/subpanel/parties/Modify';
 
 //Subbar

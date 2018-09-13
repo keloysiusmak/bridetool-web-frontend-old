@@ -57,12 +57,8 @@
     </div>
 
     <template v-if="!activeActivitiesCount && hideDeletedActivities">
-      <p class="is-size-6">
+      <p class="is-size-7">
         No activities to show. <router-link :to="{name:'ActivityAdd'}">Add some activites</router-link> and let's get started!
-      </p>
-      <br/>
-      <p class="is-size-6">
-
       </p>
     </template>
     <template v-for="(activities, date) in activeActivities" v-if="hideDeletedActivities && activeActivitiesCount">
@@ -70,10 +66,10 @@
       <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
       <template v-for="activity in activities">
         <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
-          <div class="column is-2 is-12-mobile">
-              <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
+          <div class="column is-3 is-12-mobile">
+            <p class="is-size-7" v-html="formatTimes(activity)"></p>
           </div>
-          <div class="column is-8 is-12-mobile">
+          <div class="column is-7 is-12-mobile">
             <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
             <p class="is-size-7">{{activity.description}}</p>
             <br/>
@@ -93,12 +89,8 @@
     </template>
 
     <template v-if="!deletedActivitiesCount && !hideDeletedActivities">
-      <p class="is-size-6">
+      <p class="is-size-7">
         No deleted activities to show. Deleted activities are automatically permanently cleared after 14 days.
-      </p>
-      <br/>
-      <p class="is-size-6">
-
       </p>
     </template>
     <template v-for="(activities, date) in deletedActivities" v-if="!hideDeletedActivities && deletedActivitiesCount">
@@ -107,7 +99,7 @@
       <template v-for="activity in activities">
         <article class="media" v-bind:class="completedActivity(activity.endTime)">
           <div class="media-left">
-            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
+            <p class="is-size-7" v-html="formatTimes(activity)"></p>
           </div>
           <div class="media-content">
             <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
@@ -199,6 +191,20 @@ export default {
     ...mapMutations([
       'setState'
     ]),
+    hasS: function(count) {
+      if (count > 1) {
+        return 's';
+      }
+    },
+    formatTimes: function(activity) {
+      var start = moment.unix(activity.startTime);
+      var end = moment.unix(activity.endTime);
+      var duration = moment.duration(end.diff(start));
+      var days = Math.floor(duration.asDays());
+      let daysElapsed = '';
+      if (days > 0) daysElapsed = ' <small class="has-text-grey-light"><i>(+' + days + ' day' + this.hasS(days) + ')</i></small>';
+      return this.formatTime(activity.startTime) + " - " + this.formatTime(activity.endTime) + daysElapsed;
+    },
     formatTime: function(activity) {
       const formattedTime = moment.unix(activity).format('h:mma');
 

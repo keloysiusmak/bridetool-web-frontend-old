@@ -15,7 +15,7 @@ function getApiToken() {
 
 async function checkAccessTokenExpired(store, tokens) {
   const now = Math.floor(Date.now() / 1000);
-  if (now - tokens.storedTokensTime > 3600) {
+  if (now - tokens.storedTokensTime > 3600 && tokens.refreshToken) {
     const handleRefreshToken = await refreshToken(tokens);
     return {
       expired: true,

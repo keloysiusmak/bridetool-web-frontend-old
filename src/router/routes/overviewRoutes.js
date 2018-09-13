@@ -6,7 +6,7 @@ import PanelOverview from '@/components/panel/overview/Overview';
 import PanelQuickstart from '@/components/panel/overview/Quickstart';
 
 //Subbar
-import SubbarWeddingDay from '@/components/subbar/WeddingDay';
+import SubbarDefault from '@/components/subbar/Default';
 
 //Sidebar
 import NavbarDefault from '@/components/navbar/Default';
@@ -28,12 +28,12 @@ export default [
         components: {
           panel: PanelOverview,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarDefault,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: ''
           }),
           subbar: (route) => ({
             subbarSelected: 'overview'
@@ -47,15 +47,15 @@ export default [
         components: {
           panel: PanelQuickstart,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarDefault,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: ''
           }),
           subbar: (route) => ({
-            subbarSelected: ''
+            subbarSelected: 'quickstart'
           }),
           subpanel: true
         }

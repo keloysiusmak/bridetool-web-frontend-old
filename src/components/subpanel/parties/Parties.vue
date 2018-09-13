@@ -63,6 +63,18 @@
       <span class="is-size-7">{{localErrors.componentError}}</span>
     </div>
 
+    <template v-if="!hasActiveParties && !hasDeletedParties">
+      <p class="is-size-7">
+        No parties to show.
+      </p>
+    </template>
+
+    <template v-if="!hasActiveParties && hasDeletedParties && hideDeletedParties">
+      <p class="is-size-7">
+        No active parties to show.
+      </p>
+    </template>
+
     <article class="media" v-for="party in activeParties">
       <div class="media-content">
         <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
@@ -122,6 +134,16 @@ export default {
       return this.parties.filter(party => {
         return party.type === "couple"
       });
+    },
+    hasActiveParties: function() {
+      return this.parties.filter(party => {
+        return !party.isDeleted && party.type !== "couple";
+      }).length > 0;
+    },
+    hasDeletedParties: function() {
+      return this.parties.filter(party => {
+        return party.isDeleted && party.type !== "couple";
+      }).length > 0;
     },
     activeParties: function() {
       return this.parties.filter(party => {

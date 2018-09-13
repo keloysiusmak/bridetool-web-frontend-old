@@ -1,13 +1,12 @@
 <template>
   <div id="nav_default">
     <nav class="navbar subbar is-white" role="navigation" aria-label="main navigation">
-      <div class="navbar-menu container">
+      <div class="navbar-menu container is-active">
         <div class="navbar-start">
-          <router-link to="/settings/profile" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'profile' }">
-            Profile
-          </router-link>
-          <router-link to="/settings/security" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'security' }">
-            Security
+          <router-link to="/" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'overview' }">
+            Overview
+          </router-link><router-link to="/quickstart" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'quickstart' }">
+            Quick Start
           </router-link>
         </div>
       </div>
@@ -26,9 +25,6 @@ export default {
   },
   props: ['subbarSelected'],
   methods: {
-    ...mapMutations([
-      'setState'
-    ])
   },
   created() {
   }
