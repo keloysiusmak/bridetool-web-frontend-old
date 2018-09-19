@@ -16,7 +16,7 @@
           <a class="button is-white is-small" v-on:click="deleteActivityModal = false">Cancel</a>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
     </div>
     <!-- END deleteActivityModal -->
 
@@ -33,7 +33,7 @@
           <a class="button is-white is-small" v-on:click="restoreActivityModal = false">Cancel</a>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close"></button>
+      <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
     </div>
     <!-- END deleteActivityModal -->
 

@@ -4,26 +4,39 @@
   </div>
   <div v-else-if="budget">
     <br/>
-    <template v-if="budget.records.length === 0">
+    <div class="has-text-right">
+      <router-link :to="{name:'RecordAdd'}" class="button is-secondary is-small is-rounded">
+        + Add New Record
+      </router-link>
+    </div>
+    <br/>
+    <template v-if="sortedRecords.length === 0">
       <p class="is-size-7">
         No records to show. <router-link :to="{name:'RecordAdd'}">Add some records</router-link> to get started!
       </p>
     </template>
-    <template v-if="budget.records.length > 0">
-      <template v-for="record in budget.records">
-        <article class="media columns is-multiline">
-          <div class="column is-4 is-12-mobile">
-            <p class="is-size-6 has-text-weight-bold">{{record.name}}</p>
-          </div>
-          <div class="column is-4 is-12-mobile">
-            <p class="is-size-6 has-text-weight-bold">{{record.value}}</p>
-          </div>
-          <div class="column is-4 is-12-mobile is-size-7">
-
-          </div>
-        </article>
-      </template>
-    </template>
+    <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
+      <thead>
+        <tr class="is-uppercase is-size-7">
+          <th>Record Name</th>
+          <th>Value</th>
+          <th class="has-text-right">Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <router-link :to="{name:'RecordEdit', params: {recordId: record._id}}" tag="tr" v-for="record in sortedRecords" class="is-size-7" :key="record._id">
+          <td>{{record.name}}</td>
+          <td v-if="record.type === 'capital'"><span class="has-text-success">+{{record.value + " " + budget.currency}}</span></td>
+          <td v-if="record.type === 'expenditure'"><span class="has-text-danger">-{{record.value + " " + budget.currency}}</span></td>
+          <td class="has-text-right">{{formatTime(record.date)}}</td>
+        </router-link>
+      </tbody>
+      <tfoot>
+        <td colspan="3" class="has-text-right">
+          <span class="is-size-7 is-italic has-text-grey-light">(click on a record to edit)</span>
+        </td>
+      </tfoot>
+    </table>
   </div>
 </template>
 
@@ -42,7 +55,21 @@ export default {
   props: ['partyId'],
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates)
+    ...mapState(mappedStates),
+    sortedRecords: function() {
+      return this.budget.records.sort((record1, record2) => {
+        return record1.date < record2.date;
+      }).filter(record => {
+        return !record.isDeleted;
+      });
+    }
+  },
+  methods: {
+    formatTime: function(time) {
+      const formattedTime = moment.unix(time).format('D MMMM YYYY');
+
+      return formattedTime;
+    },
   },
   async created() {
   }
@@ -51,4 +78,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  tr {
+    cursor: pointer
+  }
 </style>

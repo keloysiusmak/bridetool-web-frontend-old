@@ -8,6 +8,7 @@ import PanelBudget from '@/components/panel/budget/Budget';
 import SubPanelBudgetOverview from '@/components/subpanel/budget/Overview';
 import SubPanelBudgetRecords from '@/components/subpanel/budget/Records';
 import SubPanelBudgetModify from '@/components/subpanel/budget/Modify';
+import SubPanelRecordModify from '@/components/subpanel/records/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
@@ -89,6 +90,31 @@ export default [
           }),
           panel: (route) => ({
             panelSelected: 'manage'
+          })
+        }
+      },
+      {
+        path: 'record',
+        name: 'RecordAdd',
+        components: {
+          panel: PanelBudget,
+          subpanel: SubPanelRecordModify,
+          navbar: NavbarDefault,
+          subbar: SubbarPlanner,
+          footer: FooterDefault
+        },
+        props: {
+          navbar: (route) => ({
+            navbarSelected: 'planner'
+          }),
+          subbar: (route) => ({
+            subbarSelected: 'budget'
+          }),
+          panel: (route) => ({
+            panelSelected: 'records'
+          }),
+          subpanel: (route) => ({
+            modifyType: 'create'
           })
         }
       }

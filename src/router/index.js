@@ -9,6 +9,7 @@ import budgetRoutes from './routes/budgetRoutes'
 import loginRoutes from './routes/loginRoutes'
 import overviewRoutes from './routes/overviewRoutes'
 import partyRoutes from './routes/partyRoutes'
+import recordRoutes from './routes/recordRoutes'
 import scheduleRoutes from './routes/scheduleRoutes'
 import settingsRoutes from './routes/settingsRoutes'
 
@@ -23,6 +24,7 @@ const router = new Router({
     ...budgetRoutes,
     ...loginRoutes,
     ...partyRoutes,
+    ...recordRoutes,
     ...scheduleRoutes,
     ...settingsRoutes,
     ...errorRoutes
