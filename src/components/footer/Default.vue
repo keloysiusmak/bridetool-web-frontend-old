@@ -8,17 +8,17 @@
               <i class="fas fa-dove"></i> &nbsp;
               ABOUT US
             </p>
-            <p class="is-size-7">What We Do</p>
-            <p class="is-size-7">The Team</p>
-            <p class="is-size-7">Blog</p>
+            <p class="is-size-7"><router-link :to="{name: 'About'}" class="has-text-grey-dark">What We Do</router-link></p>
+            <p class="is-size-7"><router-link :to="{name: 'Blog'}" class="has-text-grey-dark">Blog</router-link></p>
+            <p class="is-size-7"><router-link :to="{name: 'Team'}" class="has-text-grey-dark">The Team</router-link></p>
           </div>
           <div class="column is-3">
             <p class="title is-7 is-uppercase">
               <i class="fas fa-feather-alt"></i> &nbsp;
-              PARTNERS
+              LET'S WORK TOGETHER
             </p>
-            <p class="is-size-7">Our Partners</p>
-            <p class="is-size-7">Join Us</p>
+            <p class="is-size-7"><router-link :to="{name: 'Partners'}" class="has-text-grey-dark">Partners</router-link></p>
+            <p class="is-size-7"><router-link :to="{name: 'Careers'}" class="has-text-grey-dark">Join Us</router-link></p>
           </div>
           <div class="column is-3">
           </div>

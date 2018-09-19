@@ -6,9 +6,6 @@
           <router-link to="/budget" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'budget' }">
             Budget
           </router-link>
-          <a class="navbar-item is-size-7 has-text-grey">
-            <i>(this component is still under development)</i>
-          </a>
         </div>
       </div>
     </nav>

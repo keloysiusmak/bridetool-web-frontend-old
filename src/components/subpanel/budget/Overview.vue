@@ -10,6 +10,9 @@
         <div class="is-size-1">{{budget.initialBudget - usedBudget()}} {{budget.currency}}</div>
         <progress class="progress is-small" v-bind:class="budgetWarning()" v-bind:value="availableBudgetPercentage()" max="100"></progress>
         <div class="is-size-7 has-text-grey"><i>{{Math.floor(availableBudgetPercentage())}}% used out of {{budget.initialBudget}} {{budget.currency}}</i></div>
+        <hr/>
+        <div class="title no-spaced is-size-7">TOTAL EXPENDITURE</div>
+        <div class="is-size-1">{{usedBudget()}} {{budget.currency}}</div>
       </div>
       <div class="column is-8 is-12-mobile">
         <div class="has-text-right">
@@ -26,7 +29,7 @@
         <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
           <thead>
             <tr class="is-uppercase is-size-7">
-              <th>Record Name</th>
+              <th>Name</th>
               <th>Value</th>
               <th class="has-text-right">Date</th>
             </tr>

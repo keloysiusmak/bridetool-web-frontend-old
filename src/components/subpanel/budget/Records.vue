@@ -18,7 +18,7 @@
     <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
       <thead>
         <tr class="is-uppercase is-size-7">
-          <th>Record Name</th>
+          <th>Name</th>
           <th>Value</th>
           <th class="has-text-right">Date</th>
         </tr>
