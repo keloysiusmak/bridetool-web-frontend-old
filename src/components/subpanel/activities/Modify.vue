@@ -19,6 +19,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Name</label>
+          <p class="help">Easy to understand activity names help both you and your wedding party stay focused.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -36,6 +37,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Description</label>
+          <p class="help">Descriptions help your wedding party know more about exactly what to do.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -50,6 +52,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Type</label>
+          <p class="help">We've included a few types of activities you may want to categorize your activity in, this helps us provide more useful suggestions to enhance your wedding day later on.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -75,6 +78,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Start Time</label>
+          <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding party of any changes.</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
@@ -107,14 +111,7 @@
                 </select>
               </span>
             </p>
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label">
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
+
             <p class="control">
               <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
                 <select v-model="activityStartTime.hour">
@@ -159,6 +156,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">End Time</label>
+          <p class="help">Similarly, we'll update your wedding party when each activity ends.</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
@@ -191,14 +189,7 @@
                 </select>
               </span>
             </p>
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal">
-        <div class="field-label is-normal">
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
+
             <p class="control">
               <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
                 <select v-model="activityEndTime.hour">
@@ -243,6 +234,8 @@
 
         <div class="field-label is-small">
           <label class="label">Assigned Parties</label>
+          <p class="help">Here's a list of parties who are assigned to this activity. Assigned parties will have this activity show
+          up on their overview page, which you can easily share with them.</p>
         </div>
         <div class="field-body">
           <div class="field is-grouped is-grouped-multiline">
@@ -267,7 +260,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Available Parties</label>
-          <p class="help">Don't see some members of your wedding party? <a>Find out why.</a></p>
+          <p class="help">Don't see some members of your wedding party? They might already have an activity assigned to them!</p>
         </div>
         <div class="field-body">
           <div v-if="availablePartiesLoading">

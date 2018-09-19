@@ -35,6 +35,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Name</label>
+          <p class="help">Setting a clear name helps you be clear on what you've spent on.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -52,6 +53,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">{{budget.currency}}</label>
+          <p class="help">Want to change to another currency? <router-link  :to="{ name: 'BudgetManage' }">Click Here</router-link></p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
@@ -75,6 +77,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Date</label>
+          <p class="help">Enter your date so it's easy for us to sort your records for you.</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">

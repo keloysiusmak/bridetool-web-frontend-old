@@ -17,7 +17,8 @@
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
         <div class="field-label is-small">
-          <label class="label">Initial Budget</label>
+          <label class="label">Budget</label>
+          <p class="help">Setting your budget allows us to help you keep track of how much you've spent, and whether you're keeping within your budget.</p>
         </div>
         <div class="field-body">
           <div class="field">

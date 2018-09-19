@@ -18,6 +18,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Name</label>
+          <p class="help">Let's give a name to your wedding day. Hashtags maybe?</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -35,6 +36,7 @@
       <div class="field is-horizontal">
         <div class="field-label is-small">
           <label class="label">Date</label>
+          <p class="help">When's your wedding day?</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
