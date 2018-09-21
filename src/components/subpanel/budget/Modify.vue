@@ -4,19 +4,19 @@
   </div>
   <div v-else-if="budget">
     <br/>
-    <span class="title is-5">Edit Budget</span>
+    <span class="title is-4">Edit Budget</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Budget</label>
           <p class="help">Setting your budget allows us to help you keep track of how much you've spent, and whether you're keeping within your budget.</p>
         </div>
@@ -34,7 +34,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Currency</label>
         </div>
         <div class="field-body">

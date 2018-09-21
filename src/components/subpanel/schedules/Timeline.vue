@@ -8,12 +8,12 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to delete '{{activity.name}}'?</div>
-          <div class="subtitle is-7">
+          <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
+          <div class="subtitle is-6">
             You can restore this activity later, but all parties assigned to this activity will be unassigned.
           </div>
-          <a class="button is-danger is-small" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
-          <a class="button is-white is-small" v-on:click="deleteActivityModal = false">Cancel</a>
+          <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
+          <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
@@ -22,16 +22,16 @@
     <br/>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
-    <p class="title is-5">{{this.schedule.name}}</p>
+    <p class="title is-4">{{this.schedule.name}}</p>
     <template v-if="!parsedScheduleCount">
-      <p class="is-size-7">
+      <p class="is-size-6">
         Hey! It seems you haven't added any activities to your schedule.
       </p>
       <br/>
-      <p class="is-size-7">
-        Head on over <router-link to="/activities">here</router-link> to add some activities, so we can start getting organized!
+      <p class="is-size-6">
+        Head on over <router-link to="/schedule/activities">here</router-link> to add some activities, so we can start getting organized!
       </p>
     </template>
     <template v-if="parsedScheduleCount" v-for="(activities, date) in parsedSchedule">
@@ -40,18 +40,18 @@
       <template v-for="activity in activities">
         <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
           <div class="column is-3 is-12-mobile">
-            <p class="is-size-7" v-html="formatTimes(activity)"></p>
+            <p class="is-size-6" v-html="formatTimes(activity)"></p>
           </div>
           <div class="column is-7 is-12-mobile">
-            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-            <p class="is-size-7">{{activity.description}}</p>
+            <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-6">{{activity.description}}</p>
             <br/>
-            <p class="is-size-7 is-12-mobile">
+            <p class="is-size-6 is-12-mobile">
               <span class="has-text-weight-bold">Involved:</span>
               {{ formatParties(activity.assignedParties) }}
             </p>
             <br/>
-            <p class="is-size-7" v-if="!isCompletedActivity(activity)">
+            <p class="is-size-6" v-if="!isCompletedActivity(activity)">
               <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link> &#183; <a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a>
             </p>
           </div>

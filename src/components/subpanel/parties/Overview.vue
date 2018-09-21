@@ -6,26 +6,26 @@
     <br/>
     <div class="columns">
       <div class="column">
-        <p><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-7">Edit Party</router-link></p>
-        <p class="title is-6">
+        <p><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-6">Edit Party</router-link></p>
+        <p class="title is-4">
           {{party.firstName + " " + party.lastName}}'s Activities
         </p>
         <template v-if="!hasActivities">
-          <p class="is-size-7">
+          <p class="is-size-6">
             No activities to show.
           </p>
         </template>
         <template v-for="(activities, date) in parsedActivities">
-          <p class="title is-6">{{date}}</p>
+          <p class="title is-4">{{date}}</p>
           <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
           <template v-for="activity in activities">
             <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
               <div class="column is-3 is-12-mobile">
-                <p class="is-size-7" v-html="formatTimes(activity)"></p>
+                <p class="is-size-6" v-html="formatTimes(activity)"></p>
               </div>
               <div class="column is-7 is-12-mobile">
-                <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-                <p class="is-size-7">{{activity.description}}</p>
+                <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
+                <p class="is-size-6">{{activity.description}}</p>
               </div>
               <div class="column is-2 is-hidden-mobile has-text-right">
                 <span class="icon is-small is-left">
@@ -40,9 +40,9 @@
       <div class="column is-3">
         <div class="card">
           <div class="card-content">
-            <p class="title is-5">Share with {{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-7 has-text-grey">Copy this link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date with {{ hisOrHers(party.gender) }} activities for your wedding.</p>
-            <p class="is-size-7 is-italic">
+            <p class="title is-4">Share with {{party.firstName + " " + party.lastName}}</p>
+            <p class="subtitle is-6 has-text-grey">Copy this link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date with {{ hisOrHers(party.gender) }} activities for your wedding.</p>
+            <p class="is-size-6 is-italic">
               <a v-on:click="copyToClipboard();">Click here to copy the link</a>
             </p>
           </div>
@@ -136,7 +136,7 @@ export default {
     },
     copyToClipboard: function() {
       var aux = document.createElement("input");
-      aux.setAttribute("value", "http://localhost:8080" + this.$route.fullPath + "/overview");
+      aux.setAttribute("value", "http://localhost:1024" + this.$route.fullPath + "/overview");
       document.body.appendChild(aux);
       aux.select();
       document.execCommand("copy");

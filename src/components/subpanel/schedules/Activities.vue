@@ -8,12 +8,12 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to delete '{{activity.name}}'?</div>
-          <div class="subtitle is-7">
+          <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
+          <div class="subtitle is-6">
             You can restore this activity later, but all parties assigned to this activity will be unassigned.
           </div>
-          <a class="button is-danger is-small" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
-          <a class="button is-white is-small" v-on:click="deleteActivityModal = false">Cancel</a>
+          <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
+          <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
@@ -25,12 +25,12 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to restore '{{activity.name}}'?</div>
-          <div class="subtitle is-7">
+          <div class="title is-4">Are you sure you want to restore '{{activity.name}}'?</div>
+          <div class="subtitle is-6">
             Previously assigned parties cannot be restored.
           </div>
-          <a class="button is-success is-small" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
-          <a class="button is-white is-small" v-on:click="restoreActivityModal = false">Cancel</a>
+          <a class="button is-success" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
+          <a class="button is-white" v-on:click="restoreActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
@@ -40,11 +40,11 @@
     <br/>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <div class="columns is-multiline">
       <div class="column has-text-left">
-        <p class="title is-5">{{ (hideDeletedActivities) ? 'Active' : 'Deleted' }} Activites</p>
+        <p class="title is-4">{{ (hideDeletedActivities) ? 'Active' : 'Deleted' }} Activites</p>
       </div>
       <div class="column has-text-right-tablet" style="line-height:2.4rem">
         <a href="#" v-on:click="toggleHideDeletedActivities()" class="button is-outlined is-small is-rounded">
@@ -57,7 +57,7 @@
     </div>
 
     <template v-if="!activeActivitiesCount && hideDeletedActivities">
-      <p class="is-size-7">
+      <p class="is-size-6">
         No activities to show. <router-link :to="{name:'ActivityAdd'}">Add some activites</router-link> and let's get started!
       </p>
     </template>
@@ -67,17 +67,17 @@
       <template v-for="activity in activities">
         <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
           <div class="column is-3 is-12-mobile">
-            <p class="is-size-7" v-html="formatTimes(activity)"></p>
+            <p class="is-size-6" v-html="formatTimes(activity)"></p>
           </div>
           <div class="column is-7 is-12-mobile">
-            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-            <p class="is-size-7">{{activity.description}}</p>
+            <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-6">{{activity.description}}</p>
             <br/>
-            <p class="is-size-7 is-hidden-tablet" v-if="!isCompletedActivity(activity)">
+            <p class="is-size-6 is-hidden-tablet" v-if="!isCompletedActivity(activity)">
               <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link> &#183; <a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a>
             </p>
           </div>
-          <div class="column is-2 is-hidden-mobile is-size-7" v-if="!isCompletedActivity(activity)">
+          <div class="column is-2 is-hidden-mobile is-size-6" v-if="!isCompletedActivity(activity)">
             <ul>
               <li><router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link></li>
               <li><a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a></li>

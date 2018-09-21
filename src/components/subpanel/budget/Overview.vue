@@ -22,20 +22,20 @@
         </div>
         <br/>
         <template v-if="sortedRecords.length === 0">
-          <p class="is-size-7">
+          <p class="is-size-6">
             No records to show. <router-link :to="{name:'RecordAdd'}">Add some records</router-link> to get started!
           </p>
         </template>
         <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
           <thead>
-            <tr class="is-uppercase is-size-7">
+            <tr class="is-uppercase is-size-6">
               <th>Name</th>
               <th>Value</th>
               <th class="has-text-right">Date</th>
             </tr>
           </thead>
           <tbody>
-            <router-link :to="{name:'RecordEdit', params: {recordId: record._id}}" tag="tr" v-for="record in sortedRecords" class="is-size-7" :key="record._id">
+            <router-link :to="{name:'RecordEdit', params: {recordId: record._id}}" tag="tr" v-for="record in sortedRecords" class="is-size-6" :key="record._id">
               <td>{{record.name}}</td>
               <td v-if="record.type === 'capital'"><span class="has-text-success">+{{record.value + " " + budget.currency}}</span></td>
               <td v-if="record.type === 'expenditure'"><span class="has-text-danger">-{{record.value + " " + budget.currency}}</span></td>

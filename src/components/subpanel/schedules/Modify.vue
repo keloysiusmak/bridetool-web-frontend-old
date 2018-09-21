@@ -4,19 +4,19 @@
   </div>
   <div v-else-if="schedule">
     <br/>
-    <span class="title is-5">Edit Schedule</span>
+    <span class="title is-4">Edit Schedule</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Name</label>
           <p class="help">Let's give a name to your wedding day. Hashtags maybe?</p>
         </div>
@@ -34,7 +34,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Date</label>
           <p class="help">When's your wedding day?</p>
         </div>

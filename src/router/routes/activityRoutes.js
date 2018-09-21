@@ -5,7 +5,6 @@ import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
 import PanelSchedule from '@/components/panel/schedules/Schedule';
 
 //SubPanel
-import SubPanelActivitiesActivity from '@/components/subpanel/activities/Activity';
 import SubPanelActivitiesModify from '@/components/subpanel/activities/Modify';
 
 //Subbar
@@ -25,29 +24,6 @@ export default [
     },
     component: LayoutAppPanelSub,
     children: [
-      {
-        path: ':activityId',
-        name: 'Activity',
-        components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelActivitiesActivity,
-          navbar: NavbarDefault,
-          subbar: SubbarPlanner,
-          footer: FooterDefault
-        },
-        props:{
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
-          }),
-          panel: (route) => ({
-            activityId: route.params.activityId,
-            panelSelected: 'activities'
-          })
-        }
-      },
       {
         path: ':activityId/edit',
         name: 'ActivityEdit',

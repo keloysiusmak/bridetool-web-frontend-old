@@ -4,20 +4,20 @@
   </div>
   <div v-else-if="activity || modifyType !== 'edit'">
     <br/>
-    <span class="title is-5" v-if="modifyType === 'edit'">Edit Activity</span>
-    <span class="title is-5" v-if="modifyType === 'create'">Create Activity</span>
+    <span class="title is-4" v-if="modifyType === 'edit'">Edit Activity</span>
+    <span class="title is-4" v-if="modifyType === 'create'">Create Activity</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Name</label>
           <p class="help">Easy to understand activity names help both you and your wedding party stay focused.</p>
         </div>
@@ -35,7 +35,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Description</label>
           <p class="help">Descriptions help your wedding party know more about exactly what to do.</p>
         </div>
@@ -50,7 +50,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Type</label>
           <p class="help">We've included a few types of activities you may want to categorize your activity in, this helps us provide more useful suggestions to enhance your wedding day later on.</p>
         </div>
@@ -76,7 +76,7 @@
       <br/>
       <!--START TIME-->
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Start Time</label>
           <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding party of any changes.</p>
         </div>
@@ -154,7 +154,7 @@
       <br/>
       <!--END TIME-->
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">End Time</label>
           <p class="help">Similarly, we'll update your wedding party when each activity ends.</p>
         </div>
@@ -232,7 +232,7 @@
       <hr/>
       <div class="field is-horizontal">
 
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Assigned Parties</label>
           <p class="help">Here's a list of parties who are assigned to this activity. Assigned parties will have this activity show
           up on their overview page, which you can easily share with them.</p>
@@ -258,7 +258,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Available Parties</label>
           <p class="help">Don't see some members of your wedding party? They might already have an activity assigned to them!</p>
         </div>

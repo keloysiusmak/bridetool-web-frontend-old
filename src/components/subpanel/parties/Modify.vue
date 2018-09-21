@@ -17,7 +17,7 @@
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">First Name</label>
         </div>
         <div class="field-body">
@@ -34,7 +34,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Last Name</label>
         </div>
         <div class="field-body">
@@ -51,7 +51,7 @@
       </div>
       <br/>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Gender</label>
         </div>
         <div class="field-body">

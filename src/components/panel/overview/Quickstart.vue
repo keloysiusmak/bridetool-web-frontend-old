@@ -23,15 +23,18 @@
       <div class="column is-6">
         <div class="has-text-left">
           <p class="title is-spaced is-3">
-            Hej!
+            Hej! (that's Hey! in Swedish)
           </p>
           <p class="subtitle is-5">
-            We never liked the idea of having two separate accounts for a couple. In bridetool,
-            every couple shares one account, just as you would share many good times in your marriage.
+            Welcome to bridetool, we're a team of wedding professionals trying to rethink the way we do weddings.
           </p>
           <p class="subtitle is-5">
-            During signup we'll ask that one of you be the primary user for the account,
-            but if you want to switch users at any time, it is easy to do so <router-link to="/settings/profile/switchuser">here</router-link>.
+            We don't believe wedding planning should be hard, and with technology, we hope to abstract most of the
+            troubles of wedding planning, so you can focus on enjoying your special day.
+          </p>
+          <p class="subtitle is-5">
+            Everything you need is placed in your <strong>Planner</strong>. We're coming up with new features in
+            the coming months, including tie-ups with more vendors in the wedding industry.
           </p>
         </div>
       </div>
@@ -41,18 +44,22 @@
       <div class="column is-6">
         <div class="has-text-left">
           <p class="title is-spaced is-3">
-            Wedding Party
+            Wedding Team
           </p>
           <p class="subtitle is-5">
-            The place for friends and family. Add important people for your wedding day to your wedding party,
-            from your groomsmen and bridesmaids to your parents!
+            In your planner, your Wedding Team is the place for your wedding party, vendors and family. Add important people for your wedding day to your wedding party,
+            from your photographers, makeup artists, to your parents!
+          </p>
+          <p class="subtitle is-5">
+            You'll be able to assign activities to them, so they can have
+            a clear view of what they have to do to make sure your wedding goes by swimmingly.
           </p>
           <p class="subtitle is-5">
             <span class="tag is-danger">Coming Soon</span>
             <br/>
             <br/>
-            You'll also be able to organize your wedding party into groups, so you can quickly assign
-            activities and tasks!
+            You'll soon be able to organize your wedding team into groups, so you can quickly assign
+            activities and tasks to multiple people at once!
           </p>
         </div>
       </div>
@@ -80,11 +87,35 @@
             on what's going on, so you never miss a thing.
           </p>
           <p class="subtitle is-5">
-            Activities can be assigned to members of your wedding party, so everyone's clear on what
-            they have to do. Share a unique link with every member of your wedding party, so they can
+            Share a unique link with every member of your wedding party, so they can
             keep up to date with any changes in the programme.
           </p>
+          <p class="subtitle is-5">
+            You can also delete or restore activites at any time, in case you change your mind.
+          </p>
         </div>
+      </div>
+    </div>
+    <br/>
+    <div class="columns">
+      <div class="column is-6">
+        <div class="has-text-left">
+          <p class="title is-spaced is-3">
+            Budget
+          </p>
+          <p class="subtitle is-5">
+            Let's keep your finances in check. Budget allows you to keep track of all the spending you've made,
+            or any injection of finances for your wedding day, so you always stay in the green.
+          </p>
+          <p class="subtitle is-5">
+            Everything's recorded in the form of records, which you can add or modify at any time.
+          </p>
+        </div>
+      </div>
+      <div class="column is-6">
+        <figure class="image" style="max-width:640px;">
+          <img src="../../../assets/img/temp5.png">
+        </figure>
       </div>
     </div>
     <br/>

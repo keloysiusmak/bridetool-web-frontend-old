@@ -4,7 +4,7 @@
     <p class="title is-4">
       Groups
     </p>
-    <p class="subtitle is-7 is-italic">
+    <p class="subtitle is-6 is-italic">
       Coming soon
     </p>
   </div>

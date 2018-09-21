@@ -4,19 +4,19 @@
   </div>
   <div v-else-if="account">
     <br>
-    <span class="title is-5">Manage Password</span>
+    <span class="title is-4">Manage Password</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Old Password</label>
         </div>
         <div class="field-body">
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">New Password</label>
         </div>
         <div class="field-body">
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="field is-horizontal">
-        <div class="field-label is-small">
+        <div class="field-label">
           <label class="label">Confirm New Password</label>
         </div>
         <div class="field-body">

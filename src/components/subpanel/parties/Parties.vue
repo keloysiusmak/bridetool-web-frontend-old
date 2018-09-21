@@ -8,12 +8,12 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to delete '{{party.firstName + " " + party.lastName}}'?</div>
-          <div class="subtitle is-7">
-            You can restore this party later.
+          <div class="title is-4">Are you sure you want to delete '{{party.firstName + " " + party.lastName}}'?</div>
+          <div class="subtitle is-6">
+            You can restore this member later.
           </div>
-          <a class="button is-danger is-small" v-on:click="deleteParty(); deletePartyModal = false">Delete</a>
-          <a class="button is-white is-small" v-on:click="deletePartyModal = false">Cancel</a>
+          <a class="button is-danger" v-on:click="deleteParty(); deletePartyModal = false">Delete</a>
+          <a class="button is-white" v-on:click="deletePartyModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
@@ -25,12 +25,12 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to restore '{{party.firstName + " " + party.lastName}}'?</div>
-          <div class="subtitle is-7">
+          <div class="title is-4">Are you sure you want to restore '{{party.firstName + " " + party.lastName}}'?</div>
+          <div class="subtitle is-6">
             All previously assigned activities to {{party.firstName + " " + party.lastName}} will be restored.
           </div>
-          <a class="button is-success is-small" v-on:click="restoreParty(); restorePartyModal = false">Restore</a>
-          <a class="button is-white is-small" v-on:click="restorePartyModal = false">Cancel</a>
+          <a class="button is-success" v-on:click="restoreParty(); restorePartyModal = false">Restore</a>
+          <a class="button is-white" v-on:click="restorePartyModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
@@ -39,52 +39,57 @@
     <br/>
     <div class="columns">
       <div class="column">
-        <p class="title is-5">
-          Wedding Party
+        <p class="title is-4">
+          Wedding Team
         </p>
       </div>
       <div class="column has-text-right">
         <a href="#" v-on:click="toggleHideDeletedParties()" class="button is-outlined is-small is-rounded">
-          {{ (hideDeletedParties) ? 'Show' : 'Hide' }} Deleted Parties
+          {{ (hideDeletedParties) ? 'Show' : 'Hide' }} Deleted Members
         </a>
         <router-link :to="{name:'PartyAdd'}" class="button is-secondary is-small is-rounded">
-          + Add New Party
+          + Add New Member
         </router-link>
       </div>
     </div>
 
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
 
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
 
     <template v-if="!hasActiveParties && !hasDeletedParties">
-      <p class="is-size-7">
+      <p class="is-size-6">
         No parties to show.
       </p>
     </template>
 
     <template v-if="!hasActiveParties && hasDeletedParties && hideDeletedParties">
-      <p class="is-size-7">
+      <p class="is-size-6">
         No active parties to show.
       </p>
     </template>
 
     <article class="media" v-for="party in activeParties">
+      <div class="media-left">
+        <div class="image is-64x64 profilePic" v-bind:class="'gradient' + Math.floor(Math.random() * 5 + 1)">
+          {{party.firstName[0] + party.lastName[0]}}
+        </div>
+      </div>
       <div class="media-content">
-        <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
-        <p class="is-size-7">
+        <p class="is-size-4 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
+        <p class="is-size-6">
           <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link>
           <template v-if="!isCouple(party._id)">
             &#183;
             <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
             &#183;
-            <a v-on:click="confirmDeleteParty(party._id);">Delete Party</a>
+            <a v-on:click="confirmDeleteParty(party._id);">Delete Member</a>
           </template>
         </p>
       </div>
@@ -92,17 +97,17 @@
 
     <article class="media has-text-grey-lighter" v-for="party in deletedParties" v-if="!hideDeletedParties">
       <div class="media-content">
-        <p class="is-size-6 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
-        <p class="is-size-7">
+        <p class="is-size-4 has-text-weight-bold">{{party.firstName + " " + party.lastName}}</p>
+        <p class="is-size-6">
           <router-link :to="{ name: 'PartyOverview', params: {partyId: party._id }, props: true }">Overview</router-link>
           &#183;
           <router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }">Edit Party</router-link>
           &#183;
-          <a v-on:click="confirmRestoreParty(party._id);">Restore Party</a>
+          <a v-on:click="confirmRestoreParty(party._id);">Restore Member</a>
         </p>
       </div>
-      <div class="media-right is-size-7">
-        <span class="tag is-danger is-small">Deleted</span>
+      <div class="media-right">
+        <span class="tag is-danger is-size-6">Deleted</span>
       </div>
     </article>
   </div>

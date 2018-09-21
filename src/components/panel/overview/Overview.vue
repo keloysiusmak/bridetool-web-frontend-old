@@ -1,7 +1,7 @@
 <template>
   <div id="panel_overview">
-    <p class="title is-5">Hey, {{ activeParty.firstName + " " + activeParty.lastName }}</p>
-    <p class="is-size-7">
+    <p class="title is-4">Hey, {{ activeParty.firstName + " " + activeParty.lastName }}</p>
+    <p class="is-size-6">
       Thank you for helping us in our step to make the challenges of wedding planning a thing of the past. We're committed to finding ways to help couples better plan their weddings, in the hope that the stresses of
       wedding planning will cease to exist and couples can fully immerse themselves in enjoying one of the biggest days in their lives.
       <br/><br/>
@@ -9,15 +9,15 @@
       <a href="mailto:keloysiusmak@hotmail.com">keloysiusmak@hotmail.com</a>. We deeply appreciate the constructive feedback and we can't wait to make this better for you.
     </p>
     <br/>
-    <p class="title is-7">WITH LOVE, THE BRIDETOOL TEAM</p>
+    <p class="title is-6">WITH LOVE, THE BRIDETOOL TEAM</p>
     <hr/>
-    <p class="title is-6">Still unsure on how to use Bridetool?</p>
-    <p class="subtitle is-7 has-text-grey">
+    <p class="title is-4">Still unsure on how to use Bridetool?</p>
+    <p class="subtitle is-6 has-text-grey">
       Run through the quick start guide! It has everything you need to
       know to get up and running with Bridetool.
     </p>
-    <p class="subtitle is-7 has-text-grey">
-      <router-link :to="{ path: 'quickstart' }" class="is-size-7">
+    <p class="subtitle is-6 has-text-grey">
+      <router-link :to="{ path: 'quickstart' }" class="is-size-6">
         Take the Quick Start Guide &nbsp;
         <span class="icon is-small is-left">
         <i class="fas fa-arrow-circle-right"></i>

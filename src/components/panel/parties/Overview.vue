@@ -3,10 +3,10 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="party">
-    <p class="title is-5 is-uppercase">
+    <p class="title is-4 is-uppercase">
       {{party.firstName + " " + party.lastName}}
     </p>
-    <p class="subtitle is-7">
+    <p class="subtitle is-6">
       Here's your list of activities assigned to you!
     </p>
       <br/>
@@ -14,15 +14,15 @@
       <p class="title is-6">{{date}}</p>
       <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
       <template v-for="activity in activities">
-        <article class="media" v-bind:class="completedActivity(activity.endTime)">
-          <div class="media-left">
-            <p class="is-size-6"><small>{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</small></p>
+        <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
+          <div class="column is-3 is-12-mobile">
+            <p class="is-size-6">{{formatTime(activity.startTime)}} - {{formatTime(activity.endTime)}}</p>
           </div>
-          <div class="media-content">
-            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-            <p class="is-size-7">{{activity.description}}</p>
+          <div class="column is-7 is-12-mobile">
+            <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
+            <p class="is-size-6">{{activity.description}}</p>
           </div>
-          <div class="media-right">
+          <div class="column is-2 has-text-right is-hidden-mobile">
             <span class="icon is-small is-left">
               <i v-bind:class="getIcon(activity.type)"></i>
             </span>
