@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!account" class="has-text-centered">
+  <div v-if="!account || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="account">
@@ -62,7 +62,8 @@ export default {
   data() {
     return {
       localErrors: {},
-      localSuccess: ''
+      localSuccess: '',
+      modifyLoading: false
     }
   },
   created() {
@@ -96,6 +97,7 @@ export default {
       }
     },
     updateAccount: async function() {
+      this.modifyLoading = true;
       try {
         const fields = {
           email: this.accountEmail
@@ -108,6 +110,7 @@ export default {
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
+      this.modifyLoading = false;
     },
     resetErrors: function() {
       this.localSuccess = null

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!account" class="has-text-centered">
+  <div v-if="!account || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="account">
@@ -28,6 +28,7 @@ export default {
       'setState'
     ]),
     selectParty: function(key) {
+      this.modifyLoading = true;
       const selectedParty = this.account.couple.coupleParty.find(party => {
         return party._id === key;
       });
@@ -49,7 +50,8 @@ export default {
   data() {
     return {
       loading: true,
-      errors: []
+      errors: [],
+      modifyLoading: false
     }
   },
   async created() {

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!account" class="has-text-centered">
+  <div v-if="!account || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="account">
@@ -22,7 +22,7 @@
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input is-small" placeholder="Old Password" v-model="oldPassword"/>
+              <input class="input is-small" type="password" placeholder="Old Password" v-model="oldPassword"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -38,7 +38,7 @@
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input is-small" placeholder="New Password" v-model="newPassword"/>
+              <input class="input is-small" type="password" placeholder="New Password" v-model="newPassword"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -54,7 +54,7 @@
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input is-small" placeholder="Re-enter New Password" v-model="newPasswordConfirmation"/>
+              <input class="input is-small" type="password" placeholder="Re-enter New Password" v-model="newPasswordConfirmation"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-key"></i>
               </span>
@@ -97,7 +97,8 @@ export default {
       newPassword: '',
       newPasswordConfirmation: '',
       localErrors: {},
-      localSuccess: ''
+      localSuccess: '',
+      modifyLoading: false
     }
   },
   methods: {
@@ -133,6 +134,7 @@ export default {
       }
     },
     changePassword: async function() {
+      this.modifyLoading = true;
       try {
         const changePassword = await accountHandler.changePassword(this.tokens, this.account._id, this.oldPassword, this.newPassword);
         this.localSuccess = 'Successfully updated profile.';
@@ -144,6 +146,7 @@ export default {
           this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
         }
       }
+      this.modifyLoading = false;
     },
     resetErrors: function() {
       this.localSuccess = null
