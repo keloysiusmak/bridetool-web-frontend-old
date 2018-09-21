@@ -2,7 +2,7 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 
 function getRecord(tokens, recordId) {
-  return axios.get('/record/' + recordId, {
+  return axios.get(axios.defaults.recordUrl + '/record/' + recordId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -12,7 +12,7 @@ function getRecord(tokens, recordId) {
   });
 }
 function deleteRecord(tokens, recordId) {
-  return axios.delete('/record/' + recordId, {
+  return axios.delete(axios.defaults.recordUrl + '/record/' + recordId, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -23,7 +23,7 @@ function deleteRecord(tokens, recordId) {
   });
 }
 function updateRecord(tokens, recordId, fields) {
-  return axios.put('/record/' + recordId, fields, {
+  return axios.put(axios.defaults.recordUrl + '/record/' + recordId, fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -34,7 +34,7 @@ function updateRecord(tokens, recordId, fields) {
   });
 }
 function insertRecord(tokens, budgetId, fields) {
-  return axios.post('/budget/' + budgetId + '/record', fields, {
+  return axios.post(axios.defaults.recordUrl + '/budget/' + budgetId + '/record', fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,

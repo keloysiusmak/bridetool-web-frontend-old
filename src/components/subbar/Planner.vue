@@ -1,10 +1,13 @@
 <template>
-  <div id="nav_default">
+  <div>
     <nav class="navbar subbar is-white" role="navigation" aria-label="main navigation">
       <div class="navbar-menu container is-active">
-        <div class="navbar-start">
-          <router-link to="/budget" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'budget' }">
+        <div class="navbar-start"><router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'schedule' }">
+            Schedule
+          </router-link><router-link to="/budget" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'budget' }">
             Budget
+          </router-link><router-link to="/party" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'party' }">
+            Wedding Party
           </router-link>
         </div>
       </div>

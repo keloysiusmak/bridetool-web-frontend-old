@@ -112,6 +112,7 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
+const coupleHandler = require('../../../handlers/coupleHandler');
 const partyHandler = require('../../../handlers/partyHandler');
 
 export default {
@@ -169,7 +170,7 @@ export default {
     loadWeddingParty: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
-          const getWeddingParty = await partyHandler.getWeddingParty(this.tokens, this.account._id);
+          const getWeddingParty = await coupleHandler.getWeddingParty(this.tokens, this.account._id);
           this.setState({
             parties: getWeddingParty.weddingParty
           })

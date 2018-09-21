@@ -16,7 +16,14 @@ const scheduleHandler = require('./handlers/scheduleHandler');
 const tokenHandler = require('./handlers/tokenHandler');
 const config = require('../dist/config/config.' + process.env.NODE_ENV);
 
-axios.defaults.baseURL = config.apiUrl;
+axios.defaults.accountUrl = config.accountUrl;
+axios.defaults.activityUrl = config.activityUrl;
+axios.defaults.budgetUrl = config.budgetUrl;
+axios.defaults.coupleUrl = config.coupleUrl;
+axios.defaults.partyUrl = config.partyUrl;
+axios.defaults.recordUrl = config.recordUrl;
+axios.defaults.scheduleUrl = config.scheduleUrl;
+axios.defaults.tokenUrl = config.tokenUrl;
 
 export default {
   name: 'App',

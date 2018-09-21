@@ -2,7 +2,7 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 
 function loginAccount(tokens, username, password) {
-  return axios.post('/account/login', {
+  return axios.post(axios.defaults.accountUrl + '/account/login', {
     username,
     password,
   }, {
@@ -17,7 +17,7 @@ function loginAccount(tokens, username, password) {
   });
 }
 function changePassword(tokens, accountId, oldPassword, newPassword) {
-  return axios.put('/account/' + accountId + '/password', {
+  return axios.put(axios.defaults.accountUrl + '/account/' + accountId + '/password', {
     oldPassword,
     newPassword
   }, {
@@ -31,7 +31,7 @@ function changePassword(tokens, accountId, oldPassword, newPassword) {
   });
 }
 function updateAccount(tokens, accountId, fields) {
-  return axios.put('/account/' + accountId, fields, {
+  return axios.put(axios.defaults.accountUrl + '/account/' + accountId, fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,

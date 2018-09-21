@@ -28,7 +28,7 @@
                 <i class="fas fa-user"></i>
               </span>
             </div>
-            <p class="help is-danger" v-if="localErrors.budgetInitialBudget">{{localErrors.budgetInitialBudget}}</p>
+            <p class="help is-danger" v-if="localErrors.initialBudget">{{localErrors.initialBudget}}</p>
           </div>
         </div>
       </div>
@@ -50,6 +50,7 @@
                 </select>
               </span>
             </p>
+            <p class="help is-danger" v-if="localErrors.currency">{{localErrors.currency}}</p>
           </div>
         </div>
       </div>
@@ -97,8 +98,12 @@ export default {
     checkForm: async function() {
       this.resetErrors();
       let hasErrors = false;
+      var regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
       if (!this.budgetInitialBudget) {
         this.localErrors.initialBudget = 'Field cannot be empty.';
+        hasErrors = true;
+      } else if (!regex.test(this.budgetInitialBudget) || this.budgetInitialBudget <= 0) {
+        this.localErrors.initialBudget = 'Field must be a number and it must be greater than 0.';
         hasErrors = true;
       }
       if (!this.budgetCurrency) {

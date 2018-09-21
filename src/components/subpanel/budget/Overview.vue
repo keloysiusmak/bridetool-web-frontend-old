@@ -7,12 +7,12 @@
     <div class="columns">
       <div class="column is-4 is-12-mobile">
         <div class="title no-spaced is-size-7">AVAILABLE BUDGET</div>
-        <div class="is-size-1">{{budget.initialBudget - usedBudget()}} {{budget.currency}}</div>
+        <div class="is-size-2">{{Math.floor((budget.initialBudget - usedBudget()) * 100) / 100}} {{budget.currency}}</div>
         <progress class="progress is-small" v-bind:class="budgetWarning()" v-bind:value="availableBudgetPercentage()" max="100"></progress>
         <div class="is-size-7 has-text-grey"><i>{{Math.floor(availableBudgetPercentage())}}% used out of {{budget.initialBudget}} {{budget.currency}}</i></div>
         <hr/>
         <div class="title no-spaced is-size-7">TOTAL EXPENDITURE</div>
-        <div class="is-size-1">{{usedBudget()}} {{budget.currency}}</div>
+        <div class="is-size-2">{{usedBudget()}} {{budget.currency}}</div>
       </div>
       <div class="column is-8 is-12-mobile">
         <div class="has-text-right">

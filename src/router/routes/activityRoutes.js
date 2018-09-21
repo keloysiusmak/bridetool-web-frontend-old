@@ -9,7 +9,7 @@ import SubPanelActivitiesActivity from '@/components/subpanel/activities/Activit
 import SubPanelActivitiesModify from '@/components/subpanel/activities/Modify';
 
 //Subbar
-import SubbarWeddingDay from '@/components/subbar/WeddingDay';
+import SubbarPlanner from '@/components/subbar/Planner';
 
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
@@ -32,12 +32,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelActivitiesActivity,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'
@@ -55,12 +55,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelActivitiesModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'

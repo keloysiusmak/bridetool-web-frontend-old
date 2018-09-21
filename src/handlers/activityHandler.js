@@ -2,7 +2,7 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 
 function getActivity(tokens, activityId) {
-  return axios.get('/activity/' + activityId, {
+  return axios.get(axios.defaults.activityUrl + '/activity/' + activityId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -12,7 +12,7 @@ function getActivity(tokens, activityId) {
   });
 }
 function addActivity(tokens, scheduleId, fields) {
-  return axios.post('/schedule/' + scheduleId + '/activity', fields, {
+  return axios.post(axios.defaults.activityUrl + '/schedule/' + scheduleId + '/activity', fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -23,7 +23,7 @@ function addActivity(tokens, scheduleId, fields) {
   });
 }
 function updateActivity(tokens, activityId, fields) {
-  return axios.put('/activity/' + activityId, fields, {
+  return axios.put(axios.defaults.activityUrl + '/activity/' + activityId, fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -34,7 +34,7 @@ function updateActivity(tokens, activityId, fields) {
   });
 }
 function deleteActivity(tokens, activityId) {
-  return axios.delete('/activity/' + activityId, {
+  return axios.delete(axios.defaults.activityUrl + '/activity/' + activityId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -44,7 +44,7 @@ function deleteActivity(tokens, activityId) {
   });
 }
 function restoreActivity(tokens, activityId) {
-  return axios.post('/activity/' + activityId + '/restore', {}, {
+  return axios.post(axios.defaults.activityUrl + '/activity/' + activityId + '/restore', {}, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,

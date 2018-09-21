@@ -13,7 +13,7 @@ import SubPanelPartyGroups from '@/components/subpanel/parties/Groups';
 import SubPanelPartyModify from '@/components/subpanel/parties/Modify';
 
 //Subbar
-import SubbarWeddingDay from '@/components/subbar/WeddingDay';
+import SubbarPlanner from '@/components/subbar/Planner';
 
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
@@ -62,12 +62,12 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyParties,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'party'
@@ -84,12 +84,12 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyGroups,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'party'
@@ -106,12 +106,12 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'party'
@@ -131,12 +131,12 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyOverview,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'party'
@@ -156,12 +156,12 @@ export default [
           panel: PanelParty,
           subpanel: SubPanelPartyModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'party'

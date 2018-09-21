@@ -11,7 +11,7 @@ import SubPanelSchedulesModify from '@/components/subpanel/schedules/Modify';
 import SubPanelActivityModify from '@/components/subpanel/activities/Modify';
 
 //Subbar
-import SubbarWeddingDay from '@/components/subbar/WeddingDay';
+import SubbarPlanner from '@/components/subbar/Planner';
 
 //Navbar
 import NavbarDefault from '@/components/navbar/Default';
@@ -38,12 +38,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesActivities,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'
@@ -61,12 +61,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesTimeline,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'
@@ -84,12 +84,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelSchedulesModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'
@@ -109,12 +109,12 @@ export default [
           panel: PanelSchedule,
           subpanel: SubPanelActivityModify,
           navbar: NavbarDefault,
-          subbar: SubbarWeddingDay,
+          subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
           navbar: (route) => ({
-            navbarSelected: 'weddingday'
+            navbarSelected: 'planner'
           }),
           subbar: (route) => ({
             subbarSelected: 'schedule'

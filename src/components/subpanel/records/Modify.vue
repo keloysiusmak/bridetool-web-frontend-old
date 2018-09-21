@@ -56,21 +56,28 @@
           <p class="help">Want to change to another currency? <router-link  :to="{ name: 'BudgetManage' }">Click Here</router-link></p>
         </div>
         <div class="field-body">
-          <div class="field has-addons has-addons-left">
-            <div class="control">
-              <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}" placeholder="Value" v-model="recordValue"/>
+          <div class="control">
+            <div class="field has-addons has-addons-left">
+              <div class="control">
+                <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}" placeholder="Value" v-model="recordValue"/>
+              </div>
+              <div class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}">
+                  <select v-model="recordType">
+                    <option value="capital">Added to Budget</option>
+                    <option value="expenditure">Spent</option>
+                  </select>
+                </span>
+              </div>
             </div>
-            <div class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}">
-                <select v-model="recordType">
-                  <option value="capital">Added to Budget</option>
-                  <option value="expenditure">Spent</option>
-                </select>
-              </span>
-            </div>
-            <p class="help is-danger" v-if="localErrors.recordValue">{{localErrors.recordValue}}</p>
-            <p class="help is-danger" v-if="localErrors.recordType">{{localErrors.recordType}}</p>
           </div>
+        </div>
+      </div>
+      <div class="field is-horizontal" v-if="localErrors.recordValue || localErrors.recordType">
+        <div class="field-label"></div>
+        <div class="field-body">
+          <p class="help is-danger">{{localErrors.recordValue}}</p>
+          <p class="help is-danger">{{localErrors.recordType}}</p>
         </div>
       </div>
       <br/>
@@ -143,7 +150,7 @@ export default {
       deleteRecordModal: false,
       recordName: null,
       recordValue: null,
-      recordType: null,
+      recordType: 'expenditure',
       recordDate: {
         date: 1,
         month: 1,
@@ -171,12 +178,16 @@ export default {
     checkForm: async function() {
       this.resetErrors();
       let hasErrors = false;
+      var regex = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
       if (!this.recordName) {
-        this.localErrors.recordValue = 'Field cannot be empty.';
+        this.localErrors.recordName = 'Field cannot be empty.';
         hasErrors = true;
       }
       if (!this.recordValue) {
         this.localErrors.recordValue = 'Field cannot be empty.';
+        hasErrors = true;
+      } else if (!regex.test(this.recordValue)) {
+        this.localErrors.recordValue = 'Field must be a number.';
         hasErrors = true;
       }
       if (!this.recordType) {

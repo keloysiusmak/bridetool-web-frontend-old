@@ -3,7 +3,7 @@ const config = require('../../dist/config/config.' + process.env.NODE_ENV);
 const handler = require('../handlers/handler');
 
 function getApiToken() {
-  return axios.get('/auth/token', {
+  return axios.get(axios.defaults.tokenUrl + '/auth/token', {
     headers: {
       'api-key': config.developerKeys.apiKey,
     },
@@ -30,7 +30,7 @@ async function checkAccessTokenExpired(store, tokens) {
 }
 
 function refreshToken(tokens) {
-  return axios.get('/auth/refresh', {
+  return axios.get(axios.defaults.tokenUrl + '/auth/refresh', {
     headers: {
       'refresh-token': tokens.refreshToken
     },

@@ -3,7 +3,7 @@ const handler = require('../handlers/handler');
 const tokenHandler = require('../handlers/tokenHandler');
 
 function getSchedule(tokens, scheduleId) {
-  return axios.get('/schedule/' + scheduleId, {
+  return axios.get(axios.defaults.scheduleUrl + '/schedule/' + scheduleId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -13,7 +13,7 @@ function getSchedule(tokens, scheduleId) {
   });
 }
 function updateSchedule(tokens, scheduleId, fields) {
-  return axios.put('/schedule/' + scheduleId, fields, {
+  return axios.put(axios.defaults.scheduleUrl + '/schedule/' + scheduleId, fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -24,7 +24,7 @@ function updateSchedule(tokens, scheduleId, fields) {
   });
 }
 function deleteSchedule(tokens, scheduleId) {
-  return axios.delete('/schedule/' + scheduleId, {
+  return axios.delete(axios.defaults.scheduleUrl + '/schedule/' + scheduleId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -34,7 +34,7 @@ function deleteSchedule(tokens, scheduleId) {
   });
 }
 function restoreSchedule(tokens, scheduleId) {
-  return axios.post('/schedule/' + scheduleId + '/restore', {}, {
+  return axios.post(axios.defaults.scheduleUrl + '/schedule/' + scheduleId + '/restore', {}, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,

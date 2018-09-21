@@ -309,6 +309,7 @@ import _ from 'lodash'
 import { EventBus } from '../../../events/event-bus.js';
 
 const activityHandler = require('../../../handlers/activityHandler');
+const coupleHandler = require('../../../handlers/coupleHandler');
 const partyHandler = require('../../../handlers/partyHandler');
 const tokenHandler = require('../../../handlers/tokenHandler');
 const moment = require('moment');
@@ -526,7 +527,7 @@ export default {
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
-        const getAvailableParties = await partyHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
+        const getAvailableParties = await coupleHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
         this.activityAvailableParties = getAvailableParties.parties.filter(party => {
           return !this.activityAssignedPartiesId.includes(party._id);
         });
