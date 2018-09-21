@@ -1,8 +1,8 @@
 const axios = require('axios');
 const handler = require('../handlers/handler');
 
-function getWeddingParty(tokens, coupleId) {
-  return axios.get(axios.defaults.coupleUrl + '/couple/' + coupleId + '/weddingparty', {
+function getWeddingTeam(tokens, coupleId) {
+  return axios.get(axios.defaults.coupleUrl + '/couple/' + coupleId + '/weddingteam', {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -12,7 +12,7 @@ function getWeddingParty(tokens, coupleId) {
   });
 }
 
-function getAvailableParties(tokens, coupleId, startTime, endTime) {
+function getAvailableMembers(tokens, coupleId, startTime, endTime) {
   return axios.post(axios.defaults.coupleUrl + '/couple/' + coupleId + '/available', {
     startTime,
     endTime
@@ -37,7 +37,7 @@ function getCouple(tokens, coupleId) {
   });
 }
 module.exports = {
-  getWeddingParty,
-  getAvailableParties,
+  getWeddingTeam,
+  getAvailableMembers,
   getCouple,
 };

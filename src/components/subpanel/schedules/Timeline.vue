@@ -10,7 +10,7 @@
         <div class="box">
           <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
           <div class="subtitle is-6">
-            You can restore this activity later, but all parties assigned to this activity will be unassigned.
+            You can restore this activity later, but all members assigned to this activity will be unassigned.
           </div>
           <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
           <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
@@ -48,7 +48,7 @@
             <br/>
             <p class="is-size-6 is-12-mobile">
               <span class="has-text-weight-bold">Involved:</span>
-              {{ formatParties(activity.assignedParties) }}
+              {{ formatMembers(activity.assignedMembers) }}
             </p>
             <br/>
             <p class="is-size-6" v-if="!isCompletedActivity(activity)">
@@ -134,13 +134,13 @@ export default {
 
       return formattedTime;
     },
-    formatParties: function(parties) {
-      const filteredParties = parties.filter(function(party) {
-        return !party.isDeleted;
-      }).map(function(party){
-        return party.firstName + " " + party.lastName;
+    formatMembers: function(members) {
+      const filteredMembers = members.filter(function(member) {
+        return !member.isDeleted;
+      }).map(function(member){
+        return member.firstName + " " + member.lastName;
       }).join(", ");
-      return (filteredParties) ? filteredParties : 'None';
+      return (filteredMembers) ? filteredMembers : 'None';
     },
     confirmDeleteActivity: function(activityId) {
       this.deleteActivityModal = true;

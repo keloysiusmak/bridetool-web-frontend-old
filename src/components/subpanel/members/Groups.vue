@@ -1,5 +1,5 @@
 <template>
-  <div id="main_wedding_party">
+  <div id="main_wedding_member">
     <br/>
     <p class="title is-4">
       Groups
@@ -14,10 +14,10 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 
 export default {
-  name: 'Main-Wedding-Party',
+  name: 'Main-Wedding-Member',
   data() {
     return {
       groups: null

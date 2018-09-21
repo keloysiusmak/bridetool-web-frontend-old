@@ -66,7 +66,7 @@ export default {
       errors: []
     }
   },
-  props: ['partyId'],
+  props: ['memberId'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),

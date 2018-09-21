@@ -47,7 +47,7 @@
             Wedding Team
           </p>
           <p class="subtitle is-5">
-            In your planner, your Wedding Team is the place for your wedding party, vendors and family. Add important people for your wedding day to your wedding party,
+            In your planner, your Wedding Team is the place for your wedding member, vendors and family. Add important people for your wedding day to your wedding member,
             from your photographers, makeup artists, to your parents!
           </p>
           <p class="subtitle is-5">
@@ -87,7 +87,7 @@
             on what's going on, so you never miss a thing.
           </p>
           <p class="subtitle is-5">
-            Share a unique link with every member of your wedding party, so they can
+            Share a unique link with every member of your wedding member, so they can
             keep up to date with any changes in the programme.
           </p>
           <p class="subtitle is-5">

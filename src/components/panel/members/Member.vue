@@ -1,12 +1,12 @@
 <template>
   <div>
-    <router-link :to="{ name: 'PartyParties' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'parties' }">
+    <router-link :to="{ name: 'MemberTeam' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'members' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>
       </span>&nbsp;
       Members
     </router-link>
-    <router-link :to="{ name: 'PartyGroups' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
+    <router-link :to="{ name: 'MemberGroups' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
       <span class="icon is-small is-left">
         <i class="fas fa-stream"></i>
       </span>&nbsp;
@@ -21,7 +21,7 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 import { EventBus } from '../../../events/event-bus.js';
 
 const coupleHandler = require('../../../handlers/coupleHandler');
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 
 export default {
   data() {
@@ -29,7 +29,7 @@ export default {
       errors: []
     }
   },
-  props: ['partyId', 'panelSelected'],
+  props: ['memberId', 'panelSelected'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -38,12 +38,12 @@ export default {
     ...mapMutations([
       'setState'
     ]),
-    loadWeddingParty: async function() {
+    loadWeddingTeam: async function() {
       try {
         if (this.account._id && this.account.couple._id) {
-          const getWeddingParty = await coupleHandler.getWeddingParty(this.tokens, this.account._id);
+          const getWeddingTeam = await coupleHandler.getWeddingTeam(this.tokens, this.account._id);
           this.setState({
-            parties: getWeddingParty.weddingParty
+            members: getWeddingTeam.weddingTeam
           })
         }
       } catch (e) {
@@ -52,11 +52,11 @@ export default {
     }
   },
   async created() {
-    this.loadWeddingParty();
+    this.loadWeddingTeam();
   },
   async mounted() {
-    EventBus.$on('loadWeddingParty', payload => {
-      this.loadWeddingParty();
+    EventBus.$on('loadWeddingTeam', payload => {
+      this.loadWeddingTeam();
     });
   }
 }

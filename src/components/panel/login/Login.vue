@@ -156,14 +156,13 @@ export default {
         if (!hasErrors) {
           this.loginLoading = true;
           const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
+          const primaryMember = loginAccount.account.couple.primaryMember;
 
-          const primaryParty = loginAccount.account.couple.primaryParty;
-
-          const activeParty = {
-            firstName: primaryParty.firstName,
-            lastName: primaryParty.lastName,
-            gender: primaryParty.gender,
-            id: primaryParty._id
+          const activeMember = {
+            firstName: primaryMember.firstName,
+            lastName: primaryMember.lastName,
+            gender: primaryMember.gender,
+            id: primaryMember._id
           }
 
           this.setState({
@@ -171,7 +170,7 @@ export default {
             refreshToken: loginAccount.refreshToken,
             account: loginAccount.account,
             storedTokensTime: Math.floor(Date.now() / 1000),
-            activeParty: activeParty
+            activeMember: activeMember
           });
           this.loginLoading = false;
 

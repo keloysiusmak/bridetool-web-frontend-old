@@ -1,10 +1,10 @@
 <template>
-  <div v-if="!party" class="has-text-centered">
+  <div v-if="!member" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="party">
+  <div v-else-if="member">
     <p class="title is-4 is-uppercase">
-      {{party.firstName + " " + party.lastName}}
+      {{member.firstName + " " + member.lastName}}
     </p>
     <p class="subtitle is-6">
       Here's your list of activities assigned to you!
@@ -38,22 +38,22 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 const moment = require('moment');
 
 export default {
   data() {
     return {
-      party: null
+      member: null
     }
   },
-  props: ['partyId'],
+  props: ['memberId'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
     parsedActivities: function() {
       let scheduleDates = {};
-      const activeActivities = this.party.activities.filter(activity => {
+      const activeActivities = this.member.activities.filter(activity => {
         return !activity.isDeleted;
       }).sort((activity1, activity2) => {
         return activity1.startTime - activity2.startTime
@@ -78,11 +78,11 @@ export default {
 
       return formattedTime;
     },
-    loadParty: async function() {
+    loadMember: async function() {
       try {
-        if (this.partyId) {
-          const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-          this.party = getParty.party;
+        if (this.memberId) {
+          const getMember = await memberHandler.getMember(this.tokens, this.memberId);
+          this.member = getMember.member;
         }
       } catch (e) {
         //
@@ -145,7 +145,7 @@ export default {
     }
   },
   async created() {
-    this.loadParty();
+    this.loadMember();
   }
 }
 </script>

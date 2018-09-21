@@ -6,7 +6,7 @@
             Schedule
           </router-link><router-link to="/budget" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'budget' }">
             Budget
-          </router-link><router-link to="/party" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'party' }">
+          </router-link><router-link to="/member" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'member' }">
             Wedding Team
           </router-link>
         </div>

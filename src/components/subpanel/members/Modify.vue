@@ -1,11 +1,11 @@
 <template>
-  <div v-if="!party && modifyType === 'edit' || modifyLoading" class="has-text-centered">
+  <div v-if="!member && modifyType === 'edit' || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="party || modifyType !== 'edit'">
+  <div v-else-if="member || modifyType !== 'edit'">
     <br/>
-    <span class="title is-5" v-if="modifyType === 'edit'">Edit Party</span>
-    <span class="title is-5" v-if="modifyType === 'create'">Create Party</span>
+    <span class="title is-5" v-if="modifyType === 'edit'">Edit Member</span>
+    <span class="title is-5" v-if="modifyType === 'create'">Create Member</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
@@ -23,11 +23,11 @@
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input is-small" placeholder="First Name" v-model="partyFirstName"  v-bind:class="{'is-danger': localErrors.partyFirstName}"/>
+              <input class="input is-small" placeholder="First Name" v-model="memberFirstName"  v-bind:class="{'is-danger': localErrors.memberFirstName}"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
-              <p class="help is-danger" v-if="localErrors.partyFirstName">{{localErrors.partyFirstName}}</p>
+              <p class="help is-danger" v-if="localErrors.memberFirstName">{{localErrors.memberFirstName}}</p>
             </div>
           </div>
         </div>
@@ -40,11 +40,11 @@
         <div class="field-body">
           <div class="field">
             <div class="control has-icons-left">
-              <input class="input is-small" placeholder="Last Name" v-model="partyLastName"  v-bind:class="{'is-danger': localErrors.partyLastName}"/>
+              <input class="input is-small" placeholder="Last Name" v-model="memberLastName"  v-bind:class="{'is-danger': localErrors.memberLastName}"/>
               <span class="icon is-small is-left">
                 <i class="fas fa-user"></i>
               </span>
-              <p class="help is-danger" v-if="localErrors.partyLastName">{{localErrors.partyLastName}}</p>
+              <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
             </div>
           </div>
         </div>
@@ -58,14 +58,14 @@
           <div class="field">
             <div class="control">
               <label class="radio">
-                <input type="radio" class="is-checkradio" id="partyGenderMale" name="partyGender" value="male" v-model="partyGender">
-                <label for="partyGenderMale" class="is-size-7">Male</label>
+                <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="male" v-model="memberGender">
+                <label for="memberGenderMale" class="is-size-7">Male</label>
               </label>
               <label class="radio">
-                <input type="radio" class="is-checkradio" id="partyGenderMale" name="partyGender" value="female" v-model="partyGender">
-                <label for="partyGenderFemale" class="is-size-7">Female</label>
+                <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="female" v-model="memberGender">
+                <label for="memberGenderFemale" class="is-size-7">Female</label>
               </label>
-              <p class="help is-danger" v-if="localErrors.partyLastName">{{localErrors.partyLastName}}</p>
+              <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
             </div>
           </div>
         </div>
@@ -91,23 +91,23 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 import { EventBus } from '../../../events/event-bus.js';
 
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 
 export default {
-  name: 'Main-Party-Edit',
+  name: 'Main-Member-Edit',
   data() {
     return {
       loading: true,
       localErrors: {},
       localSuccess: '',
-      party: null,
-      partyFirstName: null,
-      partyLastName: null,
-      partyGender: null,
+      member: null,
+      memberFirstName: null,
+      memberLastName: null,
+      memberGender: null,
       modifyLoading: false
     }
   },
-  props: ['partyId', 'modifyType'],
+  props: ['memberId', 'modifyType'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)
@@ -119,87 +119,87 @@ export default {
     checkForm: async function() {
       this.resetErrors();
       let hasErrors = false;
-      if (!this.partyFirstName) {
-        this.localErrors.partyFirstName = "First Name Missing";
+      if (!this.memberFirstName) {
+        this.localErrors.memberFirstName = "First Name Missing";
         hasErrors = true;
       }
 
-      if (!this.partyLastName) {
-        this.localErrors.partyLastName = "Last Name Missing";
+      if (!this.memberLastName) {
+        this.localErrors.memberLastName = "Last Name Missing";
         hasErrors = true;
       }
 
-      if (!this.partyGender) {
-        this.localErrors.partyGender = "Gender Missing";
+      if (!this.memberGender) {
+        this.localErrors.memberGender = "Gender Missing";
         hasErrors = true;
       }
 
       if (!hasErrors) {
         if (this.modifyType === 'edit') {
-          this.updateParty();
+          this.updateMember();
         } else {
-          this.addParty();
+          this.addMember();
         }
       }
     },
-    updateParty: async function() {
+    updateMember: async function() {
       this.modifyLoading = true;
       try {
         const fields = {
-          firstName: this.partyFirstName,
-          lastName: this.partyLastName,
-          gender: this.partyGender
+          firstName: this.memberFirstName,
+          lastName: this.memberLastName,
+          gender: this.memberGender
         }
-        const updateParty = await partyHandler.updateParty(this.tokens, this.party._id, fields);
-        this.party = updateParty.party;
+        const updateMember = await memberHandler.updateMember(this.tokens, this.member._id, fields);
+        this.member = updateMember.member;
         EventBus.$emit('loadSchedule');
         this.populateFields();
-        this.localSuccess = 'Successfully updated party.';
+        this.localSuccess = 'Successfully updated member.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
       this.modifyLoading = false;
     },
-    addParty: async function() {
+    addMember: async function() {
       this.modifyLoading = true;
       try {
         const fields = {
-          firstName: this.partyFirstName,
-          lastName: this.partyLastName,
-          gender: this.partyGender
+          firstName: this.memberFirstName,
+          lastName: this.memberLastName,
+          gender: this.memberGender
         }
-        const addParty = await partyHandler.addParty(this.tokens, this.account._id, fields);
-        this.party = addParty.party;
+        const addMember = await memberHandler.addMember(this.tokens, this.account._id, fields);
+        this.member = addMember.member;
         EventBus.$emit('loadSchedule');
         this.populateFields();
-        this.localSuccess = 'Successfully added party.';
+        this.localSuccess = 'Successfully added member.';
       } catch (e) {
         this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
       }
       this.modifyLoading = false;
     },
     populateFields: function() {
-      this.partyFirstName = this.party.firstName;
-      this.partyLastName = this.party.lastName;
-      this.partyGender = this.party.gender;
+      this.memberFirstName = this.member.firstName;
+      this.memberLastName = this.member.lastName;
+      this.memberGender = this.member.gender;
     },
     resetErrors: function() {
       this.localSuccess = null
       this.localErrors = {
         componentError: null,
-        partyFirstName: null,
-        partyLastName: null,
-        partyGender: null
+        memberFirstName: null,
+        memberLastName: null,
+        memberGender: null
       }
     },
-    loadParty: async function() {
+    loadMember: async function() {
       try {
         if (this.modifyType === 'edit') {
-          const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-          if (getParty.party.type === 'couple') {
-            this.$router.push('/party');
+          const getMember = await memberHandler.getMember(this.tokens, this.memberId);
+          if (getMember.member.type === 'couple') {
+            this.$router.push('/member');
           }
-          this.party = getParty.party;
+          this.member = getMember.member;
           this.populateFields();
         }
         this.loading = false;
@@ -211,9 +211,9 @@ export default {
   created() {
     this.resetErrors();
     if (this.modifyType === 'edit') {
-      this.loadParty();
+      this.loadMember();
     } else {
-      this.party = null;
+      this.member = null;
     }
   }
 }

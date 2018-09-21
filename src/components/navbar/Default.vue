@@ -12,7 +12,7 @@
         </a>
       </div>
       <div class="navbar-menu" id="menu">
-        <div class="navbar-end" v-if="activeParty">
+        <div class="navbar-end" v-if="activeMember">
           <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'planner' }">
             Planner
           </router-link>
@@ -23,7 +23,7 @@
             Log Out
           </a>
         </div>
-        <div class="navbar-end" v-if="!activeParty">
+        <div class="navbar-end" v-if="!activeMember">
           <router-link to="/login" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
             Log In
           </router-link>

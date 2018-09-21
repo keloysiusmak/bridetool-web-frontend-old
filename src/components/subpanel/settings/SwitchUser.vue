@@ -4,7 +4,7 @@
   </div>
   <div v-else-if="account">
     <br/>
-    <p class="is-size-6">Are you {{activeParty.firstName + " " + activeParty.lastName}}? If not, click <a href="#" v-on:click="selectParty(nonPrimaryParty._id)">here</a> to switch to {{nonPrimaryParty.firstName + " " + nonPrimaryParty.lastName}}.</p>
+    <p class="is-size-6">Are you {{activeMember.firstName + " " + activeMember.lastName}}? If not, click <a href="#" v-on:click="selectMember(nonPrimaryMember._id)">here</a> to switch to {{nonPrimaryMember.firstName + " " + nonPrimaryMember.lastName}}.</p>
   </div>
 </template>
 
@@ -17,9 +17,9 @@ export default {
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
-    nonPrimaryParty: function() {
-      return this.account.couple.coupleParty.find(party => {
-        return party._id !== this.activeParty.id;
+    nonPrimaryMember: function() {
+      return this.account.couple.coupleMember.find(member => {
+        return member._id !== this.activeMember.id;
       });
     }
   },
@@ -27,21 +27,21 @@ export default {
     ...mapMutations([
       'setState'
     ]),
-    selectParty: function(key) {
+    selectMember: function(key) {
       this.modifyLoading = true;
-      const selectedParty = this.account.couple.coupleParty.find(party => {
-        return party._id === key;
+      const selectedMember = this.account.couple.coupleMember.find(member => {
+        return member._id === key;
       });
 
-      const activeParty = {
-        firstName: selectedParty.firstName,
-        lastName: selectedParty.lastName,
-        gender: selectedParty.gender,
-        id: selectedParty._id
+      const activeMember = {
+        firstName: selectedMember.firstName,
+        lastName: selectedMember.lastName,
+        gender: selectedMember.gender,
+        id: selectedMember._id
       }
 
       this.setState({
-        activeParty: activeParty
+        activeMember: activeMember
       });
 
       this.$router.push('/');

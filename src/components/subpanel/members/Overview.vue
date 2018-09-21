@@ -1,14 +1,14 @@
 <template>
-  <div v-if="!party" class="has-text-centered">
+  <div v-if="!member" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="party">
+  <div v-else-if="member">
     <br/>
     <div class="columns">
       <div class="column">
-        <p><router-link :to="{ name: 'PartyEdit', params: {partyId: party._id }, props: true }" class="is-size-6">Edit Party</router-link></p>
+        <p><router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }" class="is-size-6">Edit Member</router-link></p>
         <p class="title is-4">
-          {{party.firstName + " " + party.lastName}}'s Activities
+          {{member.firstName + " " + member.lastName}}'s Activities
         </p>
         <template v-if="!hasActivities">
           <p class="is-size-6">
@@ -40,8 +40,8 @@
       <div class="column is-3">
         <div class="card">
           <div class="card-content">
-            <p class="title is-4">Share with {{party.firstName + " " + party.lastName}}</p>
-            <p class="subtitle is-6 has-text-grey">Copy this link to share with {{party.firstName + " " + party.lastName}} so {{ heOrShe(party.gender) }} can keep up to date with {{ hisOrHers(party.gender) }} activities for your wedding.</p>
+            <p class="title is-4">Share with {{member.firstName + " " + member.lastName}}</p>
+            <p class="subtitle is-6 has-text-grey">Copy this link to share with {{member.firstName + " " + member.lastName}} so {{ heOrShe(member.gender) }} can keep up to date with {{ hisOrHers(member.gender) }} activities for your wedding.</p>
             <p class="is-size-6 is-italic">
               <a v-on:click="copyToClipboard();">Click here to copy the link</a>
             </p>
@@ -56,30 +56,30 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 const moment = require('moment');
 
 export default {
-  name: 'Main-Party',
+  name: 'Main-Member',
   data() {
     return {
       errors: [],
-      party: null
+      member: null
     }
   },
-  props: ['partyId'],
+  props: ['memberId'],
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates),
     hasActivities: function() {
-      return this.party.activities.filter(activity => {
+      return this.member.activities.filter(activity => {
         return !activity.isDeleted;
       }).length > 0;
     },
     parsedActivities: function() {
       let scheduleDates = {};
 
-      const activeActivities = this.party.activities.filter(activity => {
+      const activeActivities = this.member.activities.filter(activity => {
         return !activity.isDeleted;
       }).sort((activity1, activity2) => {
         return activity1.startTime - activity2.startTime
@@ -118,14 +118,14 @@ export default {
 
       return formattedTime;
     },
-    loadParty: async function() {
+    loadMember: async function() {
       try {
-        if (this.partyId) {
-          const getParty = await partyHandler.getParty(this.tokens, this.partyId);
-          this.party = getParty.party;
+        if (this.memberId) {
+          const getMember = await memberHandler.getMember(this.tokens, this.memberId);
+          this.member = getMember.member;
         }
       } catch (e) {
-        console.log(e);
+        //
       }
     },
     heOrShe: function(gender) {
@@ -191,7 +191,7 @@ export default {
     }
   },
   async created() {
-    this.loadParty();
+    this.loadMember();
   }
 }
 </script>

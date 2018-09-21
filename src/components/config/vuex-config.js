@@ -4,10 +4,10 @@ const mappedStates = [
   'refreshToken',
   'storedTokensTime',
   'account',
-  'activeParty',
+  'activeMember',
   'globalErrors',
   'schedule',
-  'parties',
+  'members',
   'budget'
 ];
 

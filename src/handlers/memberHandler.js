@@ -2,8 +2,8 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-function getParty(tokens, partyId) {
-  return axios.get(axios.defaults.partyUrl + '/party/' + partyId, {
+function getMember(tokens, memberId) {
+  return axios.get(axios.defaults.memberUrl + '/member/' + memberId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -12,19 +12,8 @@ function getParty(tokens, partyId) {
     return response.data;
   });
 }
-function addParty(tokens, coupleId, fields) {
-  return axios.post(axios.defaults.partyUrl + '/couple/' + coupleId + '/party', fields, {
-    headers: {
-      'Content-Type': 'application/json',
-      'access-token': tokens.accessToken,
-    },
-  }).then(response => {
-    response = handler(response);
-    return response.data;
-  });
-}
-function updateParty(tokens, partyId, fields) {
-  return axios.put(axios.defaults.partyUrl + '/party/' + partyId, fields, {
+function addMember(tokens, coupleId, fields) {
+  return axios.post(axios.defaults.memberUrl + '/couple/' + coupleId + '/member', fields, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -34,8 +23,19 @@ function updateParty(tokens, partyId, fields) {
     return response.data;
   });
 }
-function deleteParty(tokens, partyId) {
-  return axios.delete(axios.defaults.partyUrl + '/party/' + partyId, {
+function updateMember(tokens, memberId, fields) {
+  return axios.put(axios.defaults.memberUrl + '/member/' + memberId, fields, {
+    headers: {
+      'Content-Type': 'application/json',
+      'access-token': tokens.accessToken,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.data;
+  });
+}
+function deleteMember(tokens, memberId) {
+  return axios.delete(axios.defaults.memberUrl + '/member/' + memberId, {
     headers: {
       'access-token': tokens.accessToken,
     },
@@ -44,8 +44,8 @@ function deleteParty(tokens, partyId) {
     return response.data;
   });
 }
-function restoreParty(tokens, partyId) {
-  return axios.post(axios.defaults.partyUrl + '/party/' + partyId + '/restore', {}, {
+function restoreMember(tokens, memberId) {
+  return axios.post(axios.defaults.memberUrl + '/member/' + memberId + '/restore', {}, {
     headers: {
       'Content-Type': 'application/json',
       'access-token': tokens.accessToken,
@@ -56,9 +56,9 @@ function restoreParty(tokens, partyId) {
   });
 }
 module.exports = {
-  getParty,
-  addParty,
-  updateParty,
-  deleteParty,
-  restoreParty
+  getMember,
+  addMember,
+  updateMember,
+  deleteMember,
+  restoreMember
 };

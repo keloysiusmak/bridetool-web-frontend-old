@@ -10,7 +10,7 @@
         <div class="box">
           <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
           <div class="subtitle is-6">
-            You can restore this activity later, but all parties assigned to this activity will be unassigned.
+            You can restore this activity later, but all members assigned to this activity will be unassigned.
           </div>
           <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
           <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
@@ -27,7 +27,7 @@
         <div class="box">
           <div class="title is-4">Are you sure you want to restore '{{activity.name}}'?</div>
           <div class="subtitle is-6">
-            Previously assigned parties cannot be restored.
+            Previously assigned members cannot be restored.
           </div>
           <a class="button is-success" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
           <a class="button is-white" v-on:click="restoreActivityModal = false">Cancel</a>

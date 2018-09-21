@@ -3,14 +3,14 @@ import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
 import LayoutAppPanelOnly from '@/components/layout/AppPanelOnly';
 
 //Panel
-import PanelParty from '@/components/panel/parties/Party';
-import PanelPartyOverview from '@/components/panel/parties/Overview';
+import PanelMember from '@/components/panel/members/Member';
+import PanelMemberOverview from '@/components/panel/members/Overview';
 
 //SubPanel
-import SubPanelPartyOverview from '@/components/subpanel/parties/Overview';
-import SubPanelPartyParties from '@/components/subpanel/parties/Parties';
-import SubPanelPartyGroups from '@/components/subpanel/parties/Groups';
-import SubPanelPartyModify from '@/components/subpanel/parties/Modify';
+import SubPanelMemberOverview from '@/components/subpanel/members/Overview';
+import SubPanelMemberTeam from '@/components/subpanel/members/Team';
+import SubPanelMemberGroups from '@/components/subpanel/members/Groups';
+import SubPanelMemberModify from '@/components/subpanel/members/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
@@ -23,7 +23,7 @@ import FooterDefault from '@/components/footer/Default';
 
 export default [
   {
-    path: '/party/:partyId/overview',
+    path: '/member/:memberId/overview',
     component: LayoutAppPanelOnly,
     children: [
       {
@@ -33,19 +33,19 @@ export default [
         },
         components: {
           navbar: NavbarDefault,
-          panel: PanelPartyOverview,
+          panel: PanelMemberOverview,
           footer: FooterDefault
         },
         props: {
           panel: (route) => ({
-            partyId: route.params.partyId
+            memberId: route.params.memberId
           })
         }
       }
     ]
   },
   {
-    path: '/party',
+    path: '/members',
     meta: {
       requiresAuth: true
     },
@@ -53,14 +53,10 @@ export default [
     children: [
       {
         path: '',
-        redirect: 'parties'
-      },
-      {
-        path: 'parties',
-        name: 'PartyParties',
+        name: 'MemberTeam',
         components: {
-          panel: PanelParty,
-          subpanel: SubPanelPartyParties,
+          panel: PanelMember,
+          subpanel: SubPanelMemberTeam,
           navbar: NavbarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
@@ -70,19 +66,32 @@ export default [
             navbarSelected: 'planner'
           }),
           subbar: (route) => ({
-            subbarSelected: 'party'
+            subbarSelected: 'member'
           }),
           panel: (route) => ({
-            panelSelected: 'parties'
+            panelSelected: 'members'
           })
         }
+      }
+    ]
+  },
+  {
+    path: '/member',
+    meta: {
+      requiresAuth: true
+    },
+    component: LayoutAppPanelSub,
+    children: [
+      {
+        path: '',
+        redirect: '/members'
       },
       {
         path: 'groups',
-        name: 'PartyGroups',
+        name: 'MemberGroups',
         components: {
-          panel: PanelParty,
-          subpanel: SubPanelPartyGroups,
+          panel: PanelMember,
+          subpanel: SubPanelMemberGroups,
           navbar: NavbarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
@@ -92,7 +101,7 @@ export default [
             navbarSelected: 'planner'
           }),
           subbar: (route) => ({
-            subbarSelected: 'party'
+            subbarSelected: 'member'
           }),
           panel: (route) => ({
             panelSelected: 'groups'
@@ -101,10 +110,10 @@ export default [
       },
       {
         path: 'create',
-        name: 'PartyAdd',
+        name: 'MemberAdd',
         components: {
-          panel: PanelParty,
-          subpanel: SubPanelPartyModify,
+          panel: PanelMember,
+          subpanel: SubPanelMemberModify,
           navbar: NavbarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
@@ -114,10 +123,10 @@ export default [
             navbarSelected: 'planner'
           }),
           subbar: (route) => ({
-            subbarSelected: 'party'
+            subbarSelected: 'member'
           }),
           panel: (route) => ({
-            panelSelected: 'parties'
+            panelSelected: 'members'
           }),
           subpanel: (route) => ({
             modifyType: 'create'
@@ -125,11 +134,11 @@ export default [
         }
       },
       {
-        path: ':partyId',
-        name: 'PartyOverview',
+        path: ':memberId',
+        name: 'MemberOverview',
         components: {
-          panel: PanelParty,
-          subpanel: SubPanelPartyOverview,
+          panel: PanelMember,
+          subpanel: SubPanelMemberOverview,
           navbar: NavbarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
@@ -139,22 +148,22 @@ export default [
             navbarSelected: 'planner'
           }),
           subbar: (route) => ({
-            subbarSelected: 'party'
+            subbarSelected: 'member'
           }),
           panel: (route) => ({
-            panelSelected: 'parties'
+            panelSelected: 'members'
           }),
           subpanel: (route) => ({
-            partyId: route.params.partyId
+            memberId: route.params.memberId
           })
         }
       },
       {
-        path: ':partyId/edit',
-        name: 'PartyEdit',
+        path: ':memberId/edit',
+        name: 'MemberEdit',
         components: {
-          panel: PanelParty,
-          subpanel: SubPanelPartyModify,
+          panel: PanelMember,
+          subpanel: SubPanelMemberModify,
           navbar: NavbarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
@@ -164,14 +173,14 @@ export default [
             navbarSelected: 'planner'
           }),
           subbar: (route) => ({
-            subbarSelected: 'party'
+            subbarSelected: 'member'
           }),
           panel: (route) => ({
-            panelSelected: 'parties'
+            panelSelected: 'members'
           }),
           subpanel: (route) => ({
             modifyType: 'edit',
-            partyId: route.params.partyId
+            memberId: route.params.memberId
           })
         }
       }

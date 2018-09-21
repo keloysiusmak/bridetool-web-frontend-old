@@ -19,7 +19,7 @@
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">Name</label>
-          <p class="help">Easy to understand activity names help both you and your wedding party stay focused.</p>
+          <p class="help">Easy to understand activity names help both you and your wedding member stay focused.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -37,7 +37,7 @@
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">Description</label>
-          <p class="help">Descriptions help your wedding party know more about exactly what to do.</p>
+          <p class="help">Descriptions help your wedding member know more about exactly what to do.</p>
         </div>
         <div class="field-body">
           <div class="field">
@@ -78,7 +78,7 @@
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">Start Time</label>
-          <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding party of any changes.</p>
+          <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding member of any changes.</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
@@ -156,7 +156,7 @@
       <div class="field is-horizontal">
         <div class="field-label">
           <label class="label">End Time</label>
-          <p class="help">Similarly, we'll update your wedding party when each activity ends.</p>
+          <p class="help">Similarly, we'll update your wedding member when each activity ends.</p>
         </div>
         <div class="field-body">
           <div class="field has-addons has-addons-left">
@@ -233,22 +233,22 @@
       <div class="field is-horizontal">
 
         <div class="field-label">
-          <label class="label">Assigned Parties</label>
-          <p class="help">Here's a list of parties who are assigned to this activity. Assigned parties will have this activity show
+          <label class="label">Assigned Members</label>
+          <p class="help">Here's a list of members who are assigned to this activity. Assigned members will have this activity show
           up on their overview page, which you can easily share with them.</p>
         </div>
         <div class="field-body">
           <div class="field is-grouped is-grouped-multiline">
-            <div v-if="!activityAssignedParties.length">
-              <p class="help">There are currently no members of your party assigned to this activity.</p>
+            <div v-if="!activityAssignedMembers.length">
+              <p class="help">There are currently no members of your member assigned to this activity.</p>
             </div>
-            <div class="control" v-if="activityAssignedParties.length" v-for="party in activityAssignedParties">
+            <div class="control" v-if="activityAssignedMembers.length" v-for="member in activityAssignedMembers">
               <div class="tags has-addons">
                 <span class="tag is-small">
-                  {{ party.firstName + " " + party.lastName }}
+                  {{ member.firstName + " " + member.lastName }}
                 </span>
                 <label class="checkbox">
-                  <input type="checkbox" class="hidden" v-bind:value="party._id" v-bind:id="'party' + party._id" v-model="activityAssignedPartiesId">
+                  <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
                   <a class="tag is-small is-danger">delete</a>
                 </label>
               </div>
@@ -259,24 +259,24 @@
       <br/>
       <div class="field is-horizontal">
         <div class="field-label">
-          <label class="label">Available Parties</label>
-          <p class="help">Don't see some members of your wedding party? They might already have an activity assigned to them!</p>
+          <label class="label">Available Members</label>
+          <p class="help">Don't see some members of your wedding member? They might already have an activity assigned to them!</p>
         </div>
         <div class="field-body">
-          <div v-if="availablePartiesLoading">
+          <div v-if="availableMembersLoading">
             <a class="button is-loading is-medium is-text"></a>
           </div>
-          <div class="field is-grouped is-grouped-multiline" v-if="!availablePartiesLoading">
-            <div v-if="!activityAvailableParties.length">
-              <p class="help">There are currently no members of your party available to be assigned.</p>
+          <div class="field is-grouped is-grouped-multiline" v-if="!availableMembersLoading">
+            <div v-if="!activityAvailableMembers.length">
+              <p class="help">There are currently no members of your member available to be assigned.</p>
             </div>
-            <div class="control" v-if="activityAvailableParties.length" v-for="party in activityAvailableParties">
+            <div class="control" v-if="activityAvailableMembers.length" v-for="member in activityAvailableMembers">
               <div class="tags has-addons">
                 <span class="tag is-small">
-                  {{ party.firstName + " " + party.lastName }}
+                  {{ member.firstName + " " + member.lastName }}
                 </span>
                 <label class="checkbox">
-                  <input type="checkbox" class="hidden" v-bind:value="party._id" v-bind:id="'party' + party._id" v-model="activityAssignedPartiesId">
+                  <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
                   <a class="tag is-small is-success">
                     add
                   </a>
@@ -310,7 +310,7 @@ import { EventBus } from '../../../events/event-bus.js';
 
 const activityHandler = require('../../../handlers/activityHandler');
 const coupleHandler = require('../../../handlers/coupleHandler');
-const partyHandler = require('../../../handlers/partyHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 const tokenHandler = require('../../../handlers/tokenHandler');
 const moment = require('moment');
 
@@ -345,11 +345,11 @@ export default {
         minute: 0,
         ampm: 'am'
       },
-      activityAssignedParties: [],
-      activityAssignedPartiesId: [],
-      activityAvailableParties: [],
+      activityAssignedMembers: [],
+      activityAssignedMembersId: [],
+      activityAvailableMembers: [],
 
-      availablePartiesLoading: false,
+      availableMembersLoading: false,
       localErrors: {},
       localSuccess: '',
       activity: null,
@@ -429,7 +429,7 @@ export default {
           description: this.activityDescription,
           startTime: startTime.format('X'),
           endTime: endTime.format('X'),
-          assignedParties: this.activityAssignedPartiesId
+          assignedMembers: this.activityAssignedMembersId
         }
         const updateActivity = await activityHandler.updateActivity(this.tokens, this.activity._id, fields);
         this.activity = updateActivity.activity;
@@ -454,7 +454,7 @@ export default {
           description: this.activityDescription,
           startTime: startTime.format('X'),
           endTime: endTime.format('X'),
-          assignedParties: this.activityAssignedPartiesId
+          assignedMembers: this.activityAssignedMembersId
         }
         const addActivity = await activityHandler.addActivity(this.tokens, this.schedule._id, fields);
         this.activity = addActivity.activity;
@@ -516,24 +516,24 @@ export default {
         ampm: endTimeMoment.format('a')
       };
 
-      this.activityAssignedPartiesId = this.activity.assignedParties.map(party => {
-        return party._id;
+      this.activityAssignedMembersId = this.activity.assignedMembers.map(member => {
+        return member._id;
       });
-      this.activityAssignedParties = this.activity.assignedParties.filter(party => {
-        return !party.isDeleted;
+      this.activityAssignedMembers = this.activity.assignedMembers.filter(member => {
+        return !member.isDeleted;
       });
     },
-    getAvailableParties: async function() {
+    getAvailableMembers: async function() {
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
-        const getAvailableParties = await coupleHandler.getAvailableParties(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
-        this.activityAvailableParties = getAvailableParties.parties.filter(party => {
-          return !this.activityAssignedPartiesId.includes(party._id);
+        const getAvailableMembers = await coupleHandler.getAvailableMembers(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
+        this.activityAvailableMembers = getAvailableMembers.members.filter(member => {
+          return !this.activityAssignedMembersId.includes(member._id);
         });
-        this.availablePartiesLoading = false;
+        this.availableMembersLoading = false;
       } catch (e) {
-        this.availablePartiesLoading = false;
+        this.availableMembersLoading = false;
       }
     },
     resetErrors: function() {
@@ -562,36 +562,36 @@ export default {
   watch: {
     activityStartTime: {
       handler: function() {
-        this.availablePartiesLoading = true;
-        this.debouncedGetAvailableParties();
+        this.availableMembersLoading = true;
+        this.debouncedGetAvailableMembers();
       },
       deep: true
     },
     activityEndTime: {
       handler: function() {
-        this.availablePartiesLoading = true;
-        this.debouncedGetAvailableParties();
+        this.availableMembersLoading = true;
+        this.debouncedGetAvailableMembers();
       },
       deep: true
     },
-    activityAssignedPartiesId: function() {
-      const previouslyAssignedParties = this.activityAssignedParties.filter(party => {
-        return this.activityAssignedPartiesId.includes(party._id);
+    activityAssignedMembersId: function() {
+      const previouslyAssignedMembers = this.activityAssignedMembers.filter(member => {
+        return this.activityAssignedMembersId.includes(member._id);
       });
-      const newlyAssignedParties = this.activityAvailableParties.filter(party => {
-        return this.activityAssignedPartiesId.includes(party._id);
+      const newlyAssignedMembers = this.activityAvailableMembers.filter(member => {
+        return this.activityAssignedMembersId.includes(member._id);
       })
 
-      const previouslyUnassignedParties = this.activityAvailableParties.filter(party => {
-        return !this.activityAssignedPartiesId.includes(party._id);
+      const previouslyUnassignedMembers = this.activityAvailableMembers.filter(member => {
+        return !this.activityAssignedMembersId.includes(member._id);
       });
 
-      const newlyUnassignedParties = this.activityAssignedParties.filter(party => {
-        return !this.activityAssignedPartiesId.includes(party._id);
+      const newlyUnassignedMembers = this.activityAssignedMembers.filter(member => {
+        return !this.activityAssignedMembersId.includes(member._id);
       });
 
-      this.activityAssignedParties = previouslyAssignedParties.concat(newlyAssignedParties);
-      this.activityAvailableParties = previouslyUnassignedParties.concat(newlyUnassignedParties);
+      this.activityAssignedMembers = previouslyAssignedMembers.concat(newlyAssignedMembers);
+      this.activityAvailableMembers = previouslyUnassignedMembers.concat(newlyUnassignedMembers);
     },
     activity: function() {
       if (this.modifyType === 'edit') {
@@ -601,7 +601,7 @@ export default {
   },
   async created() {
     this.resetErrors();
-    this.debouncedGetAvailableParties = _.debounce(this.getAvailableParties, 1000);
+    this.debouncedGetAvailableMembers = _.debounce(this.getAvailableMembers, 1000);
     if (this.modifyType === 'edit') {
       this.loadActivity();
     } else {
