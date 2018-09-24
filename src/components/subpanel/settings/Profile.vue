@@ -38,7 +38,7 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link is-small" type="submit" value="Save" />
+              <input class="button is-primary is-rounded is-small" type="submit" value="Save" />
             </div>
           </div>
         </div>

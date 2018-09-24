@@ -12,8 +12,8 @@
           <div class="subtitle is-6">
             You can restore this member later.
           </div>
-          <a class="button is-danger" v-on:click="deleteMember(); deleteMemberModal = false">Delete</a>
-          <a class="button is-white" v-on:click="deleteMemberModal = false">Cancel</a>
+          <a class="button is-danger is-rounded" v-on:click="deleteMember(); deleteMemberModal = false">Delete</a>
+          <a class="button is-light is-rounded" v-on:click="deleteMemberModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
@@ -29,8 +29,8 @@
           <div class="subtitle is-6">
             All previously assigned activities to {{member.firstName + " " + member.lastName}} will be restored.
           </div>
-          <a class="button is-success" v-on:click="restoreMember(); restoreMemberModal = false">Restore</a>
-          <a class="button is-white" v-on:click="restoreMemberModal = false">Cancel</a>
+          <a class="button is-success is-rounded" v-on:click="restoreMember(); restoreMemberModal = false">Restore</a>
+          <a class="button is-light  is-rounded" v-on:click="restoreMemberModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close"></button>
@@ -47,7 +47,7 @@
         <a href="#" v-on:click="toggleHideDeletedMembers()" class="button is-outlined is-small is-rounded">
           {{ (hideDeletedMembers) ? 'Show' : 'Hide' }} Deleted Members
         </a>
-        <router-link :to="{name:'MemberAdd'}" class="button is-secondary is-small is-rounded">
+        <router-link :to="{name:'MemberAdd'}" class="button is-primary is-small is-rounded">
           + Add New Member
         </router-link>
       </div>
@@ -96,6 +96,11 @@
     </article>
 
     <article class="media has-text-grey-lighter" v-for="member in deletedMembers" v-if="!hideDeletedMembers">
+      <div class="media-left">
+        <div class="image is-64x64 profilePic disabled">
+          {{member.firstName[0] + member.lastName[0]}}
+        </div>
+      </div>
       <div class="media-content">
         <p class="is-size-4 has-text-weight-bold">{{member.firstName + " " + member.lastName}}</p>
         <p class="is-size-6">
@@ -107,7 +112,7 @@
         </p>
       </div>
       <div class="media-right">
-        <span class="tag is-danger is-size-6">Deleted</span>
+        <span class="tag is-danger is-rounded is-size-6">Deleted</span>
       </div>
     </article>
   </div>

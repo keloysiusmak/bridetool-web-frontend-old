@@ -1,19 +1,19 @@
 <template>
   <div>
-    <router-link :to="{ name: 'BudgetOverview' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
+    <router-link :to="{ name: 'BudgetOverview' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'overview' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>
       </span>&nbsp;
       Overview
     </router-link>
-    <router-link :to="{ name: 'BudgetRecords' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'records' }">
+    <router-link :to="{ name: 'BudgetRecords' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'records' }">
       <span class="icon is-small is-left">
         <i class="fas fa-stream"></i>
       </span>&nbsp;
       Records
     </router-link>
 
-    <router-link :to="{ name: 'BudgetManage' }" class="button is-light" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
+    <router-link :to="{ name: 'BudgetManage' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
       <span class="icon is-small is-left">
         <i class="fas fa-wrench"></i>
       </span>&nbsp;

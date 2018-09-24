@@ -4,7 +4,7 @@
       <div class="container">
         <div class="columns">
           <div class="column is-3">
-            <p class="title is-7 is-uppercase">
+            <p class="title is-6 is-uppercase">
               <i class="fas fa-dove"></i> &nbsp;
               ABOUT US
             </p>

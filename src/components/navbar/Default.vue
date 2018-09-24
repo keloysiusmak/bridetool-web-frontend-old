@@ -1,32 +1,34 @@
 <template>
   <div>
     <nav class="navbar mainbar is-transparent" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <router-link to="/" class="navbar-item">
-          <img src="../../assets/img/rocket.png" alt="Bulma: a modern CSS framework based on Flexbox" width="32" height="32">
-        </router-link>
-        <a role="button" class="navbar-burger" v-on:click="toggleMenu()" aria-label="menu" aria-expanded="false" data-target="menu">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-      <div class="navbar-menu" id="menu">
-        <div class="navbar-end" v-if="activeMember">
-          <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'planner' }">
-            Planner
+      <div class="container">
+        <div class="navbar-brand">
+          <router-link to="/" class="navbar-item logo">
+            Bridetool.
           </router-link>
-          <router-link to="/settings" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'settings' }">
-            Settings
-          </router-link>
-          <a v-on:click="logout()" class="navbar-item">
-            Log Out
+          <a role="button" class="navbar-burger" v-on:click="toggleMenu()" aria-label="menu" aria-expanded="false" data-target="menu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
           </a>
         </div>
-        <div class="navbar-end" v-if="!activeMember">
-          <router-link to="/login" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
-            Log In
-          </router-link>
+        <div class="navbar-menu" id="menu">
+          <div class="navbar-end" v-if="activeMember">
+            <router-link to="/schedule" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'planner' }">
+              Planner
+            </router-link>
+            <router-link to="/settings" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'settings' }">
+              Settings
+            </router-link>
+            <a v-on:click="logout()" class="navbar-item">
+              Log Out
+            </a>
+          </div>
+          <div class="navbar-end" v-if="!activeMember">
+            <router-link to="/login" class="navbar-item" v-bind:class="{ 'is-active': navbarSelected === 'weddingday' }">
+              Log In
+            </router-link>
+          </div>
         </div>
       </div>
     </nav>

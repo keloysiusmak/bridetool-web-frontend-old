@@ -8,8 +8,15 @@
     color: #fff
     border: 0
 
+.logo
+  font-size: 1.5rem
+  text-transform: none
+  font-weight: 600
+  color: $black !important
+
 html
   background-color: $white
+  font-size: 14px
 
 .profilePic
   background-color: $primary
@@ -19,6 +26,10 @@ html
   justify-content: center
   color: #fff
   font-size: 1.5rem
+
+.profilePic.disabled
+  background-color: $white-ter
+  color: $grey-lighter
 
 .login
   -webkit-box-align: center
@@ -33,16 +44,20 @@ html
 
 .mainbar
   text-transform: uppercase
-  font-weight: 700
-  font-size: 11.5px
-  letter-spacing: 0.5px
-  border-bottom: 1px solid $white-ter
+  font-weight: 400
+  font-size: 12px
+  letter-spacing: 0.75px
+  margin-bottom: 1rem
+  background-color: $white
   & .navbar-menu
     & .navbar-item
       color: $grey
       &.is-active,
       &:hover
         color: $primary
+
+.subbarPad
+  z-index: 0 !important
 
 @media (max-width: 1158px)
   .subbar
@@ -61,7 +76,7 @@ html
           display: inline-table
           margin: 0
           padding: 0.5rem 0.5rem
-          font-size: 0.8rem
+          font-size: 0.9rem
           line-height: 1.2rem
           border-bottom: 0
           &.is-active
@@ -93,7 +108,7 @@ html
       & .navbar-start
         & .navbar-item
           padding: 1.05rem 0.5rem
-          font-size: 0.8rem
+          font-size: 0.9rem
           line-height: 1.2rem
           border-bottom: 2px solid $white
           &.is-active

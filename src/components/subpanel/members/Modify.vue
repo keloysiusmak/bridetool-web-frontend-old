@@ -4,16 +4,16 @@
   </div>
   <div v-else-if="member || modifyType !== 'edit'">
     <br/>
-    <span class="title is-5" v-if="modifyType === 'edit'">Edit Member</span>
-    <span class="title is-5" v-if="modifyType === 'create'">Create Member</span>
+    <span class="title is-4" v-if="modifyType === 'edit'">Edit Member</span>
+    <span class="title is-4" v-if="modifyType === 'create'">Create Member</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
@@ -76,8 +76,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
-              <input class="button is-link is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
+              <input class="button is-rounded is-primary is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
+              <input class="button is-rounded is-primary is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
             </div>
           </div>
         </div>

@@ -8,28 +8,28 @@
       <div class="modal-background"></div>
       <div class="modal-content">
         <div class="box">
-          <div class="title is-5">Are you sure you want to delete '{{record.name}}'?</div>
-          <div class="subtitle is-7">
+          <div class="title is-4">Are you sure you want to delete '{{record.name}}'?</div>
+          <div class="subtitle is-6">
             This action is irreversible and cannot be undone.
           </div>
-          <a class="button is-danger is-small" v-on:click="deleteRecord(); deleteRecordModal = false">Delete</a>
-          <a class="button is-white is-small" v-on:click="deleteRecordModal = false">Cancel</a>
+          <a class="button is-primary is-rounded is-small" v-on:click="deleteRecord(); deleteRecordModal = false">Delete</a>
+          <a class="button is-light is-rounded is-small" v-on:click="deleteRecordModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteRecordModal = false"></button>
     </div>
     <!-- END deleteActivityModal -->
     <br/>
-    <span class="title is-5" v-if="modifyType === 'edit'">Edit Record</span>
-    <span class="title is-5" v-if="modifyType === 'create'">Create Record</span>
+    <span class="title is-4" v-if="modifyType === 'edit'">Edit Record</span>
+    <span class="title is-4" v-if="modifyType === 'create'">Create Record</span>
     <hr/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-7">{{localErrors.componentError}}</span>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
     </div>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-7">{{localSuccess}}</span>
+      <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
       <div class="field is-horizontal">
@@ -126,8 +126,8 @@
         <div class="field-body">
           <div class="field">
             <div class="control">
-              <input class="button is-link is-small is-rounded" type="submit" value="Save" />
-              <input class="button is-danger is-small is-rounded" v-on:click="deleteRecordModal = true" value="Delete Record" v-if="modifyType === 'edit'" />
+              <input class="button is-primary is-small is-rounded" type="submit" value="Save" />
+              <input class="button is-light is-small is-rounded" v-on:click="deleteRecordModal = true" type="button" value="Delete Record" v-if="modifyType === 'edit'" />
             </div>
           </div>
         </div>

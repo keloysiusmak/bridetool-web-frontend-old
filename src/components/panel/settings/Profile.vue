@@ -1,12 +1,12 @@
 <template>
   <div id="panel_profile">
-    <router-link :to="{ path: '/settings/profile/email' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'email' }">
+    <router-link :to="{ path: '/settings/profile/email' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'email' }">
       <span class="icon is-small is-left">
         <i class="fas fa-envelope"></i>
       </span>&nbsp;
       Email
     </router-link>
-    <router-link :to="{ path: '/settings/profile/switchuser' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'switchuser' }">
+    <router-link :to="{ path: '/settings/profile/switchuser' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'switchuser' }">
       <span class="icon is-small is-left">
         <i class="fas fa-user"></i>
       </span>&nbsp;

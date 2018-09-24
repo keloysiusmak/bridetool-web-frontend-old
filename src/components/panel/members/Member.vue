@@ -1,12 +1,12 @@
 <template>
   <div>
-    <router-link :to="{ name: 'MemberTeam' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'members' }">
+    <router-link :to="{ name: 'MemberTeam' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'members' }">
       <span class="icon is-small is-left">
         <i class="fas fa-clipboard-list"></i>
       </span>&nbsp;
       Members
     </router-link>
-    <router-link :to="{ name: 'MemberGroups' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
+    <router-link :to="{ name: 'MemberGroups' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'groups' }">
       <span class="icon is-small is-left">
         <i class="fas fa-stream"></i>
       </span>&nbsp;

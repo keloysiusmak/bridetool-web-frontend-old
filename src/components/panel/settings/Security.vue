@@ -1,6 +1,6 @@
 <template>
   <div id="panel_security">
-    <router-link :to="{ path: '/settings/security/password' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'password' }">
+    <router-link :to="{ path: '/settings/security/password' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'password' }">
       <span class="icon is-small is-left">
         <i class="fas fa-lock"></i>
       </span>&nbsp;

@@ -1,16 +1,21 @@
 <template>
   <div id="nav_default">
-    <nav class="navbar subbar is-white" role="navigation" aria-label="main navigation">
-      <div class="navbar-menu container">
-        <div class="navbar-start">
-          <router-link to="/settings/profile" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'profile' }">
-            Profile
-          </router-link>
-          <router-link to="/settings/security" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'security' }">
-            Security
-          </router-link>
+    <nav class="navbar subbar is-white" id="subbar" role="navigation" aria-label="main navigation">
+      <div class="container">
+        <div class="navbar-menu">
+          <div class="navbar-start">
+            <router-link to="/settings/profile" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'profile' }">
+              Profile
+            </router-link>
+            <router-link to="/settings/security" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'security' }">
+              Security
+            </router-link>
+          </div>
         </div>
       </div>
+    </nav>
+    <nav class="navbar subbar subbarPad is-hidden" id="subbarPad" role="navigation" aria-label="main navigation">
+      &nbsp;
     </nav>
   </div>
 </template>
@@ -30,7 +35,22 @@ export default {
       'setState'
     ])
   },
-  created() {
+  mounted() {
+    window.onscroll = function() {myFunction()};
+
+    // Get the offset position of the navbar
+    const sticky = $('#subbar').offset().top;
+
+    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+    function myFunction() {
+      if (window.pageYOffset >= sticky) {
+        $("#subbarPad").removeClass("is-hidden");
+        $('#subbar').addClass("is-fixed-top");
+      } else {
+        $('#subbar').removeClass("is-fixed-top");
+        $("#subbarPad").addClass("is-hidden");
+      }
+    }
   }
 }
 </script>

@@ -5,7 +5,7 @@
   <div v-else-if="budget">
     <br/>
     <div class="has-text-right">
-      <router-link :to="{name:'RecordAdd'}" class="button is-secondary is-small is-rounded">
+      <router-link :to="{name:'RecordAdd'}" class="button is-primary is-small is-rounded">
         + Add New Record
       </router-link>
     </div>
@@ -17,10 +17,10 @@
     </template>
     <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
       <thead>
-        <tr class="is-uppercase is-size-6">
-          <th>Name</th>
-          <th>Value</th>
-          <th class="has-text-right">Date</th>
+        <tr class="is-uppercase is-size-7">
+          <th class="has-text-grey-light" >Name</th>
+          <th class="has-text-grey-light" >Value</th>
+          <th class="has-text-grey-light has-text-right">Date</th>
         </tr>
       </thead>
       <tbody>

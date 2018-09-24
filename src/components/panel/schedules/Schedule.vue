@@ -1,20 +1,20 @@
 <template>
   <div id="panel_schedule">
-    <router-link :to="{ name: 'ScheduleTimeline' }" class="button is-light"  v-bind:class="{ 'is-primary': panelSelected === 'timeline' }">
+    <router-link :to="{ name: 'ScheduleTimeline' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'timeline' }">
       <span class="icon is-small is-left">
         <i class="fas fa-calendar-alt"></i>
       </span>&nbsp;
       Timeline
     </router-link>
 
-    <router-link :to="{ name: 'ScheduleActivities' }" class="button is-light" v-bind:class="{ 'is-primary': panelSelected === 'activities' }">
+    <router-link :to="{ name: 'ScheduleActivities' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'activities' }">
       <span class="icon is-small is-left">
         <i class="fas fa-th-list"></i>
       </span>&nbsp;
       Activities
     </router-link>
 
-    <router-link :to="{ name: 'ScheduleManage' }" class="button is-light" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
+    <router-link :to="{ name: 'ScheduleManage' }" class="button is-light is-small" v-bind:class="{ 'is-primary': panelSelected === 'manage' }">
       <span class="icon is-small is-left">
         <i class="fas fa-wrench"></i>
       </span>&nbsp;

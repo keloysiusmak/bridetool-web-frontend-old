@@ -3,54 +3,17 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="schedule">
-    <!-- START deleteActivityModal -->
-    <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box">
-          <div class="title is-4">Are you sure you want to delete '{{activity.name}}'?</div>
-          <div class="subtitle is-6">
-            You can restore this activity later, but all members assigned to this activity will be unassigned.
-          </div>
-          <a class="button is-danger" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
-          <a class="button is-white" v-on:click="deleteActivityModal = false">Cancel</a>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
-    </div>
-    <!-- END deleteActivityModal -->
-
-    <!-- START deleteActivityModal -->
-    <div class="modal" v-bind:class="{ 'is-active': restoreActivityModal }" v-if="activity">
-      <div class="modal-background"></div>
-      <div class="modal-content">
-        <div class="box">
-          <div class="title is-4">Are you sure you want to restore '{{activity.name}}'?</div>
-          <div class="subtitle is-6">
-            Previously assigned members cannot be restored.
-          </div>
-          <a class="button is-success" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
-          <a class="button is-white" v-on:click="restoreActivityModal = false">Cancel</a>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
-    </div>
-    <!-- END deleteActivityModal -->
-
     <br/>
     <div v-if="localSuccess" class="notification is-success">
       <button class="delete" v-on:click="localSuccess = null"></button>
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <div class="columns is-multiline">
-      <div class="column has-text-left">
-        <p class="title is-4">{{ (hideDeletedActivities) ? 'Active' : 'Deleted' }} Activites</p>
-      </div>
-      <div class="column has-text-right-tablet" style="line-height:2.4rem">
-        <a href="#" v-on:click="toggleHideDeletedActivities()" class="button is-outlined is-small is-rounded">
+      <div class="column has-text-right-tablet">
+        <a href="#" v-on:click="toggleHideDeletedActivities()" class="button is-outlined is-small is-rounded is-hidden-mobile">
           {{ (hideDeletedActivities) ? 'Show' : 'Hide' }} Deleted Activities
         </a>
-        <router-link :to="{name:'ActivityAdd'}" class="button is-secondary is-small is-rounded">
+        <router-link :to="{name:'ActivityAdd'}" class="button is-primary is-small is-rounded">
           + Add New Activity
         </router-link>
       </div>
@@ -62,30 +25,22 @@
       </p>
     </template>
     <template v-for="(activities, date) in activeActivities" v-if="hideDeletedActivities && activeActivitiesCount">
-      <p class="title is-6">{{date}}</p>
-      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
-      <template v-for="activity in activities">
-        <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
-          <div class="column is-3 is-12-mobile">
-            <p class="is-size-6" v-html="formatTimes(activity)"></p>
-          </div>
-          <div class="column is-7 is-12-mobile">
-            <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
-            <p class="is-size-6">{{activity.description}}</p>
-            <br/>
-            <p class="is-size-6 is-hidden-tablet" v-if="!isCompletedActivity(activity)">
-              <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link> &#183; <a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a>
-            </p>
-          </div>
-          <div class="column is-2 is-hidden-mobile is-size-6" v-if="!isCompletedActivity(activity)">
-            <ul>
-              <li><router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link></li>
-              <li><a v-on:click="confirmDeleteActivity(activity._id);">Delete Activity</a></li>
-            </ul>
-          </div>
-        </article>
-      </template>
-      <br/>
+      <table class="table is-fullwidth is-small">
+        <thead>
+          <tr class="is-uppercase is-size-7">
+            <th class="has-text-grey-light" width="40%">{{date}}</th>
+            <th class="has-text-grey-light" width="60%">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" tag="tr" v-for="activity in activities" :key="activity._id">
+            <td>
+              <p class="is-size-6" v-html="formatTimes(activity)"></p>
+            </td>
+            <td class="is-size-6">{{activity.name}}</td>
+          </router-link>
+        </tbody>
+      </table>
     </template>
 
     <template v-if="!deletedActivitiesCount && !hideDeletedActivities">
@@ -94,26 +49,22 @@
       </p>
     </template>
     <template v-for="(activities, date) in deletedActivities" v-if="!hideDeletedActivities && deletedActivitiesCount">
-      <p class="title is-6">{{date}}</p>
-      <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
-      <template v-for="activity in activities">
-        <article class="media" v-bind:class="completedActivity(activity.endTime)">
-          <div class="media-left">
-            <p class="is-size-7" v-html="formatTimes(activity)"></p>
-          </div>
-          <div class="media-content">
-            <p class="is-size-6 has-text-weight-bold">{{activity.name}}</p>
-            <p class="is-size-7">{{activity.description}}</p>
-          </div>
-          <div class="media-right is-size-7" v-if="!isCompletedActivity(activity)">
-            <ul>
-              <li><router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }">Edit Activity</router-link></li>
-              <li><a v-on:click="confirmRestoreActivity(activity._id);">Restore Activity</a></li>
-            </ul>
-          </div>
-        </article>
-      </template>
-      <br/>
+      <table class="table is-fullwidth is-small">
+        <thead>
+          <tr class="is-uppercase is-size-7">
+            <th class="has-text-grey-light" width="40%">{{date}}</th>
+            <th class="has-text-grey-light" width="60%">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+          <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" tag="tr" v-for="activity in activities" :key="activity._id">
+            <td>
+              <p class="is-size-7" v-html="formatTimes(activity)"></p>
+            </td>
+            <td class="is-size-7">{{activity.name}}</td>
+          </router-link>
+        </tbody>
+      </table>
     </template>
   </div>
 </template>
@@ -131,8 +82,6 @@ export default {
   props: ['scheduleId'],
   data() {
     return {
-      deleteActivityModal: false,
-      restoreActivityModal: false,
       activity: null,
       localSuccess: null,
       hideDeletedActivities: true,
@@ -159,7 +108,7 @@ export default {
       }).sort((activity1, activity2) => {
         return activity1.startTime - activity2.startTime
       }).forEach(activity => {
-        const formattedTime = moment.unix(activity.startTime).format('D MMMM Y');
+        const formattedTime = moment.unix(activity.startTime).format('ddd, D MMM Y');
         if (scheduleDates[formattedTime]) {
           scheduleDates[formattedTime].push(activity);
         } else {
@@ -176,7 +125,7 @@ export default {
       }).sort((activity1, activity2) => {
         return activity1.startTime - activity2.startTime
       }).forEach(activity => {
-        const formattedTime = moment.unix(activity.startTime).format('D MMMM Y');
+        const formattedTime = moment.unix(activity.startTime).format('D MMM Y');
         if (scheduleDates[formattedTime]) {
           scheduleDates[formattedTime].push(activity);
         } else {
@@ -228,52 +177,6 @@ export default {
     isCompletedActivity: function(activity) {
       return activity.endTime < Date.now() / 1000;
     },
-    deleteActivity: async function(activityId) {
-      this.deleteOrRestoreLoading = true;
-      this.deleteActivityModal = false;
-      try {
-        const deleteActivity = await activityHandler.deleteActivity(this.tokens, this.activity._id);
-        const schedule = this.schedule;
-        schedule.scheduleActivities = this.schedule.scheduleActivities.map(activity => {
-          if (activity._id === this.activity._id) {
-            activity.isDeleted = true;
-            return activity;
-          } else {
-            return activity;
-          }
-        });
-        this.setState({
-          schedule: schedule
-        })
-        this.localSuccess = 'Successfully deleted activity.';
-      } catch (e) {
-        //
-      }
-      this.deleteOrRestoreLoading = false;
-    },
-    restoreActivity: async function(activityId) {
-      this.deleteOrRestoreLoading = true;
-      this.restoreActivityModal = false;
-      try {
-        const restoreActivity = await activityHandler.restoreActivity(this.tokens, this.activity._id);
-        const schedule = this.schedule;
-        schedule.scheduleActivities = this.schedule.scheduleActivities.map(activity => {
-          if (activity._id === this.activity._id) {
-            activity.isDeleted = false;
-            return activity;
-          } else {
-            return activity;
-          }
-        });
-        this.setState({
-          schedule: schedule
-        })
-        this.localSuccess = 'Successfully restored activity.';
-      } catch (e) {
-        //
-      }
-      this.deleteOrRestoreLoading = false;
-    },
     completedActivity: function(activityEndTime) {
       const activityEnded = activityEndTime < Date.now() / 1000;
       return {
@@ -296,4 +199,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  tr {
+    cursor: pointer
+  }
 </style>
