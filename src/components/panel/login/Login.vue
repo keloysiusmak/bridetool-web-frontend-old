@@ -2,10 +2,9 @@
   <div class="loginPanel">
     <section class="hero is-fullheight">
       <div class="hero-body">
-        <div class="container is-login">
+        <div class="container box">
           <div class="is-vcentered has-text-centered">
-            <span class="subtitle is-3 has-text-white has-text-weight-light">welcome to</span>
-            <span class="subtitle is-3 has-text-white has-text-weight-bold">&nbsp;bridetool</span>
+            <div class="logo">Bt<span class="has-text-danger">.</span></div>
             <div class="tile is-parent" v-if="showResetPassword">
               <article class="tile is-child box has-text-left">
                 <p class="is-italic is-size-7 is-underline">
@@ -192,9 +191,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .loginPanel {
-    background: #076585;
-    background: -webkit-linear-gradient(to bottom, #076585, #fff);
-    background: linear-gradient(to bottom, #076585, #fff);
+    background: #ddd6f3; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, #ddd6f3, #faaca8); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #ddd6f3, #faaca8);
     /*
     background: #DAE2F8;
     background: -webkit-linear-gradient(to bottom, #D6A4A4, #DAE2F8);
@@ -204,9 +203,15 @@ export default {
     text-transform: uppercase;
     font-size: 0.75rem;
   }
-  .is-login {
+  .box {
     max-width: 500px;
     width:500px;
+    opacity: 0.9
+  }
+  .logo {
+    font-size: 4rem;
+    font-weight: 600;
+    color: #000 !important;
   }
   .hero-body{
     padding: 3rem 0.5rem;

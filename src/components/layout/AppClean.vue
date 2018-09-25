@@ -1,7 +1,6 @@
 <template>
   <div id="layout_app_clean">
     <router-view name="panel"/>
-    <router-view name="footer"/>
   </div>
 </template>
 
@@ -10,7 +9,6 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../config/vuex-config';
 
 export default {
-  name: 'Layout-App-Clean',
   computed: {
     ...mapGetters(mappedGetters),
     ...mapState(mappedStates)

@@ -1,22 +1,19 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 import LayoutAppPanelOnly from '@/components/layout/AppPanelOnly';
 
 //Panel
-import PanelMember from '@/components/panel/members/Member';
-import PanelMemberOverview from '@/components/panel/members/Overview';
-
-//SubPanel
-import SubPanelMemberOverview from '@/components/subpanel/members/Overview';
-import SubPanelMemberTeam from '@/components/subpanel/members/Team';
-import SubPanelMemberGroups from '@/components/subpanel/members/Groups';
-import SubPanelMemberModify from '@/components/subpanel/members/Modify';
+import PanelMemberOverview from '@/components/panel/member/Overview';
+import PanelMemberSummary from '@/components/panel/member/Summary';
+import PanelMemberTeam from '@/components/panel/member/Team';
+import PanelMemberGroups from '@/components/panel/member/Groups';
+import PanelMemberModify from '@/components/panel/member/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -32,8 +29,8 @@ export default [
           requiresAuth: false
         },
         components: {
-          navbar: NavbarDefault,
-          panel: PanelMemberOverview,
+          sidebar: SidebarDefault,
+          panel: PanelMemberSummary,
           footer: FooterDefault
         },
         props: {
@@ -49,24 +46,21 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
-        name: 'MemberTeam',
         components: {
-          panel: PanelMember,
-          subpanel: SubPanelMemberTeam,
-          navbar: NavbarDefault,
+          panel: PanelMemberTeam,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'member'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'member',
+            deepbarSelected: 'members'
           }),
           panel: (route) => ({
             panelSelected: 'members'
@@ -80,7 +74,7 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
@@ -88,23 +82,17 @@ export default [
       },
       {
         path: 'groups',
-        name: 'MemberGroups',
         components: {
-          panel: PanelMember,
-          subpanel: SubPanelMemberGroups,
-          navbar: NavbarDefault,
+          panel: PanelMemberGroups,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'member'
-          }),
-          panel: (route) => ({
-            panelSelected: 'groups'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'member',
+            deepbarSelected: 'members'
           })
         }
       },
@@ -112,23 +100,18 @@ export default [
         path: 'create',
         name: 'MemberAdd',
         components: {
-          panel: PanelMember,
-          subpanel: SubPanelMemberModify,
-          navbar: NavbarDefault,
+          panel: PanelMemberModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'member'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'member',
+            deepbarSelected: 'members'
           }),
           panel: (route) => ({
-            panelSelected: 'members'
-          }),
-          subpanel: (route) => ({
             modifyType: 'create'
           })
         }
@@ -137,23 +120,18 @@ export default [
         path: ':memberId',
         name: 'MemberOverview',
         components: {
-          panel: PanelMember,
-          subpanel: SubPanelMemberOverview,
-          navbar: NavbarDefault,
+          panel: PanelMemberOverview,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'member'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'member',
+            deepbarSelected: 'members'
           }),
           panel: (route) => ({
-            panelSelected: 'members'
-          }),
-          subpanel: (route) => ({
             memberId: route.params.memberId
           })
         }
@@ -162,23 +140,18 @@ export default [
         path: ':memberId/edit',
         name: 'MemberEdit',
         components: {
-          panel: PanelMember,
-          subpanel: SubPanelMemberModify,
-          navbar: NavbarDefault,
+          panel: PanelMemberModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props:{
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'member'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'member',
+            deepbarSelected: 'members'
           }),
           panel: (route) => ({
-            panelSelected: 'members'
-          }),
-          subpanel: (route) => ({
             modifyType: 'edit',
             memberId: route.params.memberId
           })

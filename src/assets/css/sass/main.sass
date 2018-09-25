@@ -8,15 +8,9 @@
     color: #fff
     border: 0
 
-.logo
-  font-size: 1.5rem
-  text-transform: none
-  font-weight: 600
-  color: $black !important
-
 html
-  background-color: $white
-  font-size: 14px
+  background-color: $white-ter
+  font-size: 16px
 
 .profilePic
   background-color: $primary
@@ -26,6 +20,7 @@ html
   justify-content: center
   color: #fff
   font-size: 1.5rem
+
 
 .profilePic.disabled
   background-color: $white-ter
@@ -40,14 +35,46 @@ html
   display: none
 
 .sidebar
-  background-color: $dark
+  background-color: $sidebar-grey
+  padding: 5rem 2.5rem
+  height: 100vh
+  position: relative
+  & .logo
+    font-size: 2rem
+    font-weight: 600
+    margin-bottom: 3rem
+    color: $black !important
+  & a
+    display: block
+    line-height: 2rem
+    font-size: 1rem
+    color: $grey-dark
+  & a.is-active
+    color: $primary
+    font-weight: 600
+  & .sub
+    margin-left: 1rem
+    font-weight: normal !important
+    font-size: 0.9rem
+
+.rightbar
+  & .link
+    display: block
+    line-height: 2rem
+    font-size: 0.9rem
+    color: $grey-dark
+    &.toggle
+      color: $grey
+  & .button
+    width: 100%
+    position: relative
+    margin-bottom: 1rem
 
 .mainbar
   text-transform: uppercase
   font-weight: 400
-  font-size: 12px
+  font-size: 0.8rem
   letter-spacing: 0.75px
-  margin-bottom: 1rem
   background-color: $white
   & .navbar-menu
     & .navbar-item
@@ -60,58 +87,70 @@ html
   z-index: 0 !important
 
 @media (max-width: 1158px)
+  .subbar.is-fixed-top
+    & .navbar-menu
+
   .subbar
     background-color: $white !important
     min-height: 0.8rem !important
     height: 2.3rem
-    border-bottom: 1px solid $white-ter
     & .navbar-menu
       box-shadow: none
       margin: 0
       padding: 0
-      height: calc(2.3rem - 2px)
       min-height: 1.5rem
+      position: relative
       & .navbar-start
         & .navbar-item
           display: inline-table
           margin: 0
-          padding: 0.5rem 0.5rem
+          padding: 0.5rem 0rem
+          margin: 0.5rem 0.75rem
           font-size: 0.9rem
           line-height: 1.2rem
-          border-bottom: 0
           &.is-active
             color: $grey-darker
             background-color: $white !important
-            border-bottom: 2px solid $primary
+            border-bottom: 2px solid $primary !important
             font-weight: bold
+            z-index: 100
+            position: relative
           &:hover
             color: $grey-darker
             background-color: $white !important
             border-bottom: 2px solid $primary
 @media (min-width: 1158px)
+
+  .subbar
+    & .navbar-menu
+      & .navbar-start
+        & .navbar-item
+          &:first-of-type
+            margin-left: 0
   .subbar
     background-color: $white !important
     min-height: 0.8rem !important
-    height: 2.3rem
-    border-bottom: 1px solid $white-ter
+    border-bottom: 2px solid $white-ter
     & .navbar-brand
-      height: 2.3rem
       min-height: 1.5rem
       & .navbar-item
         padding: 1.05rem 0.5rem
         font-size: 0.8rem
         line-height: 1.2rem
-        border-bottom: 2px solid #fff
+        border-bottom: 2px solid $white-ter
     & .navbar-menu
-      height: calc(2.3rem - 2px)
+      height: 2.3rem
       min-height: 1.5rem
       & .navbar-start
         & .navbar-item
-          padding: 1.05rem 0.5rem
+          padding: 1.05rem 0rem
+          margin: 0.5rem 0.5rem
           font-size: 0.9rem
           line-height: 1.2rem
-          border-bottom: 2px solid $white
+          border-bottom: 2px solid $white-ter
           &.is-active
+            top: 0
+            position: relative
             background-color: $white !important
             border-bottom: 2px solid $primary
             font-weight: bold
@@ -128,4 +167,12 @@ html
     color: $white
 
 .footer
+  background-color: $white
   padding: 3rem 1.5rem
+
+.timeline-item
+  &:first-of-type
+    .timeline-content
+      padding-top: 0
+    .timeline-marker
+      top: 0

@@ -2,7 +2,7 @@
   <div id="nav_default">
     <nav class="navbar subbar is-white" id="subbar" role="navigation" aria-label="main navigation">
       <div class="container">
-        <div class="navbar-menu">
+        <div class="navbar-menu is-active">
           <div class="navbar-start">
             <router-link to="/settings/profile" class="navbar-item" v-bind:class="{ 'is-active': subbarSelected === 'profile' }">
               Profile
@@ -36,21 +36,6 @@ export default {
     ])
   },
   mounted() {
-    window.onscroll = function() {myFunction()};
-
-    // Get the offset position of the navbar
-    const sticky = $('#subbar').offset().top;
-
-    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-    function myFunction() {
-      if (window.pageYOffset >= sticky) {
-        $("#subbarPad").removeClass("is-hidden");
-        $('#subbar').addClass("is-fixed-top");
-      } else {
-        $('#subbar').removeClass("is-fixed-top");
-        $("#subbarPad").addClass("is-hidden");
-      }
-    }
   }
 }
 </script>

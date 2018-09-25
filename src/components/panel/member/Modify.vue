@@ -3,10 +3,13 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="member || modifyType !== 'edit'">
-    <br/>
-    <span class="title is-4" v-if="modifyType === 'edit'">Edit Member</span>
-    <span class="title is-4" v-if="modifyType === 'create'">Create Member</span>
-    <hr/>
+
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">{{(modifyType === 'edit') ? 'Edit' : 'Create'}} Member</span><br/>
+        <span class="title is-4">{{(modifyType === 'edit') ? memberFirstName + " " + memberLastName : schedule.name}}</span>
+      </div>
+    </div>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       <span class="is-size-6">{{localErrors.componentError}}</span>
@@ -15,74 +18,76 @@
       <button class="delete" v-on:click="localSuccess = null"></button>
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
-    <form v-on:submit.prevent="checkForm();">
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">First Name</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" placeholder="First Name" v-model="memberFirstName"  v-bind:class="{'is-danger': localErrors.memberFirstName}"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-              <p class="help is-danger" v-if="localErrors.memberFirstName">{{localErrors.memberFirstName}}</p>
+    <div class="box">
+      <form v-on:submit.prevent="checkForm();">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">First Name</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" placeholder="First Name" v-model="memberFirstName"  v-bind:class="{'is-danger': localErrors.memberFirstName}"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <p class="help is-danger" v-if="localErrors.memberFirstName">{{localErrors.memberFirstName}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Last Name</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" placeholder="Last Name" v-model="memberLastName"  v-bind:class="{'is-danger': localErrors.memberLastName}"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-              <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Last Name</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" placeholder="Last Name" v-model="memberLastName"  v-bind:class="{'is-danger': localErrors.memberLastName}"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Gender</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <label class="radio">
-                <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="male" v-model="memberGender">
-                <label for="memberGenderMale" class="is-size-7">Male</label>
-              </label>
-              <label class="radio">
-                <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="female" v-model="memberGender">
-                <label for="memberGenderFemale" class="is-size-7">Female</label>
-              </label>
-              <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Gender</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <label class="radio">
+                  <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="male" v-model="memberGender">
+                  <label for="memberGenderMale" class="is-size-7">Male</label>
+                </label>
+                <label class="radio">
+                  <input type="radio" class="is-checkradio" id="memberGenderMale" name="memberGender" value="female" v-model="memberGender">
+                  <label for="memberGenderFemale" class="is-size-7">Female</label>
+                </label>
+                <p class="help is-danger" v-if="localErrors.memberLastName">{{localErrors.memberLastName}}</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr/>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="button is-rounded is-primary is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
-              <input class="button is-rounded is-primary is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
+                <input class="button is-primary is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </template>
 

@@ -34,21 +34,6 @@ export default {
   methods: {
   },
   mounted() {
-    window.onscroll = function() {myFunction()};
-
-    // Get the offset position of the navbar
-    const sticky = $('#subbar').offset().top;
-
-    // Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
-    function myFunction() {
-      if (window.pageYOffset >= sticky) {
-        $("#subbarPad").removeClass("is-hidden");
-        $('#subbar').addClass("is-fixed-top");
-      } else {
-        $('#subbar').removeClass("is-fixed-top");
-        $("#subbarPad").addClass("is-hidden");
-      }
-    }
   }
 }
 </script>

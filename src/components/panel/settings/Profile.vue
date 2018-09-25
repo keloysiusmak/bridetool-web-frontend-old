@@ -1,17 +1,54 @@
 <template>
-  <div id="panel_profile">
-    <router-link :to="{ path: '/settings/profile/email' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'email' }">
-      <span class="icon is-small is-left">
-        <i class="fas fa-envelope"></i>
-      </span>&nbsp;
-      Email
-    </router-link>
-    <router-link :to="{ path: '/settings/profile/switchuser' }" class="button is-light is-small"  v-bind:class="{ 'is-primary': panelSelected === 'switchuser' }">
-      <span class="icon is-small is-left">
-        <i class="fas fa-user"></i>
-      </span>&nbsp;
-      Switch User
-    </router-link>
+  <div v-if="!account || modifyLoading" class="has-text-centered">
+    <a class="button is-loading is-medium is-text"></a>
+  </div>
+  <div v-else-if="account">
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">Email</span><br/>
+        <span class="title is-4">{{ activeMember.firstName + " " + activeMember.lastName }}</span>
+      </div>
+    </div>
+    <div v-if="localErrors.componentError" class="notification is-danger">
+      <button class="delete" v-on:click="localErrors.componentError = null"></button>
+      <span class="is-size-6">{{localErrors.componentError}}</span>
+    </div>
+    <div v-if="localSuccess" class="notification is-success">
+      <button class="delete" v-on:click="localSuccess = null"></button>
+      <span class="is-size-6">{{localSuccess}}</span>
+    </div>
+    <form v-on:submit.prevent="checkForm();">
+      <div class="box">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Email</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" placeholder="Email" v-model="accountEmail"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+              </div>
+              <p class="help is-danger" v-if="localErrors.email">{{localErrors.email}}</p>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label is-normal">
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-rounded is-small" type="submit" value="Save" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -19,29 +56,74 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const scheduleHandler = require('../../../handlers/scheduleHandler');
+const accountHandler = require('../../../handlers/accountHandler');
 
 export default {
-  name: 'Panel-Schedule',
-  props: ['panelSelected'],
+  name: 'Main-Settings-Email',
   computed: {
     ...mapGetters(mappedGetters),
-    ...mapState(mappedStates),
-    activeActivities: function() {
-      return this.schedule.scheduleActivities.filter(activity => {
-        return !activity.isDeleted;
-      });
-    },
-    deletedActivities: function() {
-      return this.schedule.scheduleActivities.filter(activity => {
-        return activity.isDeleted;
-      });
+    ...mapState(mappedStates)
+  },
+  data() {
+    return {
+      localErrors: {},
+      localSuccess: '',
+      modifyLoading: false
     }
+  },
+  created() {
+    this.resetErrors();
+    this.accountEmail = this.account.email;
   },
   methods: {
     ...mapMutations([
       'setState'
-    ])
+    ]),
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
+    },
+    checkForm: async function() {
+      this.resetErrors();
+      let hasErrors = false;
+
+      if (!this.accountEmail) {
+        this.localErrors.email = 'You need to fill in an email address.';
+        hasErrors = true;
+      } else {
+        if (!this.validEmail(this.accountEmail)) {
+          this.localErrors.email = 'Your email address is invalid.';
+          hasErrors = true;
+        }
+      }
+
+      if (!hasErrors) {
+        this.updateAccount();
+      }
+    },
+    updateAccount: async function() {
+      this.modifyLoading = true;
+      try {
+        const fields = {
+          email: this.accountEmail
+        }
+        const updateAccount = await accountHandler.updateAccount(this.tokens, this.account._id, fields);
+        this.setState({
+          account: updateAccount.account
+        });
+        this.localSuccess = 'Successfully updated profile.';
+      } catch (e) {
+        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
+      }
+      this.modifyLoading = false;
+    },
+    resetErrors: function() {
+      this.localSuccess = null
+      this.localErrors = {
+        componentError: null,
+        email: null
+      }
+    },
   }
 }
 </script>

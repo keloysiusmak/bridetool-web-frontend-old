@@ -1,17 +1,14 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
-import PanelSchedule from '@/components/panel/schedules/Schedule';
-
-//SubPanel
-import SubPanelActivitiesModify from '@/components/subpanel/activities/Modify';
+import PanelActivitiesModify from '@/components/panel/activity/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -22,29 +19,24 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: ':activityId/edit',
         name: 'ActivityEdit',
         components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelActivitiesModify,
-          navbar: NavbarDefault,
+          panel: PanelActivitiesModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'schedule',
+            deepbarSelected: 'activities'
           }),
           panel: (route) => ({
-            panelSelected: 'activities'
-          }),
-          subpanel: (route) => ({
             activityId: route.params.activityId,
             modifyType: 'edit'
           })

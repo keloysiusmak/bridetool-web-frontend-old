@@ -1,20 +1,16 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
 import PanelSettingsProfile from '@/components/panel/settings/Profile';
 import PanelSettingsSecurity from '@/components/panel/settings/Security';
-
-//SubPanel
-import SubPanelSettingsProfile from '@/components/subpanel/settings/Profile';
-import SubPanelSettingsSecurity from '@/components/subpanel/settings/Security';
-import SubPanelSettingsSwitchUser from '@/components/subpanel/settings/SwitchUser';
+import PanelSettingsSwitchUser from '@/components/panel/settings/SwitchUser';
 
 //Subbar
 import SubbarSettings from '@/components/subbar/Settings';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -25,7 +21,7 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
@@ -43,41 +39,31 @@ export default [
         path: 'profile/email',
         components: {
           panel: PanelSettingsProfile,
-          subpanel: SubPanelSettingsProfile,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           subbar: SubbarSettings,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'settings'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'profile'
-          }),
-          panel: (route) => ({
-            panelSelected: 'email'
+          sidebar: (route) => ({
+            sidebarSelected: 'settings',
+            subbarSelected: 'profile',
+            deepbarSelected: 'email'
           })
         }
       },
       {
         path: 'profile/switchuser',
         components: {
-          panel: PanelSettingsProfile,
-          subpanel: SubPanelSettingsSwitchUser,
-          navbar: NavbarDefault,
+          panel: PanelSettingsSwitchUser,
+          sidebar: SidebarDefault,
           subbar: SubbarSettings,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'settings'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'profile'
-          }),
-          panel: (route) => ({
-            panelSelected: 'switchuser'
+          sidebar: (route) => ({
+            sidebarSelected: 'settings',
+            subbarSelected: 'profile',
+            deepbarSelected: 'switchuser'
           })
         }
       },
@@ -85,20 +71,15 @@ export default [
         path: 'security/password',
         components: {
           panel: PanelSettingsSecurity,
-          subpanel: SubPanelSettingsSecurity,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           subbar: SubbarSettings,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'settings'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'security'
-          }),
-          panel: (route) => ({
-            panelSelected: 'password'
+          sidebar: (route) => ({
+            sidebarSelected: 'settings',
+            subbarSelected: 'security',
+            deepbarSelected: 'password'
           })
         }
       }

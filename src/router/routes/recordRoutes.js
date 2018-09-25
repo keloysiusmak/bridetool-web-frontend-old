@@ -1,17 +1,14 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
-import PanelBudget from '@/components/panel/budget/Budget';
-
-//SubPanel
-import SubPanelRecordModify from '@/components/subpanel/records/Modify';
+import PanelRecordModify from '@/components/panel/record/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -22,29 +19,24 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: ':recordId/edit',
         name: 'RecordEdit',
         components: {
-          panel: PanelBudget,
-          subpanel: SubPanelRecordModify,
-          navbar: NavbarDefault,
+          panel: PanelRecordModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'budget'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'budget',
+            deepbarSelected: 'records'
           }),
           panel: (route) => ({
-            panelSelected: 'records'
-          }),
-          subpanel: (route) => ({
             recordId: route.params.recordId,
             modifyType: 'edit'
           })

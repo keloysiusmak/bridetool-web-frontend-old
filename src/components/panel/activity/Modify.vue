@@ -12,8 +12,8 @@
           <div class="subtitle is-6">
             You can restore this activity later, but all members assigned to this activity will be unassigned.
           </div>
-          <a class="button is-primary is-rounded" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
-          <a class="button is-light is-rounded" v-on:click="deleteActivityModal = false">Cancel</a>
+          <a class="button is-primary" v-on:click="deleteActivity(); deleteActivityModal = false">Delete</a>
+          <a class="button is-light" v-on:click="deleteActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
@@ -29,17 +29,20 @@
           <div class="subtitle is-6">
             Previously assigned members cannot be restored.
           </div>
-          <a class="button is-rounded is-primary" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
-          <a class="button is-rounded is-light" v-on:click="restoreActivityModal = false">Cancel</a>
+          <a class="button is-primary" v-on:click="restoreActivity(); restoreActivityModal = false">Restore</a>
+          <a class="button is-light" v-on:click="restoreActivityModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
     </div>
     <!-- END deleteActivityModal -->
-    <br/>
-    <span class="title is-4" v-if="modifyType === 'edit'">Edit Activity</span>
-    <span class="title is-4" v-if="modifyType === 'create'">Create Activity</span>
-    <hr/>
+
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">{{(modifyType === 'edit') ? 'Edit' : 'Create'}} Activity</span><br/>
+        <span class="title is-4">{{(modifyType === 'edit') ? activity.name : schedule.name}}</span>
+      </div>
+    </div>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       <span class="is-size-6">{{localErrors.componentError}}</span>
@@ -49,286 +52,290 @@
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Name</label>
-          <p class="help">Easy to understand activity names help both you and your wedding member stay focused.</p>
+      <div class="box">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Name</label>
+            <p class="help">Easy to understand activity names help both you and your wedding member stay focused.</p>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" placeholder="Activity Name" v-model="activityName"  v-bind:class="{'is-danger': localErrors.activityName}"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <p class="help is-danger" v-if="localErrors.activityName">{{localErrors.activityName}}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" placeholder="Activity Name" v-model="activityName"  v-bind:class="{'is-danger': localErrors.activityName}"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-              <p class="help is-danger" v-if="localErrors.activityName">{{localErrors.activityName}}</p>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Description</label>
+            <p class="help">Descriptions help your wedding member know more about exactly what to do.</p>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <textarea class="textarea is-small" placeholder="Activity Description" v-model="activityDescription"  v-bind:class="{'is-danger': localErrors.activityDescription}"></textarea>
+                <p class="help is-danger" v-if="localErrors.activityDescription">{{localErrors.activityDescription}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Type</label>
+            <p class="help">We've included a few types of activities you may want to categorize your activity in, this helps us provide more useful suggestions to enhance your wedding day later on.</p>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityType}">
+                  <select v-model="activityType">
+                    <option value="travel">Travel</option>
+                    <option value="makeup">Make Up</option>
+                    <option value="banquet">Banquet</option>
+                    <option value="rest">Rest</option>
+                    <option value="photoshoot">Photoshoot</option>
+                    <option value="preparation">Preparation</option>
+                    <option value="teaceremony">Tea Ceremony</option>
+                    <option value="others">Others</option>
+                  </select>
+                </span>
+              </p>
             </div>
           </div>
         </div>
       </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Description</label>
-          <p class="help">Descriptions help your wedding member know more about exactly what to do.</p>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <textarea class="textarea is-small" placeholder="Activity Description" v-model="activityDescription"  v-bind:class="{'is-danger': localErrors.activityDescription}"></textarea>
-              <p class="help is-danger" v-if="localErrors.activityDescription">{{localErrors.activityDescription}}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Type</label>
-          <p class="help">We've included a few types of activities you may want to categorize your activity in, this helps us provide more useful suggestions to enhance your wedding day later on.</p>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityType}">
-                <select v-model="activityType">
-                  <option value="travel">Travel</option>
-                  <option value="makeup">Make Up</option>
-                  <option value="banquet">Banquet</option>
-                  <option value="rest">Rest</option>
-                  <option value="photoshoot">Photoshoot</option>
-                  <option value="preparation">Preparation</option>
-                  <option value="teaceremony">Tea Ceremony</option>
-                  <option value="others">Others</option>
-                </select>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <br/>
       <!--START TIME-->
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Start Time</label>
-          <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding member of any changes.</p>
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.date">
-                  <option v-for="date in dates" v-bind:value="date">
-                    {{ date }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.month">
-                  <option v-for="month in months" v-bind:value="month">
-                    {{ monthNames[month - 1] }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.year">
-                  <option v-for="year in years" v-bind:value="year">
-                    {{ year }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.hour">
-                  <option v-for="hour in hours" v-bind:value="hour">
-                    {{ hour }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.minute">
-                  <option v-for="minute in minutes" v-bind:value="minute">
-                    {{ String(minute).padStart(2, '0') }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
-                <select v-model="activityStartTime.ampm">
-                  <option v-for="ampm in ampms" v-bind:value="ampm">
-                    {{ ampm }}
-                  </option>
-                </select>
-              </span>
-            </p>
+      <div class="box">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Start Time</label>
+            <p class="help">What time does your activity start? It pays to be as accurate as possible, since we'll be informing your wedding member of any changes.</p>
           </div>
-        </div>
-      </div>
-      <div class="field is-horizontal" v-if="localErrors.activityStartTime">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <p class="help is-danger">{{localErrors.activityStartTime}}</p>
-        </div>
-      </div>
-      <!--END START TIME-->
-      <br/>
-      <!--END TIME-->
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">End Time</label>
-          <p class="help">Similarly, we'll update your wedding member when each activity ends.</p>
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.date">
-                  <option v-for="date in dates" v-bind:value="date">
-                    {{ date }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.month">
-                  <option v-for="month in months" v-bind:value="month">
-                    {{ monthNames[month - 1] }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.year">
-                  <option v-for="year in years" v-bind:value="year">
-                    {{ year }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.hour">
-                  <option v-for="hour in hours" v-bind:value="hour">
-                    {{ hour }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.minute">
-                  <option v-for="minute in minutes" v-bind:value="minute">
-                    {{ String(minute).padStart(2, '0') }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
-                <select v-model="activityEndTime.ampm">
-                  <option v-for="ampm in ampms" v-bind:value="ampm">
-                    {{ ampm }}
-                  </option>
-                </select>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="field is-horizontal" v-if="localErrors.activityEndTime">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <p class="help is-danger">{{localErrors.activityEndTime}}</p>
-        </div>
-      </div>
-      <!--END END TIME-->
-      <hr/>
-      <div class="field is-horizontal">
-
-        <div class="field-label">
-          <label class="label">Assigned Members</label>
-          <p class="help">Here's a list of members who are assigned to this activity. Assigned members will have this activity show
-          up on their overview page, which you can easily share with them.</p>
-        </div>
-        <div class="field-body">
-          <div class="field is-grouped is-grouped-multiline">
-            <div v-if="!activityAssignedMembers.length">
-              <p class="help">There are currently no members of your member assigned to this activity.</p>
-            </div>
-            <div class="control" v-if="activityAssignedMembers.length" v-for="member in activityAssignedMembers">
-              <div class="tags has-addons">
-                <span class="tag is-small">
-                  {{ member.firstName + " " + member.lastName }}
+          <div class="field-body">
+            <div class="field has-addons has-addons-left">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.date">
+                    <option v-for="date in dates" v-bind:value="date">
+                      {{ date }}
+                    </option>
+                  </select>
                 </span>
-                <label class="checkbox">
-                  <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
-                  <a class="tag is-small is-danger">delete</a>
-                </label>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.month">
+                    <option v-for="month in months" v-bind:value="month">
+                      {{ monthNames[month - 1] }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.year">
+                    <option v-for="year in years" v-bind:value="year">
+                      {{ year }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.hour">
+                    <option v-for="hour in hours" v-bind:value="hour">
+                      {{ hour }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.minute">
+                    <option v-for="minute in minutes" v-bind:value="minute">
+                      {{ String(minute).padStart(2, '0') }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityStartTime}">
+                  <select v-model="activityStartTime.ampm">
+                    <option v-for="ampm in ampms" v-bind:value="ampm">
+                      {{ ampm }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal" v-if="localErrors.activityStartTime">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <p class="help is-danger">{{localErrors.activityStartTime}}</p>
+          </div>
+        </div>
+        <!--END START TIME-->
+        <br/>
+        <!--END TIME-->
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">End Time</label>
+            <p class="help">Similarly, we'll update your wedding member when each activity ends.</p>
+          </div>
+          <div class="field-body">
+            <div class="field has-addons has-addons-left">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.date">
+                    <option v-for="date in dates" v-bind:value="date">
+                      {{ date }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.month">
+                    <option v-for="month in months" v-bind:value="month">
+                      {{ monthNames[month - 1] }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.year">
+                    <option v-for="year in years" v-bind:value="year">
+                      {{ year }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.hour">
+                    <option v-for="hour in hours" v-bind:value="hour">
+                      {{ hour }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.minute">
+                    <option v-for="minute in minutes" v-bind:value="minute">
+                      {{ String(minute).padStart(2, '0') }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityEndTime}">
+                  <select v-model="activityEndTime.ampm">
+                    <option v-for="ampm in ampms" v-bind:value="ampm">
+                      {{ ampm }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="field is-horizontal" v-if="localErrors.activityEndTime">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <p class="help is-danger">{{localErrors.activityEndTime}}</p>
+          </div>
+        </div>
+        <!--END END TIME-->
+      </div>
+      <div class="box">
+        <div class="field is-horizontal">
+
+          <div class="field-label">
+            <label class="label">Assigned Members</label>
+            <p class="help">Here's a list of members who are assigned to this activity. Assigned members will have this activity show
+            up on their overview page, which you can easily share with them.</p>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped is-grouped-multiline">
+              <div v-if="!activityAssignedMembers.length">
+                <p class="help">There are currently no members of your member assigned to this activity.</p>
+              </div>
+              <div class="control" v-if="activityAssignedMembers.length" v-for="member in activityAssignedMembers">
+                <div class="tags has-addons">
+                  <span class="tag is-small">
+                    {{ member.firstName + " " + member.lastName }}
+                  </span>
+                  <label class="checkbox">
+                    <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
+                    <a class="tag is-small is-danger">delete</a>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Available Members</label>
-          <p class="help">Don't see some members of your wedding member? They might already have an activity assigned to them!</p>
-        </div>
-        <div class="field-body">
-          <div v-if="availableMembersLoading">
-            <a class="button is-loading is-medium is-text"></a>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Available Members</label>
+            <p class="help">Don't see some members of your wedding member? They might already have an activity assigned to them!</p>
           </div>
-          <div class="field is-grouped is-grouped-multiline" v-if="!availableMembersLoading">
-            <div v-if="!activityAvailableMembers.length">
-              <p class="help">There are currently no members of your member available to be assigned.</p>
+          <div class="field-body">
+            <div v-if="availableMembersLoading">
+              <a class="button is-loading is-medium is-text"></a>
             </div>
-            <div class="control" v-if="activityAvailableMembers.length" v-for="member in activityAvailableMembers">
-              <div class="tags has-addons">
-                <span class="tag is-small">
-                  {{ member.firstName + " " + member.lastName }}
-                </span>
-                <label class="checkbox">
-                  <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
-                  <a class="tag is-small is-success">
-                    add
-                  </a>
-                </label>
+            <div class="field is-grouped is-grouped-multiline" v-if="!availableMembersLoading">
+              <div v-if="!activityAvailableMembers.length">
+                <p class="help">There are currently no members of your member available to be assigned.</p>
+              </div>
+              <div class="control" v-if="activityAvailableMembers.length" v-for="member in activityAvailableMembers">
+                <div class="tags has-addons">
+                  <span class="tag is-small">
+                    {{ member.firstName + " " + member.lastName }}
+                  </span>
+                  <label class="checkbox">
+                    <input type="checkbox" class="hidden" v-bind:value="member._id" v-bind:id="'member' + member._id" v-model="activityAssignedMembersId">
+                    <a class="tag is-small is-success">
+                      add
+                    </a>
+                  </label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <hr/>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="button is-primary is-small is-rounded" type="submit" value="Save" v-if="modifyType === 'edit'" />
-              <input class="button is-primary is-small is-rounded" type="submit" value="Create" v-if="modifyType === 'create'" />
-              <input class="button is-light is-small is-rounded" type="button" v-on:click="deleteActivityModal = true" value="Delete Record" v-if="modifyType === 'edit' && !activity.isDeleted" />
-              <input class="button is-light is-small is-rounded" type="button" v-on:click="restoreActivityModal = true" value="Restore Record" v-if="modifyType === 'edit' && activity.isDeleted" />
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-small" type="submit" value="Save" v-if="modifyType === 'edit'" />
+                <input class="button is-primary is-small" type="submit" value="Create" v-if="modifyType === 'create'" />
+                <input class="button is-light is-small" type="button" v-on:click="deleteActivityModal = true" value="Delete Activity" v-if="modifyType === 'edit' && !activity.isDeleted" />
+                <input class="button is-light is-small" type="button" v-on:click="restoreActivityModal = true" value="Restore Activity" v-if="modifyType === 'edit' && activity.isDeleted" />
+              </div>
             </div>
           </div>
         </div>

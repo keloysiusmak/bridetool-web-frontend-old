@@ -36,85 +36,91 @@
       <button class="modal-close is-large" aria-label="close"></button>
     </div>
     <!-- END deleteMemberModal -->
-    <br/>
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">Wedding Team</span><br/>
+        <span class="title is-4">{{schedule.name}}</span>
+      </div>
+    </div>
     <div class="columns">
-      <div class="column">
-        <p class="title is-4">
-          Wedding Team
-        </p>
+      <div class="column is-9">
+
+        <div v-if="localSuccess" class="notification is-success">
+          <button class="delete" v-on:click="localSuccess = null"></button>
+          <span class="is-size-6">{{localSuccess}}</span>
+        </div>
+
+        <div v-if="localErrors.componentError" class="notification is-danger">
+          <button class="delete" v-on:click="localErrors.componentError = null"></button>
+          <span class="is-size-6">{{localErrors.componentError}}</span>
+        </div>
+
+        <template v-if="!hasActiveMembers && !hasDeletedMembers">
+          <p class="is-size-6">
+            No members to show.
+          </p>
+        </template>
+
+        <template v-if="!hasActiveMembers && hasDeletedMembers && hideDeletedMembers">
+          <p class="is-size-6">
+            No active members to show.
+          </p>
+        </template>
+
+        <div class="box" v-for="member in activeMembers">
+          <article class="media">
+            <div class="media-left">
+              <div class="image is-64x64 profilePic">
+                {{member.firstName[0] + member.lastName[0]}}
+              </div>
+            </div>
+            <div class="media-content">
+              <p class="is-size-4 has-text-weight-bold">{{member.firstName + " " + member.lastName}}</p>
+              <p class="is-size-7">
+                <router-link :to="{ name: 'MemberOverview', params: {memberId: member._id }, props: true }">Overview</router-link>
+                <template v-if="!isCouple(member._id)">
+                  &#183;
+                  <router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }">Edit Member</router-link>
+                  &#183;
+                  <a v-on:click="confirmDeleteMember(member._id);">Delete Member</a>
+                </template>
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <div class="box" v-for="member in deletedMembers" v-if="!hideDeletedMembers">
+          <article class="media has-text-grey-lighter">
+            <div class="media-left">
+              <div class="image is-64x64 profilePic disabled">
+                {{member.firstName[0] + member.lastName[0]}}
+              </div>
+            </div>
+            <div class="media-content">
+              <p class="is-size-4 has-text-weight-bold">{{member.firstName + " " + member.lastName}}</p>
+              <p class="is-size-7">
+                <router-link :to="{ name: 'MemberOverview', params: {memberId: member._id }, props: true }">Overview</router-link>
+                &#183;
+                <router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }">Edit Member</router-link>
+                &#183;
+                <a v-on:click="confirmRestoreMember(member._id);">Restore Member</a>
+              </p>
+            </div>
+            <div class="media-right">
+              <span class="tag is-danger is-rounded is-size-6">Deleted</span>
+            </div>
+          </article>
+        </div>
       </div>
-      <div class="column has-text-right">
-        <a href="#" v-on:click="toggleHideDeletedMembers()" class="button is-outlined is-small is-rounded">
-          {{ (hideDeletedMembers) ? 'Show' : 'Hide' }} Deleted Members
-        </a>
-        <router-link :to="{name:'MemberAdd'}" class="button is-primary is-small is-rounded">
-          + Add New Member
+      <div class="column is-3 rightbar">
+        <router-link :to="{name:'MemberAdd'}" class="button is-primary">
+          Add New Member
         </router-link>
+
+        <a href="#" v-on:click="toggleHideDeletedMembers()" class="link toggle" v-html="showHideDeletedMembers()">
+        </a>
       </div>
     </div>
-
-    <div v-if="localSuccess" class="notification is-success">
-      <button class="delete" v-on:click="localSuccess = null"></button>
-      <span class="is-size-6">{{localSuccess}}</span>
-    </div>
-
-    <div v-if="localErrors.componentError" class="notification is-danger">
-      <button class="delete" v-on:click="localErrors.componentError = null"></button>
-      <span class="is-size-6">{{localErrors.componentError}}</span>
-    </div>
-
-    <template v-if="!hasActiveMembers && !hasDeletedMembers">
-      <p class="is-size-6">
-        No members to show.
-      </p>
-    </template>
-
-    <template v-if="!hasActiveMembers && hasDeletedMembers && hideDeletedMembers">
-      <p class="is-size-6">
-        No active members to show.
-      </p>
-    </template>
-
-    <article class="media" v-for="member in activeMembers">
-      <div class="media-left">
-        <div class="image is-64x64 profilePic">
-          {{member.firstName[0] + member.lastName[0]}}
-        </div>
-      </div>
-      <div class="media-content">
-        <p class="is-size-4 has-text-weight-bold">{{member.firstName + " " + member.lastName}}</p>
-        <p class="is-size-6">
-          <router-link :to="{ name: 'MemberOverview', params: {memberId: member._id }, props: true }">Overview</router-link>
-          <template v-if="!isCouple(member._id)">
-            &#183;
-            <router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }">Edit Member</router-link>
-            &#183;
-            <a v-on:click="confirmDeleteMember(member._id);">Delete Member</a>
-          </template>
-        </p>
-      </div>
-    </article>
-
-    <article class="media has-text-grey-lighter" v-for="member in deletedMembers" v-if="!hideDeletedMembers">
-      <div class="media-left">
-        <div class="image is-64x64 profilePic disabled">
-          {{member.firstName[0] + member.lastName[0]}}
-        </div>
-      </div>
-      <div class="media-content">
-        <p class="is-size-4 has-text-weight-bold">{{member.firstName + " " + member.lastName}}</p>
-        <p class="is-size-6">
-          <router-link :to="{ name: 'MemberOverview', params: {memberId: member._id }, props: true }">Overview</router-link>
-          &#183;
-          <router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }">Edit Member</router-link>
-          &#183;
-          <a v-on:click="confirmRestoreMember(member._id);">Restore Member</a>
-        </p>
-      </div>
-      <div class="media-right">
-        <span class="tag is-danger is-rounded is-size-6">Deleted</span>
-      </div>
-    </article>
   </div>
 </template>
 
@@ -171,6 +177,13 @@ export default {
     ...mapMutations([
       'setState'
     ]),
+    showHideDeletedMembers: function() {
+      if (this.hideDeletedMembers)  {
+        return '<span class="icon"><i class="far fa-eye"></i></span> Show Deleted Members'
+      } else {
+        return '<span class="icon"><i class="far fa-eye-slash"></i></span> Hide Deleted Members';
+      }
+    },
     isCouple: function(memberId) {
       const filteredIds = this.account.couple.coupleMembers.map(member => {
         return member._id;

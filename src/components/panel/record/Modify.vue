@@ -12,17 +12,19 @@
           <div class="subtitle is-6">
             This action is irreversible and cannot be undone.
           </div>
-          <a class="button is-primary is-rounded is-small" v-on:click="deleteRecord(); deleteRecordModal = false">Delete</a>
-          <a class="button is-light is-rounded is-small" v-on:click="deleteRecordModal = false">Cancel</a>
+          <a class="button is-primary  is-small" v-on:click="deleteRecord(); deleteRecordModal = false">Delete</a>
+          <a class="button is-light  is-small" v-on:click="deleteRecordModal = false">Cancel</a>
         </div>
       </div>
       <button class="modal-close is-large" aria-label="close" v-on:click="deleteRecordModal = false"></button>
     </div>
     <!-- END deleteActivityModal -->
-    <br/>
-    <span class="title is-4" v-if="modifyType === 'edit'">Edit Record</span>
-    <span class="title is-4" v-if="modifyType === 'create'">Create Record</span>
-    <hr/>
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">{{(modifyType === 'edit') ? 'Edit' : 'Create'}} Record</span><br/>
+        <span class="title is-4">{{(modifyType === 'edit') ? recordName : schedule.name}}</span>
+      </div>
+    </div>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       <span class="is-size-6">{{localErrors.componentError}}</span>
@@ -32,102 +34,104 @@
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Name</label>
-          <p class="help">Setting a clear name helps you be clear on what you've spent on.</p>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordName}" placeholder="Name" v-model="recordName"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-            </div>
-            <p class="help is-danger" v-if="localErrors.recordName">{{localErrors.recordName}}</p>
+      <div class="box">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Name</label>
+            <p class="help">Setting a clear name helps you be clear on what you've spent on.</p>
           </div>
-        </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">{{budget.currency}}</label>
-          <p class="help">Want to change to another currency? <router-link  :to="{ name: 'BudgetManage' }">Click Here</router-link></p>
-        </div>
-        <div class="field-body">
-          <div class="control">
-            <div class="field has-addons has-addons-left">
-              <div class="control">
-                <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}" placeholder="Value" v-model="recordValue"/>
-              </div>
-              <div class="control">
-                <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}">
-                  <select v-model="recordType">
-                    <option value="capital">Added to Budget</option>
-                    <option value="expenditure">Spent</option>
-                  </select>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordName}" placeholder="Name" v-model="recordName"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
                 </span>
               </div>
+              <p class="help is-danger" v-if="localErrors.recordName">{{localErrors.recordName}}</p>
             </div>
           </div>
         </div>
-      </div>
-      <div class="field is-horizontal" v-if="localErrors.recordValue || localErrors.recordType">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <p class="help is-danger">{{localErrors.recordValue}}</p>
-          <p class="help is-danger">{{localErrors.recordType}}</p>
-        </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Date</label>
-          <p class="help">Enter your date so it's easy for us to sort your records for you.</p>
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
-                <select v-model="recordDate.date">
-                  <option v-for="date in dates" v-bind:value="date">
-                    {{ date }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
-                <select v-model="recordDate.month">
-                  <option v-for="month in months" v-bind:value="month">
-                    {{ monthNames[month - 1] }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
-                <select v-model="recordDate.year">
-                  <option v-for="year in years" v-bind:value="year">
-                    {{ year }}
-                  </option>
-                </select>
-              </span>
-            </p>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">{{budget.currency}}</label>
+            <p class="help">Want to change to another currency? <router-link  :to="{ name: 'BudgetManage' }">Click Here</router-link></p>
+          </div>
+          <div class="field-body">
+            <div class="control">
+              <div class="field has-addons has-addons-left">
+                <div class="control">
+                  <input class="input is-small" id="recordInitialRecord" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}" placeholder="Value" v-model="recordValue"/>
+                </div>
+                <div class="control">
+                  <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordValue || localErrors.recordType}">
+                    <select v-model="recordType">
+                      <option value="capital">Added to Budget</option>
+                      <option value="expenditure">Spent</option>
+                    </select>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <hr/>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="button is-primary is-small is-rounded" type="submit" value="Save" />
-              <input class="button is-light is-small is-rounded" v-on:click="deleteRecordModal = true" type="button" value="Delete Record" v-if="modifyType === 'edit'" />
+        <div class="field is-horizontal" v-if="localErrors.recordValue || localErrors.recordType">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <p class="help is-danger">{{localErrors.recordValue}}</p>
+            <p class="help is-danger">{{localErrors.recordType}}</p>
+          </div>
+        </div>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Date</label>
+            <p class="help">Enter your date so it's easy for us to sort your records for you.</p>
+          </div>
+          <div class="field-body">
+            <div class="field has-addons has-addons-left">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
+                  <select v-model="recordDate.date">
+                    <option v-for="date in dates" v-bind:value="date">
+                      {{ date }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
+                  <select v-model="recordDate.month">
+                    <option v-for="month in months" v-bind:value="month">
+                      {{ monthNames[month - 1] }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.recordDate}">
+                  <select v-model="recordDate.year">
+                    <option v-for="year in years" v-bind:value="year">
+                      {{ year }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-small " type="submit" value="Save" />
+                <input class="button is-light is-small " v-on:click="deleteRecordModal = true" type="button" value="Delete Record" v-if="modifyType === 'edit'" />
+              </div>
             </div>
           </div>
         </div>

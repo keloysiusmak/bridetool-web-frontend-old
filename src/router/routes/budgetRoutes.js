@@ -1,20 +1,17 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
-import PanelBudget from '@/components/panel/budget/Budget';
-
-//SubPanel
-import SubPanelBudgetOverview from '@/components/subpanel/budget/Overview';
-import SubPanelBudgetRecords from '@/components/subpanel/budget/Records';
-import SubPanelBudgetModify from '@/components/subpanel/budget/Modify';
-import SubPanelRecordModify from '@/components/subpanel/records/Modify';
+import PanelBudgetOverview from '@/components/panel/budget/Overview';
+import PanelBudgetRecords from '@/components/panel/budget/Records';
+import PanelBudgetModify from '@/components/panel/budget/Modify';
+import PanelRecordModify from '@/components/panel/record/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -25,24 +22,21 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
-        name: 'BudgetOverview',
         components: {
-          panel: PanelBudget,
-          subpanel: SubPanelBudgetOverview,
-          navbar: NavbarDefault,
+          panel: PanelBudgetOverview,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'budget'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'budget',
+            deepbarSelected: 'overview'
           }),
           panel: (route) => ({
             panelSelected: 'overview'
@@ -51,20 +45,17 @@ export default [
       },
       {
         path: 'records',
-        name: 'BudgetRecords',
         components: {
-          panel: PanelBudget,
-          subpanel: SubPanelBudgetRecords,
-          navbar: NavbarDefault,
+          panel: PanelBudgetRecords,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'budget'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'budget',
+            deepbarSelected: 'records'
           }),
           panel: (route) => ({
             panelSelected: 'records'
@@ -73,20 +64,17 @@ export default [
       },
       {
         path: 'manage',
-        name: 'BudgetManage',
         components: {
-          panel: PanelBudget,
-          subpanel: SubPanelBudgetModify,
-          navbar: NavbarDefault,
+          panel: PanelBudgetModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'budget'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'budget',
+            deepbarSelected: 'manage'
           }),
           panel: (route) => ({
             panelSelected: 'manage'
@@ -97,23 +85,18 @@ export default [
         path: 'record',
         name: 'RecordAdd',
         components: {
-          panel: PanelBudget,
-          subpanel: SubPanelRecordModify,
-          navbar: NavbarDefault,
+          panel: PanelRecordModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'budget'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'budget',
+            deepbarSelected: 'records'
           }),
           panel: (route) => ({
-            panelSelected: 'records'
-          }),
-          subpanel: (route) => ({
             modifyType: 'create'
           })
         }

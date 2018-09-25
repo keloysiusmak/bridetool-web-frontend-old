@@ -1,20 +1,17 @@
 //Layouts
-import LayoutAppPanelSub from '@/components/layout/AppPanelSub';
+import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
-import PanelSchedule from '@/components/panel/schedules/Schedule';
-
-//SubPanel
-import SubPanelSchedulesActivities from '@/components/subpanel/schedules/Activities';
-import SubPanelSchedulesTimeline from '@/components/subpanel/schedules/Timeline';
-import SubPanelSchedulesModify from '@/components/subpanel/schedules/Modify';
-import SubPanelActivityModify from '@/components/subpanel/activities/Modify';
+import PanelScheduleActivities from '@/components/panel/schedule/Activities';
+import PanelScheduleTimeline from '@/components/panel/schedule/Timeline';
+import PanelScheduleModify from '@/components/panel/schedule/Modify';
+import PanelActivityModify from '@/components/panel/activity/Modify';
 
 //Subbar
 import SubbarPlanner from '@/components/subbar/Planner';
 
-//Navbar
-import NavbarDefault from '@/components/navbar/Default';
+//Sidebar
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -25,79 +22,60 @@ export default [
     meta: {
       requiresAuth: true
     },
-    component: LayoutAppPanelSub,
+    component: LayoutAppPanel,
     children: [
       {
         path: '',
         redirect: 'timeline'
       },
       {
-        path: 'activities',
-        name: 'ScheduleActivities',
+        path: 'timeline',
         components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelSchedulesActivities,
-          navbar: NavbarDefault,
+          panel: PanelScheduleTimeline,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'schedule',
+            deepbarSelected: 'timeline'
           }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
-          }),
-          panel: (route) => ({
-            panelSelected: 'activities'
-          }),
-          subpanel: true
+          panel: true
         }
       },
       {
-        path: 'timeline',
-        name: 'ScheduleTimeline',
+        path: 'activities',
         components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelSchedulesTimeline,
-          navbar: NavbarDefault,
+          panel: PanelScheduleActivities,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
-          }),
-          panel: (route) => ({
-            panelSelected: 'timeline'
-          }),
-          subpanel: true
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'schedule',
+            deepbarSelected: 'activities'
+          })
         }
       },
       {
         path: 'manage',
-        name: 'ScheduleManage',
         components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelSchedulesModify,
-          navbar: NavbarDefault,
+          panel: PanelScheduleModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'schedule',
+            deepbarSelected: 'manage'
           }),
           panel: (route) => ({
-            panelSelected: 'manage'
-          }),
-          subpanel: (route) => ({
             scheduleId: route.params.scheduleId
           })
         }
@@ -106,23 +84,18 @@ export default [
         path: 'activity',
         name: 'ActivityAdd',
         components: {
-          panel: PanelSchedule,
-          subpanel: SubPanelActivityModify,
-          navbar: NavbarDefault,
+          panel: PanelActivityModify,
+          sidebar: SidebarDefault,
           subbar: SubbarPlanner,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: 'planner'
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'schedule'
+          sidebar: (route) => ({
+            sidebarSelected: 'planner',
+            subbarSelected: 'schedule',
+            deepbarSelected: 'activities'
           }),
           panel: (route) => ({
-            panelSelected: 'activities'
-          }),
-          subpanel: (route) => ({
             scheduleId: route.params.scheduleId,
             modifyType: 'create'
           })

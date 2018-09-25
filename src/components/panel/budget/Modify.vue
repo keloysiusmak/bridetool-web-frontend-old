@@ -3,9 +3,12 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="budget">
-    <br/>
-    <span class="title is-4">Edit Budget</span>
-    <hr/>
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">Edit Budget</span><br/>
+        <span class="title is-4">{{schedule.name}}</span>
+      </div>
+    </div>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       <span class="is-size-6">{{localErrors.componentError}}</span>
@@ -15,52 +18,54 @@
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
     <form v-on:submit.prevent="checkForm();">
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Budget</label>
-          <p class="help">Setting your budget allows us to help you keep track of how much you've spent, and whether you're keeping within your budget.</p>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" id="budgetInitialBudget" v-bind:class="{'is-danger': localErrors.budgetInitialBudget}" placeholder="Initial Budget" v-model="budgetInitialBudget"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
+      <div class="box">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Budget</label>
+            <p class="help">Setting your budget allows us to help you keep track of how much you've spent, and whether you're keeping within your budget.</p>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" id="budgetInitialBudget" v-bind:class="{'is-danger': localErrors.budgetInitialBudget}" placeholder="Initial Budget" v-model="budgetInitialBudget"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+              <p class="help is-danger" v-if="localErrors.initialBudget">{{localErrors.initialBudget}}</p>
             </div>
-            <p class="help is-danger" v-if="localErrors.initialBudget">{{localErrors.initialBudget}}</p>
           </div>
         </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Currency</label>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityType}">
-                <select v-model="budgetCurrency">
-                  <option value="SEK">SEK</option>
-                  <option value="USD">USD</option>
-                  <option value="SGD">SGD</option>
-                  <option value="MYR">MYR</option>
-                  <option value="THB">THB</option>
-                </select>
-              </span>
-            </p>
-            <p class="help is-danger" v-if="localErrors.currency">{{localErrors.currency}}</p>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Currency</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.activityType}">
+                  <select v-model="budgetCurrency">
+                    <option value="SEK">SEK</option>
+                    <option value="USD">USD</option>
+                    <option value="SGD">SGD</option>
+                    <option value="MYR">MYR</option>
+                    <option value="THB">THB</option>
+                  </select>
+                </span>
+              </p>
+              <p class="help is-danger" v-if="localErrors.currency">{{localErrors.currency}}</p>
+            </div>
           </div>
         </div>
-      </div>
-      <hr/>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="button is-primary is-small is-rounded" type="submit" value="Save" />
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-small is-rounded" type="submit" value="Save" />
+              </div>
             </div>
           </div>
         </div>

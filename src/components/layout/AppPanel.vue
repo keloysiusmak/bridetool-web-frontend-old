@@ -1,13 +1,15 @@
 <template>
   <div id="layout_app_panel">
-    <router-view name="navbar" />
-    <router-view name="subbar" />
-    <div class="section">
-      <div class="container">
-        <router-view name="panel"/>
+    <div class="columns is-gapless is-mobile">
+      <div class="column is-2" style="position:fixed">
+        <router-view name="sidebar" />
+      </div>
+      <div class="column is-10 is-offset-2">
+        <div class="section">
+          <router-view name="panel"/>
+        </div>
       </div>
     </div>
-    <router-view name="footer"/>
   </div>
 </template>
 

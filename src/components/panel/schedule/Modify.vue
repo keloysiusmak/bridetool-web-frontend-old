@@ -3,9 +3,10 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="schedule">
+    <span class="subtitle is-7">Edit Schedule</span><br/>
+    <span class="title is-4">{{schedule.name}}</span>
     <br/>
-    <span class="title is-4">Edit Schedule</span>
-    <hr/>
+    <br/>
     <div v-if="localErrors.componentError" class="notification is-danger">
       <button class="delete" v-on:click="localErrors.componentError = null"></button>
       <span class="is-size-6">{{localErrors.componentError}}</span>
@@ -14,76 +15,78 @@
       <button class="delete" v-on:click="localSuccess = null"></button>
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
-    <form v-on:submit.prevent="checkForm();">
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Name</label>
-          <p class="help">Let's give a name to your wedding day. Hashtags maybe?</p>
-        </div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control has-icons-left">
-              <input class="input is-small" id="scheduleName" v-bind:class="{'is-danger': localErrors.scheduleName}" placeholder="Schedule Name" v-model="scheduleName"/>
-              <span class="icon is-small is-left">
-                <i class="fas fa-user"></i>
-              </span>
-            </div>
-            <p class="help is-danger" v-if="localErrors.scheduleName">{{localErrors.scheduleName}}</p>
+    <div class="box">
+      <form v-on:submit.prevent="checkForm();">
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Name</label>
+            <p class="help">Let's give a name to your wedding day. Hashtags maybe?</p>
           </div>
-        </div>
-      </div>
-      <br/>
-      <div class="field is-horizontal">
-        <div class="field-label">
-          <label class="label">Date</label>
-          <p class="help">When's your wedding day?</p>
-        </div>
-        <div class="field-body">
-          <div class="field has-addons has-addons-left">
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
-                <select v-model="scheduleDate.date">
-                  <option v-for="date in dates" v-bind:value="date">
-                    {{ date }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
-                <select v-model="scheduleDate.month">
-                  <option v-for="month in months" v-bind:value="month">
-                    {{ monthNames[month - 1] }}
-                  </option>
-                </select>
-              </span>
-            </p>
-
-            <p class="control">
-              <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
-                <select v-model="scheduleDate.year">
-                  <option v-for="year in years" v-bind:value="year">
-                    {{ year }}
-                  </option>
-                </select>
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="field is-horizontal">
-        <div class="field-label"></div>
-        <div class="field-body">
-          <div class="field">
-            <div class="control">
-              <input class="button is-primary is-small is-rounded" type="submit" value="Save" />
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" id="scheduleName" v-bind:class="{'is-danger': localErrors.scheduleName}" placeholder="Schedule Name" v-model="scheduleName"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+              </div>
+              <p class="help is-danger" v-if="localErrors.scheduleName">{{localErrors.scheduleName}}</p>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Date</label>
+            <p class="help">When's your wedding day?</p>
+          </div>
+          <div class="field-body">
+            <div class="field has-addons has-addons-left">
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                  <select v-model="scheduleDate.date">
+                    <option v-for="date in dates" v-bind:value="date">
+                      {{ date }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                  <select v-model="scheduleDate.month">
+                    <option v-for="month in months" v-bind:value="month">
+                      {{ monthNames[month - 1] }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+
+              <p class="control">
+                <span class="select is-small" v-bind:class="{'is-danger': localErrors.scheduleDate}">
+                  <select v-model="scheduleDate.year">
+                    <option v-for="year in years" v-bind:value="year">
+                      {{ year }}
+                    </option>
+                  </select>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <hr/>
+        <div class="field is-horizontal">
+          <div class="field-label"></div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control">
+                <input class="button is-primary is-small " type="submit" value="Save" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 

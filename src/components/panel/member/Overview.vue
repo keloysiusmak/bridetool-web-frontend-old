@@ -3,50 +3,58 @@
     <a class="button is-loading is-medium is-text"></a>
   </div>
   <div v-else-if="member">
-    <br/>
+    <div class="columns is-multiline">
+      <div class="column is-12">
+        <span class="subtitle is-7">Overview</span><br/>
+        <span class="title is-4">{{member.firstName + " " + member.lastName}}</span>
+      </div>
+    </div>
     <div class="columns">
-      <div class="column">
-        <p><router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }" class="is-size-6">Edit Member</router-link></p>
-        <p class="title is-4">
-          {{member.firstName + " " + member.lastName}}'s Activities
-        </p>
+      <div class="column is-9">
         <template v-if="!hasActivities">
           <p class="is-size-6">
             No activities to show.
           </p>
         </template>
-        <template v-for="(activities, date) in parsedActivities">
-          <p class="title is-4">{{date}}</p>
-          <progress class="progress is-small is-success" v-bind:value="completedActivities(activities)" max="100"></progress>
-          <template v-for="activity in activities">
-            <article class="media columns is-multiline" v-bind:class="completedActivity(activity.endTime)">
-              <div class="column is-3 is-12-mobile">
-                <p class="is-size-6" v-html="formatTimes(activity)"></p>
+        <div class="timeline">
+
+          <div class="timeline-item" v-for="(activities, date) in parsedActivities">
+            <div class="timeline-marker is-primary"></div>
+            <div class="timeline-content">
+              <p class="heading">{{date}}</p>
+              <br/>
+              <div class="box" v-for="activity in activities" v-bind:class="completedActivity(activity.endTime)">
+                <div class="columns is-multiline">
+                  <div class="column is-10 is-12-mobile">
+                    <p class="subtitle is-7 has-text-grey-light" v-html="formatTimes(activity)"></p>
+                    <p class="title is-spaced is-5 has-text-weight-bold">{{activity.name}}</p>
+                    <p class="subtitle is-7">{{activity.description}}</p>
+                  </div>
+                  <div class="column is-2 has-text-right is-hidden-mobile">
+                    <span class="icon is-small is-left" v-if="!isCompletedActivity(activity)">
+                      <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" class="has-text-grey-light"><i class="icon fas fa-cog"></i></router-link>
+                    </span>
+                  </div>
+                </div>
               </div>
-              <div class="column is-7 is-12-mobile">
-                <p class="is-size-4 has-text-weight-bold">{{activity.name}}</p>
-                <p class="is-size-6">{{activity.description}}</p>
-              </div>
-              <div class="column is-2 is-hidden-mobile has-text-right">
-                <span class="icon is-small is-left">
-                  <i v-bind:class="getIcon(activity.type)"></i>
-                </span>
-              </div>
-            </article>
-          </template>
-          <br/>
-        </template>
-      </div>
-      <div class="column is-3">
-        <div class="card">
-          <div class="card-content">
-            <p class="title is-4">Share with {{member.firstName + " " + member.lastName}}</p>
-            <p class="subtitle is-6 has-text-grey">Copy this link to share with {{member.firstName + " " + member.lastName}} so {{ heOrShe(member.gender) }} can keep up to date with {{ hisOrHers(member.gender) }} activities for your wedding.</p>
-            <p class="is-size-6 is-italic">
-              <a v-on:click="copyToClipboard();">Click here to copy the link</a>
-            </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
           </div>
         </div>
+      </div>
+      <div class="column is-3 rightbar">
+        <div class="box">
+          <p class="title is-5">Share with {{member.firstName + " " + member.lastName}}</p>
+          <p class="subtitle is-7 has-text-grey">Copy this link to share with {{member.firstName + " " + member.lastName}} so {{ heOrShe(member.gender) }} can keep up to date with {{ hisOrHers(member.gender) }} activities for your wedding.</p>
+          <p class="is-size-7 is-italic">
+            <a v-on:click="copyToClipboard();">Click here to copy the link</a>
+          </p>
+        </div>
+
+        <router-link :to="{ name: 'MemberEdit', params: {memberId: member._id }, props: true }" class="link">Edit Member</router-link>
       </div>
     </div>
   </div>
@@ -142,6 +150,9 @@ export default {
       document.execCommand("copy");
       document.body.removeChild(aux);
     },
+    isCompletedActivity: function(activity) {
+      return activity.endTime < Date.now() / 1000;
+    },
     completedActivity: function(activityEndTime) {
       const activityEnded = activityEndTime < Date.now() / 1000;
       return {
@@ -157,37 +168,6 @@ export default {
         }
       });
       return completed / totalActivities * 100;
-    },
-    getIcon: function(activityType) {
-      let returnedIcon;
-
-      switch(activityType) {
-        case 'teaceremony':
-          returnedIcon = 'fas fa-coffee';
-          break;
-        case 'travel':
-          returnedIcon = 'fas fa-car-alt';
-          break;
-        case 'makeup':
-          returnedIcon = 'fas fa-paint-brush';
-          break;
-        case 'banquet':
-          returnedIcon = 'fas fa-utensils';
-          break;
-        case 'rest':
-          returnedIcon = 'fas fa-bed';
-          break;
-        case 'photoshoot':
-          returnedIcon = 'fas fa-camera-retro';
-          break;
-        case 'preparation':
-          returnedIcon = 'fas fa-solar-panel';
-          break;
-        case 'others':
-          returnedIcon = 'fab fa-mixcloud';
-          break;
-      }
-      return returnedIcon;
     }
   },
   async created() {
@@ -198,4 +178,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .timeline-content {
+    width: 100%;
+    max-width: 800px
+  }
 </style>

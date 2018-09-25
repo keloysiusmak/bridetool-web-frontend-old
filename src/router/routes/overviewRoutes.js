@@ -14,7 +14,7 @@ import PanelBlog from '@/components/panel/overview/Blog';
 import SubbarDefault from '@/components/subbar/Default';
 
 //Sidebar
-import NavbarDefault from '@/components/navbar/Default';
+import SidebarDefault from '@/components/sidebar/Default';
 
 //Footer
 import FooterDefault from '@/components/footer/Default';
@@ -32,81 +32,71 @@ export default [
         name: 'Overview',
         components: {
           panel: PanelOverview,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           subbar: SubbarDefault,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: ''
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'overview'
+          sidebar: (route) => ({
+            sidebarSelected: 'dashboard',
+            subbarSelected: 'none'
           }),
           subpanel: true
         }
       },
       {
         path: 'quickstart',
-        name: 'Quickstart',
         components: {
           panel: PanelQuickstart,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           subbar: SubbarDefault,
           footer: FooterDefault
         },
         props: {
-          navbar: (route) => ({
-            navbarSelected: ''
-          }),
-          subbar: (route) => ({
-            subbarSelected: 'quickstart'
+          sidebar: (route) => ({
+            sidebarSelected: '',
+            subbarSelected: 'none'
           }),
           subpanel: true
         }
       },
       {
         path: 'about',
-        name: 'About',
         components: {
           panel: PanelAbout,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           footer: FooterDefault
         }
       },
       {
         path: 'team',
-        name: 'Team',
         components: {
           panel: PanelTeam,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           footer: FooterDefault
         }
       },
       {
         path: 'careers',
-        name: 'Careers',
         components: {
           panel: PanelCareers,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           footer: FooterDefault
         }
       },
       {
         path: 'blog',
-        name: 'Blog',
         components: {
           panel: PanelBlog,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           footer: FooterDefault
         }
       },
       {
         path: 'partners',
-        name: 'Partners',
         components: {
           panel: PanelPartners,
-          navbar: NavbarDefault,
+          sidebar: SidebarDefault,
           footer: FooterDefault
         }
       }
