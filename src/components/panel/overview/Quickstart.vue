@@ -23,7 +23,7 @@
       <div class="column is-6">
         <div class="has-text-left">
           <p class="title is-spaced is-3">
-            Hej! (that's Hey! in Swedish)
+            Hey!
           </p>
           <p class="subtitle is-5">
             Welcome to bridetool, we're a team of wedding professionals trying to rethink the way we do weddings.
