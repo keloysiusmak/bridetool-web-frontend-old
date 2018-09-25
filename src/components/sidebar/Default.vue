@@ -3,6 +3,11 @@
     <div v-if="activeMember">
       <span style="font-size: 0.75rem; font-weight:400" class="has-text-danger">BETA</span>
       <router-link to="/" class="logo">
+        <div class="arrow" v-if="subbarSelected != 'none'">
+          <span class="icon is-small is-left">
+            <i class="fas fa-angle-left"></i>
+          </span>
+        </div>
         Bt.
       </router-link>
       <template v-if="subbarSelected === 'none'">
