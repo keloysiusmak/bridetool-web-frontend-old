@@ -1,6 +1,11 @@
 <template>
   <div class="sidebar" id="menu">
     <div v-if="activeMember">
+    <router-link to="/" class="icon">
+      <span class="icon is-small is-left badge" data-badge="8">
+        <i class="far fa-bell"></i>
+      </span>
+    </router-link>
       <span style="font-size: 0.75rem; font-weight:400" class="has-text-danger">BETA</span>
       <router-link to="/" class="logo">
         <div class="arrow" v-if="subbarSelected != 'none'">
@@ -24,7 +29,7 @@
           Budget
         </router-link>
         <router-link to="/members" class="sub">
-          Wedding Team
+          Team
         </router-link>
         <router-link to="/settings" v-bind:class="{ 'is-active': sidebarSelected === 'settings' }">
           Settings
@@ -63,7 +68,7 @@
       </template>
       <template v-if="subbarSelected === 'member'">
         <router-link to="/members" class="is-active">
-          Wedding Team
+          Team
         </router-link>
         <router-link to="/members" class="sub" v-bind:class="{ 'is-active': deepbarSelected === 'members' }">
           Members

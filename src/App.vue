@@ -78,5 +78,6 @@ export default {
 @import '../node_modules/bulma-extensions/bulma-checkradio/src/sass/index.sass'
 @import '../node_modules/bulma-extensions/bulma-timeline/src/sass/index.sass'
 @import '../node_modules/bulma-extensions/bulma-divider/src/sass/index.sass'
+@import '../node_modules/bulma-extensions/bulma-badge/src/sass/index.sass'
 @import './assets/css/sass/main.sass'
 </style>
