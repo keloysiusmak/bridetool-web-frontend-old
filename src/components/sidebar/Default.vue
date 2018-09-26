@@ -2,7 +2,7 @@
   <div class="sidebar" id="menu">
     <div v-if="activeMember">
     <router-link to="/" class="icon">
-      <span class="icon is-small is-left badge" data-badge="8">
+      <span class="icon is-small is-left badge">
         <i class="far fa-bell"></i>
       </span>
     </router-link>
