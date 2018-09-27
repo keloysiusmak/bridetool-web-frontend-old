@@ -157,9 +157,14 @@ export default {
         hasErrors = true;
       }
 
-      if (!this.memberGender) {
+      if (!this.memberEmail) {
         this.localErrors.memberEmail = "Email Missing";
         hasErrors = true;
+      } else {
+        if (!this.validEmail(this.memberEmail)) {
+          this.localErrors.memberEmail = 'Your email address is invalid.';
+          hasErrors = true;
+        }
       }
 
       if (!hasErrors) {
@@ -223,6 +228,10 @@ export default {
         memberGender: null,
         memberEmail: null
       }
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     },
     loadMember: async function() {
       try {

@@ -184,10 +184,7 @@ export default {
       }
     },
     isCouple: function(memberId) {
-      const filteredIds = this.account.couple.coupleMembers.map(member => {
-        return member._id;
-      });
-      return filteredIds.includes(memberId);
+      return this.account.couple.coupleMembers.includes(memberId);
     },
     confirmDeleteMember: function(memberId) {
       this.deleteMemberModal = true;
