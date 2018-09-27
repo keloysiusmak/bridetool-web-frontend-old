@@ -4,7 +4,7 @@ const mappedStates = [
   'refreshToken',
   'storedTokensTime',
   'account',
-  'activeMember',
+  'loggedInMember',
   'globalErrors',
   'schedule',
   'members',

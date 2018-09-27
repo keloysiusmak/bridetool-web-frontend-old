@@ -56,6 +56,23 @@
         <br/>
         <div class="field is-horizontal">
           <div class="field-label">
+            <label class="label">Email</label>
+          </div>
+          <div class="field-body">
+            <div class="field">
+              <div class="control has-icons-left">
+                <input class="input is-small" placeholder="Email" v-model="memberEmail"  v-bind:class="{'is-danger': localErrors.memberEmail}"/>
+                <span class="icon is-small is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <p class="help is-danger" v-if="localErrors.memberEmail">{{localErrors.memberEmail}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br/>
+        <div class="field is-horizontal">
+          <div class="field-label">
             <label class="label">Gender</label>
           </div>
           <div class="field-body">
@@ -109,6 +126,7 @@ export default {
       memberFirstName: null,
       memberLastName: null,
       memberGender: null,
+      memberEmail: null,
       modifyLoading: false
     }
   },
@@ -139,6 +157,11 @@ export default {
         hasErrors = true;
       }
 
+      if (!this.memberGender) {
+        this.localErrors.memberEmail = "Email Missing";
+        hasErrors = true;
+      }
+
       if (!hasErrors) {
         if (this.modifyType === 'edit') {
           this.updateMember();
@@ -153,7 +176,8 @@ export default {
         const fields = {
           firstName: this.memberFirstName,
           lastName: this.memberLastName,
-          gender: this.memberGender
+          gender: this.memberGender,
+          email: this.memberEmail
         }
         const updateMember = await memberHandler.updateMember(this.tokens, this.member._id, fields);
         this.member = updateMember.member;
@@ -171,9 +195,10 @@ export default {
         const fields = {
           firstName: this.memberFirstName,
           lastName: this.memberLastName,
-          gender: this.memberGender
+          gender: this.memberGender,
+          email: this.memberEmail
         }
-        const addMember = await memberHandler.addMember(this.tokens, this.account._id, fields);
+        const addMember = await memberHandler.addMember(this.tokens, this.account.couple._id, fields);
         this.member = addMember.member;
         EventBus.$emit('loadSchedule');
         this.populateFields();
@@ -187,6 +212,7 @@ export default {
       this.memberFirstName = this.member.firstName;
       this.memberLastName = this.member.lastName;
       this.memberGender = this.member.gender;
+      this.memberEmail = this.member.email;
     },
     resetErrors: function() {
       this.localSuccess = null
@@ -194,7 +220,8 @@ export default {
         componentError: null,
         memberFirstName: null,
         memberLastName: null,
-        memberGender: null
+        memberGender: null,
+        memberEmail: null
       }
     },
     loadMember: async function() {
@@ -209,7 +236,7 @@ export default {
         }
         this.loading = false;
       } catch (e) {
-        console.log(e);
+        //
       }
     }
   },

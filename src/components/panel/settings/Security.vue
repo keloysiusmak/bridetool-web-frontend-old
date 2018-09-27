@@ -6,7 +6,7 @@
     <div class="columns is-multiline">
       <div class="column is-12">
         <span class="subtitle is-7">Password</span><br/>
-        <span class="title is-4">{{ activeMember.firstName + " " + activeMember.lastName }}</span>
+        <span class="title is-4">{{ loggedInMember.firstName + " " + loggedInMember.lastName }}</span>
       </div>
     </div>
     <div v-if="localErrors.componentError" class="notification is-danger">

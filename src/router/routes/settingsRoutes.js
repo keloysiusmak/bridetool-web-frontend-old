@@ -4,7 +4,6 @@ import LayoutAppPanel from '@/components/layout/AppPanel';
 //Panel
 import PanelSettingsProfile from '@/components/panel/settings/Profile';
 import PanelSettingsSecurity from '@/components/panel/settings/Security';
-import PanelSettingsSwitchUser from '@/components/panel/settings/SwitchUser';
 
 //Subbar
 import SubbarSettings from '@/components/subbar/Settings';
@@ -48,22 +47,6 @@ export default [
             sidebarSelected: 'settings',
             subbarSelected: 'profile',
             deepbarSelected: 'email'
-          })
-        }
-      },
-      {
-        path: 'profile/switchuser',
-        components: {
-          panel: PanelSettingsSwitchUser,
-          sidebar: SidebarDefault,
-          subbar: SubbarSettings,
-          footer: FooterDefault
-        },
-        props: {
-          sidebar: (route) => ({
-            sidebarSelected: 'settings',
-            subbarSelected: 'profile',
-            deepbarSelected: 'switchuser'
           })
         }
       },

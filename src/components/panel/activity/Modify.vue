@@ -1,8 +1,8 @@
 <template>
-  <div v-if="!activity && modifyType === 'edit' || modifyLoading" class="has-text-centered">
+  <div v-if="!schedule || !activity && modifyType === 'edit' || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="activity || modifyType !== 'edit'">
+  <div v-else-if="schedule && (activity || modifyType !== 'edit')">
     <!-- START deleteActivityModal -->
     <div class="modal" v-bind:class="{ 'is-active': deleteActivityModal }" v-if="activity">
       <div class="modal-background"></div>
@@ -619,7 +619,7 @@ export default {
       try {
         const startTime = this.formatMoment(this.activityStartTime);
         const endTime = this.formatMoment(this.activityEndTime);
-        const getAvailableMembers = await coupleHandler.getAvailableMembers(this.tokens, this.account._id, startTime.format('X'), endTime.format('X'));
+        const getAvailableMembers = await coupleHandler.getAvailableMembers(this.tokens, this.account.couple._id, startTime.format('X'), endTime.format('X'));
         this.activityAvailableMembers = getAvailableMembers.members.filter(member => {
           return !this.activityAssignedMembersId.includes(member._id);
         });

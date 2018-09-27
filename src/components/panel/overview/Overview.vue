@@ -1,7 +1,7 @@
 <template>
   <div id="panel_overview">
     <div class="box">
-      <p class="title is-4">Hey, {{ activeMember.firstName + " " + activeMember.lastName }}</p>
+      <p class="title is-4">Hey, {{ loggedInMember.firstName + " " + loggedInMember.lastName }}</p>
       <p class="is-size-6">
         Thank you for helping us in our step to make the challenges of wedding planning a thing of the past. We're committed to finding ways to help couples better plan their weddings, in the hope that the stresses of
         wedding planning will cease to exist and couples can fully immerse themselves in enjoying one of the biggest days in their lives.

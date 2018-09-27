@@ -155,21 +155,13 @@ export default {
         if (!hasErrors) {
           this.loginLoading = true;
           const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
-          const primaryMember = loginAccount.account.couple.primaryMember;
-
-          const activeMember = {
-            firstName: primaryMember.firstName,
-            lastName: primaryMember.lastName,
-            gender: primaryMember.gender,
-            id: primaryMember._id
-          }
 
           this.setState({
             accessToken: loginAccount.accessToken,
             refreshToken: loginAccount.refreshToken,
             account: loginAccount.account,
             storedTokensTime: Math.floor(Date.now() / 1000),
-            activeMember: activeMember
+            loggedInMember: loginAccount.account.member
           });
           this.loginLoading = false;
 

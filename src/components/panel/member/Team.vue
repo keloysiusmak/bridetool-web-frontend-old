@@ -1,8 +1,8 @@
 <template>
-  <div v-if="!members || deleteOrRestoreLoading" class="has-text-centered">
+  <div v-if="!schedule || !members || deleteOrRestoreLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="members">
+  <div v-else-if="schedule && members">
     <!-- START deleteMemberModal -->
     <div class="modal" v-bind:class="{ 'is-active': deleteMemberModal }" v-if="member">
       <div class="modal-background"></div>
@@ -128,7 +128,6 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const coupleHandler = require('../../../handlers/coupleHandler');
 const memberHandler = require('../../../handlers/memberHandler');
 
 export default {
@@ -190,18 +189,6 @@ export default {
       });
       return filteredIds.includes(memberId);
     },
-    loadWeddingTeam: async function() {
-      try {
-        if (this.account._id && this.account.couple._id) {
-          const getWeddingTeam = await coupleHandler.getWeddingTeam(this.tokens, this.account._id);
-          this.setState({
-            members: getWeddingTeam.weddingTeam
-          })
-        }
-      } catch (e) {
-        this.localErrors.componentError = 'Oops, something went wrong. Please refresh the page and try again.';
-      }
-    },
     confirmDeleteMember: function(memberId) {
       this.deleteMemberModal = true;
       this.member = this.members.find(member => {
@@ -261,9 +248,6 @@ export default {
       }
       this.deleteOrRestoreLoading = false;
     }
-  },
-  async created() {
-    this.loadWeddingTeam();
   }
 }
 </script>

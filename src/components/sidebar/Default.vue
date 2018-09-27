@@ -1,11 +1,11 @@
 <template>
   <div class="sidebar" id="menu">
-    <div v-if="activeMember">
-    <router-link to="/" class="icon">
-      <span class="icon is-small is-left badge">
-        <i class="far fa-bell"></i>
-      </span>
-    </router-link>
+    <div v-if="loggedInMember">
+      <router-link to="/" class="icon">
+        <span class="icon is-small is-left badge">
+          <i class="far fa-bell"></i>
+        </span>
+      </router-link>
       <span style="font-size: 0.75rem; font-weight:400" class="has-text-danger">BETA</span>
       <router-link to="/" class="logo">
         <div class="arrow" v-if="subbarSelected != 'none'">
@@ -100,6 +100,7 @@ import { mappedStates, mappedGetters } from '../config/vuex-config';
 import { EventBus } from '../../events/event-bus.js';
 
 const budgetHandler = require('../../handlers/budgetHandler');
+const coupleHandler = require('../../handlers/coupleHandler');
 const scheduleHandler = require('../../handlers/scheduleHandler');
 
 export default {
@@ -138,6 +139,20 @@ export default {
         //
       }
     },
+    loadWeddingTeam: async function() {
+      try {
+        if (!this.members) {
+          if (this.account._id && this.account.couple._id) {
+            const getWeddingTeam = await coupleHandler.getWeddingTeam(this.tokens, this.account.couple._id);
+            this.setState({
+              members: getWeddingTeam.weddingTeam
+            })
+          }
+        }
+      } catch (e) {
+        //
+      }
+    },
     loadBudget: async function() {
       try {
         if (!this.schedule) {
@@ -156,6 +171,7 @@ export default {
   async created() {
     this.loadSchedule();
     this.loadBudget();
+    this.loadWeddingTeam();
   },
   async mounted() {
     EventBus.$on('loadSchedule', payload => {
@@ -163,6 +179,9 @@ export default {
     });
     EventBus.$on('loadBudget', payload => {
       this.loadBudget();
+    });
+    EventBus.$on('loadWeddingTeam', payload => {
+      this.loadWeddingTeam();
     });
   }
 }

@@ -1,12 +1,12 @@
 <template>
-  <div v-if="!account || modifyLoading" class="has-text-centered">
+  <div v-if="!loggedInMember || modifyLoading" class="has-text-centered">
     <a class="button is-loading is-medium is-text"></a>
   </div>
-  <div v-else-if="account">
+  <div v-else-if="loggedInMember">
     <div class="columns is-multiline">
       <div class="column is-12">
         <span class="subtitle is-7">Email</span><br/>
-        <span class="title is-4">{{ activeMember.firstName + " " + activeMember.lastName }}</span>
+        <span class="title is-4">{{ loggedInMember.firstName + " " + loggedInMember.lastName }}</span>
       </div>
     </div>
     <div v-if="localErrors.componentError" class="notification is-danger">
@@ -26,7 +26,7 @@
           <div class="field-body">
             <div class="field">
               <div class="control has-icons-left">
-                <input class="input is-small" placeholder="Email" v-model="accountEmail"/>
+                <input class="input is-small" placeholder="Email" v-model="memberEmail"/>
                 <span class="icon is-small is-left">
                   <i class="fas fa-envelope"></i>
                 </span>
@@ -56,7 +56,7 @@
 import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
-const accountHandler = require('../../../handlers/accountHandler');
+const memberHandler = require('../../../handlers/memberHandler');
 
 export default {
   name: 'Main-Settings-Email',
@@ -73,7 +73,7 @@ export default {
   },
   created() {
     this.resetErrors();
-    this.accountEmail = this.account.email;
+    this.memberEmail = this.loggedInMember.email;
   },
   methods: {
     ...mapMutations([
@@ -87,29 +87,29 @@ export default {
       this.resetErrors();
       let hasErrors = false;
 
-      if (!this.accountEmail) {
+      if (!this.memberEmail) {
         this.localErrors.email = 'You need to fill in an email address.';
         hasErrors = true;
       } else {
-        if (!this.validEmail(this.accountEmail)) {
+        if (!this.validEmail(this.memberEmail)) {
           this.localErrors.email = 'Your email address is invalid.';
           hasErrors = true;
         }
       }
 
       if (!hasErrors) {
-        this.updateAccount();
+        this.updateMember();
       }
     },
-    updateAccount: async function() {
+    updateMember: async function() {
       this.modifyLoading = true;
       try {
         const fields = {
-          email: this.accountEmail
+          email: this.memberEmail
         }
-        const updateAccount = await accountHandler.updateAccount(this.tokens, this.account._id, fields);
+        const updateMember = await memberHandler.updateMember(this.tokens, this.loggedInMember._id, fields);
         this.setState({
-          account: updateAccount.account
+          loggedInMember: updateMember.member
         });
         this.localSuccess = 'Successfully updated profile.';
       } catch (e) {
