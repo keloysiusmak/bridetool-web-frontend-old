@@ -129,25 +129,21 @@ export default {
     },
     loadSchedule: async function() {
       try {
-        if (!this.schedule) {
-          const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.account.couple.schedule);
-          this.setState({
-            schedule: getSchedule.schedule
-          });
-        }
+        const getSchedule = await scheduleHandler.getSchedule(this.tokens, this.account.couple.schedule);
+        this.setState({
+          schedule: getSchedule.schedule
+        });
       } catch (e) {
         //
       }
     },
     loadWeddingTeam: async function() {
       try {
-        if (!this.members) {
-          if (this.account._id && this.account.couple._id) {
-            const getWeddingTeam = await coupleHandler.getWeddingTeam(this.tokens, this.account.couple._id);
-            this.setState({
-              members: getWeddingTeam.weddingTeam
-            })
-          }
+        if (this.account._id && this.account.couple._id) {
+          const getWeddingTeam = await coupleHandler.getWeddingTeam(this.tokens, this.account.couple._id);
+          this.setState({
+            members: getWeddingTeam.weddingTeam
+          })
         }
       } catch (e) {
         //
@@ -155,13 +151,11 @@ export default {
     },
     loadBudget: async function() {
       try {
-        if (!this.schedule) {
-          if (this.account._id && this.account.couple._id) {
-            const getBudget = await budgetHandler.getBudget(this.tokens, this.account.couple.budget);
-            this.setState({
-              budget: getBudget.budget
-            })
-          }
+        if (this.account._id && this.account.couple._id) {
+          const getBudget = await budgetHandler.getBudget(this.tokens, this.account.couple.budget);
+          this.setState({
+            budget: getBudget.budget
+          })
         }
       } catch (e) {
         //
@@ -169,9 +163,15 @@ export default {
     }
   },
   async created() {
-    this.loadSchedule();
-    this.loadBudget();
-    this.loadWeddingTeam();
+    if (!this.schedule) {
+      this.loadSchedule();
+    }
+    if (!this.budget) {
+      this.loadBudget();
+    }
+    if (!this.members) {
+      this.loadWeddingTeam();
+    }
   },
   async mounted() {
     EventBus.$on('loadSchedule', payload => {
