@@ -24,7 +24,8 @@
               <p class="heading">{{date}}</p>
               <br/>
               <div class="box" v-for="activity in activities" v-bind:class="completedActivity(activity.endTime)">
-                <div class="columns is-multiline">
+                <!-- box type 1 -->
+                <div class="columns is-multiline" v-if="activity.assignedTasks.length == 0">
                   <div class="column is-10 is-12-mobile">
                     <p class="subtitle is-7 has-text-grey-light" v-html="formatTimes(activity)"></p>
                     <p class="title is-spaced is-5 has-text-weight-bold">{{activity.name}}</p>
@@ -36,6 +37,28 @@
                     </span>
                   </div>
                 </div>
+                <!-- end box type 1 -->
+
+                <!-- box type 2 -->
+                <div class="columns is-multiline" v-if="activity.assignedTasks.length > 0">
+                  <div class="column is-6 is-12-mobile">
+                    <p class="subtitle is-7 has-text-grey-light" v-html="formatTimes(activity)"></p>
+                    <p class="title is-spaced is-5 has-text-weight-bold">{{activity.name}}</p>
+                    <p class="subtitle is-7">{{activity.description}}</p>
+                  </div>
+                  <div class="column is-6 has-text-right is-hidden-mobile">
+                    <span class="icon is-small is-left" v-if="!isCompletedActivity(activity)">
+                      <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" class="has-text-grey-light"><i class="icon fas fa-cog"></i></router-link>
+                    </span>
+                    <p class="is-size-7 has-text-left" v-for="task in activity.assignedTasks" v-bind:class="isCompletedTaskClass(task)">
+                      <i class="fas fa-check" v-if="isCompletedTask(task)"></i> &nbsp;{{task.name}}
+                    </p>
+                    <p class="is-size-7 is-12-mobile is-italic has-text-left has-text-grey-light">
+                      <small>{{numberCompleted(activity.assignedTasks)}} of {{activity.assignedTasks.length}} tasks completed</small>
+                    </p>
+                  </div>
+                </div>
+                <!-- end box type 2 -->
               </div>
             </div>
           </div>
@@ -111,6 +134,19 @@ export default {
       if (count > 1) {
         return 's';
       }
+    },
+    numberCompleted: function(tasks) {
+      return tasks.filter((task) => {
+        return task.status == 'completed';
+      }).length;
+    },
+    isCompletedTaskClass: function(task) {
+      return {
+        'has-text-success': (task.status === 'completed')
+      }
+    },
+    isCompletedTask: function(task) {
+      return task.status === 'completed';
     },
     formatTimes: function(activity) {
       var start = moment.unix(activity.startTime);

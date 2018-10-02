@@ -23,6 +23,7 @@ axios.defaults.coupleUrl = config.coupleUrl;
 axios.defaults.memberUrl = config.memberUrl;
 axios.defaults.recordUrl = config.recordUrl;
 axios.defaults.scheduleUrl = config.scheduleUrl;
+axios.defaults.taskUrl = config.taskUrl;
 axios.defaults.tokenUrl = config.tokenUrl;
 
 export default {

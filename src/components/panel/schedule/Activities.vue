@@ -22,8 +22,9 @@
           </p>
         </template>
         <template v-for="(activities, date) in activeActivities" v-if="hideDeletedActivities && activeActivitiesCount">
-          <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" tag="div" class="box" v-for="activity in activities" :key="activity._id">
-            <div class="columns is-multiline">
+          <div class="box" v-for="activity in activities" :key="activity._id">
+            <!-- box type 1 -->
+            <div class="columns is-multiline" v-if="activity.assignedTasks.length == 0">
               <div class="column is-10 is-12-mobile">
                 <p class="subtitle is-7 has-text-grey-light" v-html="formatTimes(activity)"></p>
                 <p class="title is-spaced is-5 has-text-weight-bold">{{activity.name}}</p>
@@ -38,7 +39,33 @@
                 </span>
               </div>
             </div>
-          </router-link>
+            <!-- end box type 1 -->
+
+            <!-- box type 2 -->
+            <div class="columns is-multiline" v-if="activity.assignedTasks.length > 0">
+              <div class="column is-6 is-12-mobile">
+                <p class="subtitle is-7 has-text-grey-light" v-html="formatTimes(activity)"></p>
+                <p class="title is-spaced is-5 has-text-weight-bold">{{activity.name}}</p>
+                <p class="subtitle is-7">{{activity.description}}</p>
+                <p class="is-size-7 is-12-mobile is-italic has-text-grey-light">
+                  <span class="icon"><i class="fas fa-users"></i></span> {{ formatMembers(activity.assignedMembers) }}
+                </p>
+              </div>
+              <div class="column is-6 has-text-right is-hidden-mobile">
+                <span class="icon is-small is-left" v-if="!isCompletedActivity(activity)">
+                  <router-link :to="{ name: 'ActivityEdit', params: {activityId: activity._id} }" class="has-text-grey-light"><i class="icon fas fa-cog"></i></router-link>
+                </span>
+                <div class="field has-text-left" v-for="task in activity.assignedTasks">
+                  <input class="is-checkradio is-small" v-on:click="mark(task)" v-bind:id="'checkbox' + task._id" type="checkbox" v-bind:name="'checkbox' + task._id" v-bind:checked="isTaskChecked(task)">
+                  <label v-bind:class="isCompletedTask(task)" v-bind:for="'checkbox' + task._id">{{task.name}}</label>
+                </div>
+                <p class="is-size-7 is-12-mobile is-italic has-text-left has-text-grey-light">
+                  <small>{{numberCompleted(activity.assignedTasks)}} of {{activity.assignedTasks.length}} tasks completed</small>
+                </p>
+              </div>
+            </div>
+            <!-- end box type 2 -->
+          </div>
         </template>
 
         <template v-if="!deletedActivitiesCount && !hideDeletedActivities">
@@ -83,6 +110,7 @@ import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const activityHandler = require('../../../handlers/activityHandler');
 const scheduleHandler = require('../../../handlers/scheduleHandler');
+const taskHandler = require('../../../handlers/taskHandler');
 const moment = require('moment');
 
 export default {
@@ -158,6 +186,59 @@ export default {
     hasS: function(count) {
       if (count > 1) {
         return 's';
+      }
+    },
+    isCompletedTask: function(task) {
+      if (task.status == 'completed') {
+        return {
+          'has-text-grey-light': true
+        }
+      } else {
+        return {
+          'has-text-grey-light': false
+        }
+      }
+    },
+    isCompletedActivity: function(activity) {
+      return activity.endTime < Date.now() / 1000;
+    },
+    mark: function(task) {
+      if (task.status === 'completed') {
+        task.status = 'notstarted';
+        this.markTask(task);
+      } else if (task.status === 'notstarted') {
+        task.status = 'completed';
+        this.markTask(task);
+      }
+    },
+    numberCompleted: function(tasks) {
+      return tasks.filter((task) => {
+        return task.status == 'completed';
+      }).length;
+    },
+    isTaskChecked: function(task) {
+      return (task.status === 'completed') ? 'checked' : ''
+    },
+    markTask: async function(task) {
+      try {
+        const fields = {
+          status: task.status
+        }
+        const markTask = await taskHandler.markTask(this.tokens, task._id, fields);
+
+        const schedule = this.schedule.scheduleActivities.forEach((activity) => {
+          return activity.assignedTasks.forEach((findTask) => {
+            if (findTask._id == task._id) {
+              findTask.status = task.status;
+            }
+          });
+        });
+
+        this.setState({
+          status: status
+        })
+      } catch (e) {
+        //
       }
     },
     formatMembers: function(members) {

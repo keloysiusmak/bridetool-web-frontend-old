@@ -37,6 +37,20 @@
     </div>
     <!-- END deleteActivityModal -->
 
+    <!-- START deleteTaskModal -->
+    <div class="modal" v-bind:class="{ 'is-active': deleteTaskModal }" v-if="task">
+      <div class="modal-background"></div>
+      <div class="modal-content">
+        <div class="box">
+          <div class="title is-4">Are you sure you want to delete '{{task.name}}'?</div>
+          <a class="button is-primary" v-on:click="deleteTask(task); deleteTaskModal = false">Delete</a>
+          <a class="button is-light" v-on:click="deleteActivityModal = false">Cancel</a>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="close" v-on:click="deleteActivityModal = false"></button>
+    </div>
+    <!-- END deleteActivityModal -->
+
     <div class="columns is-multiline">
       <div class="column is-12">
         <span class="subtitle is-7">{{(modifyType === 'edit') ? 'Edit' : 'Create'}} Activity</span><br/>
@@ -270,6 +284,48 @@
       </div>
       <div class="box">
         <div class="field is-horizontal">
+          <div class="field-label">
+            <label class="label">Tasks</label>
+            <p class="help">Here's a list of tasks you've assigned to this activity. Members (and you) can mark tasks as completed so you stay up to date with the progress of the activities.</p>
+          </div>
+          <div class="field-body">
+            <div class="field is-grouped is-grouped-multiline">
+              <table class="table is-fullwidth">
+                <tbody>
+                  <tr v-for="task in activityAssignedTasks" v-if="activityAssignedTasks.length">
+                    <td class="has-text-7">
+                      {{ task.name }}
+                    </td>
+                    <td class="has-text-right">
+                      <a class="tag is-small is-danger" v-on:click="deleteTaskConfirm(task)">delete</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" v-if="!activityAssignedTasks.length">
+                      <div>
+                        <p class="help">There are currently no tasks assigned to this activity.</p>
+                        <br/>
+                      </div>
+                    </td>
+                    <td class="has-text-7">
+                      <div class="control is-expanded">
+                        <input class="input is-small borderless" type="text" v-model="newTaskName" placeholder="Add a New Task">
+                      </div>
+                    </td>
+                    <td class="has-text-right">
+                      <a v-on:click="addTask()" class="tag is-small is-danger">
+                        add
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="field is-horizontal">
 
           <div class="field-label">
             <label class="label">Assigned Members</label>
@@ -279,7 +335,7 @@
           <div class="field-body">
             <div class="field is-grouped is-grouped-multiline">
               <div v-if="!activityAssignedMembers.length">
-                <p class="help">There are currently no members of your member assigned to this activity.</p>
+                <p class="help">There are currently no members assigned to this activity.</p>
               </div>
               <div class="control" v-if="activityAssignedMembers.length" v-for="member in activityAssignedMembers">
                 <div class="tags has-addons">
@@ -353,6 +409,7 @@ import { EventBus } from '../../../events/event-bus.js';
 const activityHandler = require('../../../handlers/activityHandler');
 const coupleHandler = require('../../../handlers/coupleHandler');
 const memberHandler = require('../../../handlers/memberHandler');
+const taskHandler = require('../../../handlers/taskHandler');
 const tokenHandler = require('../../../handlers/tokenHandler');
 const moment = require('moment');
 
@@ -389,6 +446,7 @@ export default {
         minute: 0,
         ampm: 'am'
       },
+      activityAssignedTasks: [],
       activityAssignedMembers: [],
       activityAssignedMembersId: [],
       activityAvailableMembers: [],
@@ -397,7 +455,10 @@ export default {
       localErrors: {},
       localSuccess: '',
       activity: null,
-      modifyLoading: false
+      modifyLoading: false,
+      task: null,
+      deleteTaskModal: false,
+      newTaskName: null
     }
   },
   props: ['activityId', 'modifyType'],
@@ -614,6 +675,7 @@ export default {
       this.activityAssignedMembers = this.activity.assignedMembers.filter(member => {
         return !member.isDeleted;
       });
+      this.activityAssignedTasks = this.activity.assignedTasks;
     },
     getAvailableMembers: async function() {
       try {
@@ -649,7 +711,32 @@ export default {
         this.populateFields();
       } catch (e) {
       }
-    }
+    },
+    deleteTaskConfirm: function(task) {
+      this.task = task;
+      this.deleteTaskModal = true;
+    },
+    deleteTask: async function(task) {
+      try {
+        const deleteTask = await taskHandler.deleteTask(this.tokens, task._id);
+
+        this.activity.assignedTasks = this.activity.assignedTasks.filter((filterTask) => {
+          return filterTask._id != task._id;
+        });
+        EventBus.$emit('loadSchedule', {});
+        this.populateFields();
+      } catch (e) {
+      }
+    },
+    addTask: async function() {
+      try {
+        const addTask = await taskHandler.addTask(this.tokens, this.activity._id, {name: this.newTaskName});
+        this.activity.assignedTasks.push(addTask.task);
+        EventBus.$emit('loadSchedule', {});
+        this.populateFields();
+      } catch (e) {
+      }
+    },
   },
   watch: {
     activityStartTime: {
@@ -705,4 +792,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .borderless {
+    border: 0;
+    box-shadow: none !important;
+    padding-left: 0;
+    padding-right: 0;
+  }
 </style>
