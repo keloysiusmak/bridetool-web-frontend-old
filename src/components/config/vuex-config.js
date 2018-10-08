@@ -8,7 +8,9 @@ const mappedStates = [
   'globalErrors',
   'schedule',
   'members',
-  'budget'
+  'budget',
+  'notifications',
+  'memberAccessToken'
 ];
 
 const mappedGetters = [

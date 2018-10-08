@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar" id="menu">
     <div v-if="loggedInMember">
-      <router-link to="/" class="icon">
+      <router-link :to="{name: 'Notifications'}" class="icon">
         <span class="icon is-small is-left badge">
           <i class="far fa-bell"></i>
         </span>
@@ -101,6 +101,7 @@ import { EventBus } from '../../events/event-bus.js';
 
 const budgetHandler = require('../../handlers/budgetHandler');
 const coupleHandler = require('../../handlers/coupleHandler');
+const notificationHandler = require('../../handlers/notificationHandler');
 const scheduleHandler = require('../../handlers/scheduleHandler');
 
 export default {
@@ -160,6 +161,20 @@ export default {
       } catch (e) {
         //
       }
+    },
+    loadNotifications: async function() {
+      try {
+        if (this.account._id && this.account.couple._id) {
+          const getNotifications = await notificationHandler.getNotifications(this.tokens, this.loggedInMember._id);
+          this.setState({
+            notifications: getNotifications.notifications
+          })
+        }
+      } catch (e) {
+        this.setState({
+          notifications: [{}]
+        })
+      }
     }
   },
   async created() {
@@ -172,6 +187,9 @@ export default {
     if (!this.members) {
       this.loadWeddingTeam();
     }
+    //if (!this.notifications) {
+      this.loadNotifications();
+    //}
   },
   async mounted() {
     EventBus.$on('loadSchedule', payload => {
@@ -182,6 +200,9 @@ export default {
     });
     EventBus.$on('loadWeddingTeam', payload => {
       this.loadWeddingTeam();
+    });
+    EventBus.$on('loadNotifications', payload => {
+      this.loadNotifications();
     });
   }
 }

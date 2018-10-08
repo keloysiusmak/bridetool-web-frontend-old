@@ -2,6 +2,7 @@
 import LayoutAppPanel from '@/components/layout/AppPanel';
 
 //Panel
+import PanelNotifications from '@/components/panel/overview/Notifications';
 import PanelOverview from '@/components/panel/overview/Overview';
 import PanelQuickstart from '@/components/panel/overview/Quickstart';
 import PanelAbout from '@/components/panel/overview/About';
@@ -32,6 +33,23 @@ export default [
         name: 'Overview',
         components: {
           panel: PanelOverview,
+          sidebar: SidebarDefault,
+          subbar: SubbarDefault,
+          footer: FooterDefault
+        },
+        props: {
+          sidebar: (route) => ({
+            sidebarSelected: 'dashboard',
+            subbarSelected: 'none'
+          }),
+          subpanel: true
+        }
+      },
+      {
+        path: 'notifications',
+        name: 'Notifications',
+        components: {
+          panel: PanelNotifications,
           sidebar: SidebarDefault,
           subbar: SubbarDefault,
           footer: FooterDefault

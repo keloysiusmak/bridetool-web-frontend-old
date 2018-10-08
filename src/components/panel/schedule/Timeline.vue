@@ -237,18 +237,21 @@ export default {
     },
     markTask: async function(task) {
       try {
-        const fields = {
-          status: task.status
-        }
-        const markTask = await taskHandler.markTask(this.tokens, task._id, fields);
-
+        let activityId;
         const schedule = this.schedule.scheduleActivities.forEach((activity) => {
           return activity.assignedTasks.forEach((findTask) => {
             if (findTask._id == task._id) {
               findTask.status = task.status;
+              activityId = activity._id;
             }
           });
         });
+
+        const fields = {
+          status: task.status,
+          activityId: activityId
+        }
+        const markTask = await taskHandler.markTask(this.tokens, task._id, fields);
 
         this.setState({
           status: status
