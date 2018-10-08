@@ -63,9 +63,7 @@ export default {
         });
       }
     } catch (e) {
-      this.setState({
-        globalErrors: e.message
-      })
+      //
     };
   },
   async updated() {

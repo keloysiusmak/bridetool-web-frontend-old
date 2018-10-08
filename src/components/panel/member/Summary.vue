@@ -44,6 +44,7 @@ import { mapState, mapMutations, mapGetters } from 'vuex';
 import { mappedStates, mappedGetters } from '../../config/vuex-config';
 
 const memberHandler = require('../../../handlers/memberHandler');
+const tokenHandler = require('../../../handlers/tokenHandler');
 const moment = require('moment');
 
 export default {
@@ -86,7 +87,7 @@ export default {
     loadMember: async function() {
       try {
         if (this.memberId) {
-          const getMember = await memberHandler.getMember(this.tokens, this.memberId);
+          const getMember = await memberHandler.getMember(this.tokens, this.memberId, true);
           this.member = getMember.member;
         }
       } catch (e) {
@@ -133,6 +134,16 @@ export default {
     }
   },
   async created() {
+    try {
+      if (!this.memberAccessToken) {
+        const getMemberAccessToken = await tokenHandler.getMemberAccessToken(this.memberId);
+        this.setState({
+          memberAccessToken: getMemberAccessToken.accessToken
+        });
+      }
+    } catch (e) {
+      //
+    };
     this.loadMember();
   }
 }

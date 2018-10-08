@@ -5,13 +5,14 @@ import createPersistedState from "vuex-persistedstate";
 Vue.use(Vuex);
 
 const persistedStateOptions = {
-  paths: ['apiToken', 'accessToken', 'refreshToken', 'storedTokensTime', 'account', 'loggedInMember', 'schedule', 'members', 'budget'],
+  paths: ['memberAccessToken', 'apiToken', 'accessToken', 'refreshToken', 'storedTokensTime', 'account', 'loggedInMember', 'schedule', 'members', 'budget'],
   key: 'bridetoolPersistedState'
 }
 
 export const store = new Vuex.Store({
   plugins: [createPersistedState(persistedStateOptions)],
   state: {
+    memberAccessToken: null,
     apiToken: null,
     accessToken: null,
     refreshToken: null,
@@ -26,6 +27,7 @@ export const store = new Vuex.Store({
   getters: {
     tokens(state) {
       return {
+        memberAccessToken: state.memberAccessToken,
         apiToken: state.apiToken,
         accessToken: state.accessToken,
         refreshToken: state.refreshToken,

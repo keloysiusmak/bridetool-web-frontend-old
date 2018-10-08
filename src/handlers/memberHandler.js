@@ -2,15 +2,26 @@ const axios = require('axios');
 const handler = require('../handlers/handler');
 const tokenHandler = require('../handlers/tokenHandler');
 
-function getMember(tokens, memberId) {
-  return axios.get(axios.defaults.memberUrl + '/member/' + memberId, {
-    headers: {
-      'access-token': tokens.accessToken,
-    },
-  }).then(response => {
-    response = handler(response);
-    return response.data;
-  });
+function getMember(tokens, memberId, memberToken = false) {
+  if (!memberToken) {
+    return axios.get(axios.defaults.memberUrl + '/member/' + memberId, {
+      headers: {
+        'access-token': tokens.accessToken,
+      },
+    }).then(response => {
+      response = handler(response);
+      return response.data;
+    });
+  } else {
+    return axios.get(axios.defaults.memberUrl + '/member/' + memberId, {
+      headers: {
+        'access-token': tokens.memberAccessToken,
+      },
+    }).then(response => {
+      response = handler(response);
+      return response.data;
+    });
+  }
 }
 function addMember(tokens, coupleId, fields) {
   return axios.post(axios.defaults.memberUrl + '/couple/' + coupleId + '/member', fields, {

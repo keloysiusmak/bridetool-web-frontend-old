@@ -13,6 +13,17 @@ function getApiToken() {
   });
 }
 
+function getMemberAccessToken(memberId) {
+  return axios.get(axios.defaults.tokenUrl + '/auth/member/token', {
+    headers: {
+      'member-id': memberId,
+    },
+  }).then(response => {
+    response = handler(response);
+    return response.data;
+  });
+}
+
 async function checkAccessTokenExpired(store, tokens) {
   const now = Math.floor(Date.now() / 1000);
   if (now - tokens.storedTokensTime > 3200 && tokens.refreshToken) {
@@ -42,5 +53,6 @@ function refreshToken(tokens) {
 
 module.exports = {
   getApiToken,
+  getMemberAccessToken,
   checkAccessTokenExpired
 };
