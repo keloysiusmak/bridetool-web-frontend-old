@@ -112,20 +112,15 @@ export default {
   props: ['sidebarSelected', 'subbarSelected', 'deepbarSelected'],
   methods: {
     ...mapMutations([
-      'setState'
+      'setState',
+      'clearState'
     ]),
     toggleMenu: function() {
       $(".sidebar-burger").toggleClass("is-active");
       $("#menu").toggleClass("is-active");
     },
     logout: async function() {
-      this.setState({
-        accessToken: null,
-        account: null,
-        storedTokensTime: null,
-        refreshToken: null,
-        user: null
-      });
+      this.clearState();
       this.$router.push({ path: '/login' });
     },
     loadSchedule: async function() {

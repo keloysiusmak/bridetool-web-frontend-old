@@ -37,6 +37,9 @@ export const store = new Vuex.Store({
     }
   },
   mutations: {
+    clearState() {
+      state: null
+    },
     setState(state, payload) {
       const payloadKeys = Object.keys(payload);
       const stateKeys = Object.keys(state);
