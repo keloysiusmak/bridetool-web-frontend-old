@@ -16,6 +16,20 @@ function loginAccount(tokens, username, password) {
     return response.data;
   });
 }
+
+function registerAccount(tokens, fields) {
+  return axios.post(axios.defaults.accountUrl + '/account/register', fields, {
+    headers: {
+      'Content-Type': 'application/json',
+      'api-token': tokens.apiToken,
+    },
+    crossdomain: true
+  }).then(response => {
+    response = handler(response);
+    return response.data;
+  });
+}
+
 function changePassword(tokens, accountId, oldPassword, newPassword) {
   return axios.put(axios.defaults.accountUrl + '/account/' + accountId + '/password', {
     oldPassword,
@@ -43,6 +57,7 @@ function updateAccount(tokens, accountId, fields) {
 }
 module.exports = {
   loginAccount,
+  registerAccount,
   changePassword,
   updateAccount
 };

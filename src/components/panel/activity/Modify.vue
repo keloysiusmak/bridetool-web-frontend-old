@@ -282,7 +282,7 @@
         </div>
         <!--END END TIME-->
       </div>
-      <div class="box">
+      <div class="box" v-if="modifyType == 'edit'">
         <div class="field is-horizontal">
           <div class="field-label">
             <label class="label">Tasks</label>
@@ -300,13 +300,14 @@
                       <a class="tag is-small is-danger" v-on:click="deleteTaskConfirm(task)">delete</a>
                     </td>
                   </tr>
-                  <tr>
-                    <td colspan="2" v-if="!activityAssignedTasks.length">
+                  <tr v-if="!activityAssignedTasks.length">
+                    <td colspan="2" >
                       <div>
                         <p class="help">There are currently no tasks assigned to this activity.</p>
-                        <br/>
                       </div>
                     </td>
+                  </tr>
+                  <tr>
                     <td class="has-text-7">
                       <div class="control is-expanded">
                         <input class="input is-small borderless" type="text" v-model="newTaskName" placeholder="Add a New Task">
@@ -564,6 +565,7 @@ export default {
         this.setState({
           schedule: schedule
         })
+        this.activity.assignedMembers = [];
         this.activity.isDeleted = true;
         this.localSuccess = 'Successfully deleted activity.';
       } catch (e) {
@@ -732,6 +734,7 @@ export default {
       try {
         const addTask = await taskHandler.addTask(this.tokens, this.activity._id, {name: this.newTaskName});
         this.activity.assignedTasks.push(addTask.task);
+        this.newTaskName = "";
         EventBus.$emit('loadSchedule', {});
         this.populateFields();
       } catch (e) {

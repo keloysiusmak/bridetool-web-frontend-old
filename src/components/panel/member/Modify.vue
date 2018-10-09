@@ -186,7 +186,7 @@ export default {
         }
         const updateMember = await memberHandler.updateMember(this.tokens, this.member._id, fields);
         this.member = updateMember.member;
-        EventBus.$emit('loadSchedule');
+        EventBus.$emit('loadWeddingTeam');
         this.populateFields();
         this.localSuccess = 'Successfully updated member.';
       } catch (e) {
@@ -205,7 +205,7 @@ export default {
         }
         const addMember = await memberHandler.addMember(this.tokens, this.account.couple._id, fields);
         this.member = addMember.member;
-        EventBus.$emit('loadSchedule');
+        EventBus.$emit('loadWeddingTeam');
         this.populateFields();
         this.localSuccess = 'Successfully added member.';
       } catch (e) {

@@ -16,8 +16,8 @@
             No records to show. <router-link :to="{name:'RecordAdd'}">Add some records</router-link> to get started!
           </p>
         </template>
-        <div class="box" style="padding: 10px 0">
-          <table class="table is-fullwidth is-striped is-small" v-if="sortedRecords.length > 0">
+        <div class="box" style="padding: 10px 0" v-if="sortedRecords.length > 0">
+          <table class="table is-fullwidth is-striped is-small" >
             <thead>
               <tr class="is-uppercase is-size-7">
                 <th class="has-text-grey-light" >Name</th>

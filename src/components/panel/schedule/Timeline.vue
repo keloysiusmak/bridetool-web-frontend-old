@@ -23,15 +23,7 @@
       <button class="delete" v-on:click="localSuccess = null"></button>
       <span class="is-size-6">{{localSuccess}}</span>
     </div>
-    <template v-if="!parsedScheduleCount">
-      <p class="is-size-6">
-        Hey! It seems you haven't added any activities to your schedule.
-      </p>
-      <br/>
-      <p class="is-size-6">
-        Head on over <router-link to="/schedule/activities">here</router-link> to add some activities, so we can start getting organized!
-      </p>
-    </template>
+
 
     <div class="columns is-multiline">
       <div class="column is-12">
@@ -39,9 +31,19 @@
         <span class="title is-4">{{schedule.name}}</span>
       </div>
     </div>
+
     <div class="columns is-multiline">
       <div class="column is-9">
-        <div class="timeline">
+        <template v-if="!parsedScheduleCount">
+          <p class="is-size-6">
+            Hey! It seems you haven't added any activities to your schedule.
+          </p>
+          <br/>
+          <p class="is-size-6">
+            Head on over <router-link to="/schedule/activities">here</router-link> to add some activities, so we can start getting organized!
+          </p>
+        </template>
+        <div class="timeline" v-if="parsedScheduleCount">
 
           <div class="timeline-item" v-if="parsedScheduleCount" v-for="(activities, date) in parsedSchedule">
             <div class="timeline-marker is-primary"></div>

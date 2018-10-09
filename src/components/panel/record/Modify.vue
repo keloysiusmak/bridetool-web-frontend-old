@@ -56,7 +56,7 @@
         <div class="field is-horizontal">
           <div class="field-label">
             <label class="label">{{budget.currency}}</label>
-            <p class="help">Want to change to another currency? <router-link  :to="{ name: 'BudgetManage' }">Click Here</router-link></p>
+            <p class="help">Want to change to another currency? <router-link to="/budget/manage">Click Here</router-link></p>
           </div>
           <div class="field-body">
             <div class="control">
