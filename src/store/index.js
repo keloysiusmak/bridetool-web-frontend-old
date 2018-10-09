@@ -9,6 +9,7 @@ const persistedStateOptions = {
   key: 'bridetoolPersistedState'
 }
 
+
 export const store = new Vuex.Store({
   plugins: [createPersistedState(persistedStateOptions)],
   state: {
@@ -38,7 +39,11 @@ export const store = new Vuex.Store({
   },
   mutations: {
     clearState() {
-      state: null
+      store.state.schedule = null;
+      store.state.budget = null;
+      store.state.members = null;
+      store.state.account = null;
+      store.state.notifications = [{'abc': 1}];
     },
     setState(state, payload) {
       const payloadKeys = Object.keys(payload);

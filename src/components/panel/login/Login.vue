@@ -124,7 +124,8 @@ export default {
   },
   methods: {
     ...mapMutations([
-      'setState'
+      'setState',
+      'clearState'
     ]),
     resetPassword: function(value) {
       this.showResetPassword = value;
@@ -156,6 +157,7 @@ export default {
           this.loginLoading = true;
           const loginAccount = await accountHandler.loginAccount(this.tokens, this.username, this.password);
 
+          this.clearState();
           this.setState({
             accessToken: loginAccount.accessToken,
             refreshToken: loginAccount.refreshToken,

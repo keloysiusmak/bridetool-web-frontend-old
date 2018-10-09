@@ -2,7 +2,7 @@
   <div class="sidebar" id="menu">
     <div v-if="loggedInMember">
       <router-link :to="{name: 'Notifications'}" class="icon">
-        <span class="icon is-small is-left badge">
+        <span class="icon is-small is-left badge"  data-badge="">
           <i class="far fa-bell"></i>
         </span>
       </router-link>
@@ -130,7 +130,6 @@ export default {
           schedule: getSchedule.schedule
         });
       } catch (e) {
-        //
       }
     },
     loadWeddingTeam: async function() {
@@ -173,15 +172,15 @@ export default {
     }
   },
   async created() {
-    if (!this.schedule) {
+    //if (!this.schedule) {
       this.loadSchedule();
-    }
-    if (!this.budget) {
+    //}
+    //if (!this.budget) {
       this.loadBudget();
-    }
-    if (!this.members) {
+    //}
+    //if (!this.members) {
       this.loadWeddingTeam();
-    }
+    //}
     //if (!this.notifications) {
       this.loadNotifications();
     //}
